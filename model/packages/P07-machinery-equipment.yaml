@@ -1,0 +1,136 @@
+# P7 — Machinery and Equipment (clause 8.7)
+#
+# Attribute descriptions are the wording of Annex A. What clause 8 states
+# in prose — exclusive references, conditional requirements — is under
+# `constraints`; the attributes every entity carries (clause 5.1) are in
+# model/model.yaml and are not repeated here.
+
+package: P7
+title: Machinery and Equipment
+clause: "8.7"
+scope: Fleet management, machine identity, maintenance
+summary: >-
+  This package covers machines and implements, including their machine-level
+  identity and their attachment to telemetry.
+
+notes:
+  - >-
+    Live telemetry, such as position, machine states and diagnostic codes, is
+    not duplicated as an entity. It is attached through Device and
+    Observation, or referenced at an external interface.
+  - >-
+    Machinery held in common by several holdings may be represented through a
+    separate Organization and Farm.
+
+entities:
+
+  Machine:
+    annex: A.23
+    path: machines
+    definition: >-
+      The Machine entity shall represent a machine or an implement.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Designation of the machine
+      farmId:
+        type: UUID
+        required: true
+        references: Farm
+        description: Foreign key to the Farm entity
+      categoryUri:
+        type: String
+        required: true
+        concept: true
+        description: Concept identifying the category of machine
+      manufacturer:
+        type: String
+        description: Manufacturer
+      model:
+        type: String
+        description: Model designation
+      serialNumber:
+        type: String
+        description: Serial number
+      year:
+        type: Integer
+        description: Year of construction
+      isobusDeviceId:
+        type: String
+        description: Device identity conforming to [ISO 11783]
+      workingWidth:
+        type: Decimal
+        description: Working width in metres
+      costRatePerHour:
+        type: Decimal
+        description: Imputed machine hourly rate
+      telemetryDeviceId:
+        type: UUID
+        references: Device
+        description: Foreign key to the Device entity supplying telemetry
+        note: >-
+          Live telemetry is not duplicated as an entity; it is attached
+          through Device and Observation (clause 8.7).
+      status:
+        type: Enum
+        enum: MachineStatus
+        property: machineStatus
+        description: Status of the machine
+      externalId:
+        type: String
+        description: Identifier in an external system
+      externalProvider:
+        type: String
+        description: Identifier of the external system
+      description:
+        type: String
+        thingDescription: true
+        source: clauses 5.1 f) and 9
+        description: Thing Description in JSON-LD format
+        note: >-
+          Not in the table of Annex A.23; clauses 5.1 f) and 9 list Machine
+          among the entities with a self-description.
+
+  MaintenanceRecord:
+    annex: A.24
+    path: maintenance-records
+    definition: >-
+      The MaintenanceRecord entity shall record maintenance, inspection or
+      repair of a machine.
+    attributes:
+      machineId:
+        type: UUID
+        required: true
+        references: Machine
+        description: Foreign key to the Machine entity
+      performedAt:
+        type: DateTime
+        required: true
+        description: Time at which the maintenance was performed
+      maintenanceType:
+        type: String
+        description: Type of maintenance, for example inspection, repair or statutory test
+      operatingHours:
+        type: Decimal
+        description: Operating hours reading at the time of maintenance
+      cost:
+        type: Decimal
+        description: Cost of the maintenance
+      currency:
+        type: String
+        format: currency
+        description: Currency code conforming to [ISO 4217]
+      workshopOrganizationId:
+        type: UUID
+        references: Organization
+        description: Organization that performed the maintenance
+      nextDueAt:
+        type: DateTime
+        description: Time at which the next maintenance is due
+      nextDueOperatingHours:
+        type: Decimal
+        description: Operating hours reading at which the next maintenance is due
+      notes:
+        type: String
+        description: Remarks

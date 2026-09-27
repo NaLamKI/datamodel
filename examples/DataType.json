@@ -1,0 +1,27 @@
+[
+  {
+    "id": "acefe54c-963b-5dcf-95ae-19b5c390fc6a",
+    "name": "soil analysis",
+    "typeUri": "http://aims.fao.org/aos/agrovoc/c_7198",
+    "createdAt": "2025-01-15T08:00:00Z",
+    "updatedAt": "2025-01-15T08:00:00Z",
+    "originType": "SYSTEM",
+    "clientId": "onboarding"
+  },
+  {
+    "id": "55f289ed-5270-5cfe-82d2-b0d5030ceafe",
+    "name": "weather time series",
+    "createdAt": "2025-01-15T08:00:00Z",
+    "updatedAt": "2025-01-15T08:00:00Z",
+    "originType": "SYSTEM",
+    "clientId": "onboarding"
+  },
+  {
+    "id": "e4d4590a-ca25-541d-a87e-2a703bd2f66c",
+    "name": "document",
+    "createdAt": "2025-01-15T08:00:00Z",
+    "updatedAt": "2025-01-15T08:00:00Z",
+    "originType": "SYSTEM",
+    "clientId": "onboarding"
+  }
+]

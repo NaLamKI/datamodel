@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enumerations</title>
+<link rel="stylesheet" href="../style.css">
+<nav><a href="../">AgriFoodData model</a> › <a href="./">v1</a> › Enumerations</nav>
+<h1>Enumerations</h1>
+<p class="sub">Annex B of the Recommendation</p>
+
+<p>Each enumeration is a class of the ontology, each value one of its named individuals; the JSON-LD context turns the value into the individual.</p>
+<h2 id="OriginType">OriginType</h2>
+<p>How a record came into being (clause 5.1 l)) · used by every entity.originType</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>USER</code></td><td><a href="https://ontology.agrifooddata.org/term.html#OriginType_USER"><code>agfoda:OriginType_USER</code></a></td></tr>
+<tr><td><code>SERVICE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#OriginType_SERVICE"><code>agfoda:OriginType_SERVICE</code></a></td></tr>
+<tr><td><code>DEVICE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#OriginType_DEVICE"><code>agfoda:OriginType_DEVICE</code></a></td></tr>
+<tr><td><code>IMPORT</code></td><td><a href="https://ontology.agrifooddata.org/term.html#OriginType_IMPORT"><code>agfoda:OriginType_IMPORT</code></a></td></tr>
+<tr><td><code>SYSTEM</code></td><td><a href="https://ontology.agrifooddata.org/term.html#OriginType_SYSTEM"><code>agfoda:OriginType_SYSTEM</code></a></td></tr>
+</tbody></table>
+<h2 id="UserStatus">UserStatus</h2>
+<p>Status of a user account · used by <a href="User.html">User</a>.status</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>ACTIVE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#UserStatus_ACTIVE"><code>agfoda:UserStatus_ACTIVE</code></a></td></tr>
+<tr><td><code>INVITED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#UserStatus_INVITED"><code>agfoda:UserStatus_INVITED</code></a></td></tr>
+<tr><td><code>DEACTIVATED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#UserStatus_DEACTIVATED"><code>agfoda:UserStatus_DEACTIVATED</code></a></td></tr>
+</tbody></table>
+<h2 id="EmploymentType">EmploymentType</h2>
+<p>Type of employment of a worker · used by <a href="Worker.html">Worker</a>.employmentType</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>PERMANENT</code></td><td><a href="https://ontology.agrifooddata.org/term.html#EmploymentType_PERMANENT"><code>agfoda:EmploymentType_PERMANENT</code></a></td></tr>
+<tr><td><code>SEASONAL</code></td><td><a href="https://ontology.agrifooddata.org/term.html#EmploymentType_SEASONAL"><code>agfoda:EmploymentType_SEASONAL</code></a></td></tr>
+<tr><td><code>CONTRACTOR</code></td><td><a href="https://ontology.agrifooddata.org/term.html#EmploymentType_CONTRACTOR"><code>agfoda:EmploymentType_CONTRACTOR</code></a></td></tr>
+</tbody></table>
+<h2 id="Tenure">Tenure</h2>
+<p>Tenure under which a field is managed · used by <a href="Field.html">Field</a>.tenure</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>OWNED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#Tenure_OWNED"><code>agfoda:Tenure_OWNED</code></a></td></tr>
+<tr><td><code>LEASED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#Tenure_LEASED"><code>agfoda:Tenure_LEASED</code></a></td></tr>
+<tr><td><code>MANAGED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#Tenure_MANAGED"><code>agfoda:Tenure_MANAGED</code></a></td></tr>
+</tbody></table>
+<h2 id="CroppingPlanStatus">CroppingPlanStatus</h2>
+<p>Status of a cropping plan · used by <a href="CroppingPlan.html">CroppingPlan</a>.status</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>DRAFT</code></td><td><a href="https://ontology.agrifooddata.org/term.html#CroppingPlanStatus_DRAFT"><code>agfoda:CroppingPlanStatus_DRAFT</code></a></td></tr>
+<tr><td><code>ACTIVE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#CroppingPlanStatus_ACTIVE"><code>agfoda:CroppingPlanStatus_ACTIVE</code></a></td></tr>
+<tr><td><code>ARCHIVED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#CroppingPlanStatus_ARCHIVED"><code>agfoda:CroppingPlanStatus_ARCHIVED</code></a></td></tr>
+</tbody></table>
+<h2 id="CultivationPeriodStatus">CultivationPeriodStatus</h2>
+<p>Status of a cultivation period · used by <a href="CultivationPeriod.html">CultivationPeriod</a>.status</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>PLANNED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#CultivationPeriodStatus_PLANNED"><code>agfoda:CultivationPeriodStatus_PLANNED</code></a></td></tr>
+<tr><td><code>ACTIVE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#CultivationPeriodStatus_ACTIVE"><code>agfoda:CultivationPeriodStatus_ACTIVE</code></a></td></tr>
+<tr><td><code>COMPLETED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#CultivationPeriodStatus_COMPLETED"><code>agfoda:CultivationPeriodStatus_COMPLETED</code></a></td></tr>
+<tr><td><code>ABORTED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#CultivationPeriodStatus_ABORTED"><code>agfoda:CultivationPeriodStatus_ABORTED</code></a></td></tr>
+</tbody></table>
+<h2 id="TaskStatus">TaskStatus</h2>
+<p>Status of a task · used by <a href="Task.html">Task</a>.status</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>PLANNED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#TaskStatus_PLANNED"><code>agfoda:TaskStatus_PLANNED</code></a></td></tr>
+<tr><td><code>ASSIGNED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#TaskStatus_ASSIGNED"><code>agfoda:TaskStatus_ASSIGNED</code></a></td></tr>
+<tr><td><code>IN_PROGRESS</code></td><td><a href="https://ontology.agrifooddata.org/term.html#TaskStatus_IN_PROGRESS"><code>agfoda:TaskStatus_IN_PROGRESS</code></a></td></tr>
+<tr><td><code>COMPLETED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#TaskStatus_COMPLETED"><code>agfoda:TaskStatus_COMPLETED</code></a></td></tr>
+<tr><td><code>CANCELLED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#TaskStatus_CANCELLED"><code>agfoda:TaskStatus_CANCELLED</code></a></td></tr>
+</tbody></table>
+<h2 id="TaskPriority">TaskPriority</h2>
+<p>Priority of a task · used by <a href="Task.html">Task</a>.priority</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>LOW</code></td><td><a href="https://ontology.agrifooddata.org/term.html#TaskPriority_LOW"><code>agfoda:TaskPriority_LOW</code></a></td></tr>
+<tr><td><code>NORMAL</code></td><td><a href="https://ontology.agrifooddata.org/term.html#TaskPriority_NORMAL"><code>agfoda:TaskPriority_NORMAL</code></a></td></tr>
+<tr><td><code>HIGH</code></td><td><a href="https://ontology.agrifooddata.org/term.html#TaskPriority_HIGH"><code>agfoda:TaskPriority_HIGH</code></a></td></tr>
+<tr><td><code>URGENT</code></td><td><a href="https://ontology.agrifooddata.org/term.html#TaskPriority_URGENT"><code>agfoda:TaskPriority_URGENT</code></a></td></tr>
+</tbody></table>
+<h2 id="ActivityStatus">ActivityStatus</h2>
+<p>Status of an operation carried out · used by <a href="Activity.html">Activity</a>.status</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>IN_PROGRESS</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ActivityStatus_IN_PROGRESS"><code>agfoda:ActivityStatus_IN_PROGRESS</code></a></td></tr>
+<tr><td><code>COMPLETED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ActivityStatus_COMPLETED"><code>agfoda:ActivityStatus_COMPLETED</code></a></td></tr>
+<tr><td><code>ABORTED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ActivityStatus_ABORTED"><code>agfoda:ActivityStatus_ABORTED</code></a></td></tr>
+</tbody></table>
+<h2 id="ResourceType">ResourceType</h2>
+<p>Kind of resource deployed in an operation · used by <a href="ActivityResource.html">ActivityResource</a>.resourceType</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>MACHINE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ResourceType_MACHINE"><code>agfoda:ResourceType_MACHINE</code></a></td></tr>
+<tr><td><code>WORKER</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ResourceType_WORKER"><code>agfoda:ResourceType_WORKER</code></a></td></tr>
+</tbody></table>
+<h2 id="TimeRecordType">TimeRecordType</h2>
+<p>Kind of time recorded · used by <a href="TimeRecord.html">TimeRecord</a>.recordType</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>WORK</code></td><td><a href="https://ontology.agrifooddata.org/term.html#TimeRecordType_WORK"><code>agfoda:TimeRecordType_WORK</code></a></td></tr>
+<tr><td><code>ABSENCE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#TimeRecordType_ABSENCE"><code>agfoda:TimeRecordType_ABSENCE</code></a></td></tr>
+<tr><td><code>SICK</code></td><td><a href="https://ontology.agrifooddata.org/term.html#TimeRecordType_SICK"><code>agfoda:TimeRecordType_SICK</code></a></td></tr>
+<tr><td><code>VACATION</code></td><td><a href="https://ontology.agrifooddata.org/term.html#TimeRecordType_VACATION"><code>agfoda:TimeRecordType_VACATION</code></a></td></tr>
+</tbody></table>
+<h2 id="ProductCategory">ProductCategory</h2>
+<p>Category of a product · used by <a href="Product.html">Product</a>.category</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>SEED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ProductCategory_SEED"><code>agfoda:ProductCategory_SEED</code></a></td></tr>
+<tr><td><code>PLANT_MATERIAL</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ProductCategory_PLANT_MATERIAL"><code>agfoda:ProductCategory_PLANT_MATERIAL</code></a></td></tr>
+<tr><td><code>FERTILIZER</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ProductCategory_FERTILIZER"><code>agfoda:ProductCategory_FERTILIZER</code></a></td></tr>
+<tr><td><code>PLANT_PROTECTION</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ProductCategory_PLANT_PROTECTION"><code>agfoda:ProductCategory_PLANT_PROTECTION</code></a></td></tr>
+<tr><td><code>FEED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ProductCategory_FEED"><code>agfoda:ProductCategory_FEED</code></a></td></tr>
+<tr><td><code>VETERINARY_MEDICINE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ProductCategory_VETERINARY_MEDICINE"><code>agfoda:ProductCategory_VETERINARY_MEDICINE</code></a></td></tr>
+<tr><td><code>FUEL</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ProductCategory_FUEL"><code>agfoda:ProductCategory_FUEL</code></a></td></tr>
+<tr><td><code>HARVEST_PRODUCT</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ProductCategory_HARVEST_PRODUCT"><code>agfoda:ProductCategory_HARVEST_PRODUCT</code></a></td></tr>
+<tr><td><code>ANIMAL_PRODUCT</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ProductCategory_ANIMAL_PRODUCT"><code>agfoda:ProductCategory_ANIMAL_PRODUCT</code></a></td></tr>
+<tr><td><code>OTHER</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ProductCategory_OTHER"><code>agfoda:ProductCategory_OTHER</code></a></td></tr>
+</tbody></table>
+<h2 id="MovementType">MovementType</h2>
+<p>Kind of stock movement · used by <a href="StockMovement.html">StockMovement</a>.movementType</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>PURCHASE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#MovementType_PURCHASE"><code>agfoda:MovementType_PURCHASE</code></a></td></tr>
+<tr><td><code>HARVEST_INTAKE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#MovementType_HARVEST_INTAKE"><code>agfoda:MovementType_HARVEST_INTAKE</code></a></td></tr>
+<tr><td><code>CONSUMPTION</code></td><td><a href="https://ontology.agrifooddata.org/term.html#MovementType_CONSUMPTION"><code>agfoda:MovementType_CONSUMPTION</code></a></td></tr>
+<tr><td><code>SALE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#MovementType_SALE"><code>agfoda:MovementType_SALE</code></a></td></tr>
+<tr><td><code>TRANSFER</code></td><td><a href="https://ontology.agrifooddata.org/term.html#MovementType_TRANSFER"><code>agfoda:MovementType_TRANSFER</code></a></td></tr>
+<tr><td><code>ADJUSTMENT</code></td><td><a href="https://ontology.agrifooddata.org/term.html#MovementType_ADJUSTMENT"><code>agfoda:MovementType_ADJUSTMENT</code></a></td></tr>
+<tr><td><code>LOSS</code></td><td><a href="https://ontology.agrifooddata.org/term.html#MovementType_LOSS"><code>agfoda:MovementType_LOSS</code></a></td></tr>
+</tbody></table>
+<h2 id="MachineStatus">MachineStatus</h2>
+<p>Status of a machine · used by <a href="Machine.html">Machine</a>.status</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>ACTIVE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#MachineStatus_ACTIVE"><code>agfoda:MachineStatus_ACTIVE</code></a></td></tr>
+<tr><td><code>INACTIVE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#MachineStatus_INACTIVE"><code>agfoda:MachineStatus_INACTIVE</code></a></td></tr>
+<tr><td><code>SOLD</code></td><td><a href="https://ontology.agrifooddata.org/term.html#MachineStatus_SOLD"><code>agfoda:MachineStatus_SOLD</code></a></td></tr>
+</tbody></table>
+<h2 id="AnimalSex">AnimalSex</h2>
+<p>Sex of an animal · used by <a href="Animal.html">Animal</a>.sex</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>FEMALE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#AnimalSex_FEMALE"><code>agfoda:AnimalSex_FEMALE</code></a></td></tr>
+<tr><td><code>MALE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#AnimalSex_MALE"><code>agfoda:AnimalSex_MALE</code></a></td></tr>
+<tr><td><code>CASTRATED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#AnimalSex_CASTRATED"><code>agfoda:AnimalSex_CASTRATED</code></a></td></tr>
+</tbody></table>
+<h2 id="AnimalStatus">AnimalStatus</h2>
+<p>Status of an animal · used by <a href="Animal.html">Animal</a>.status</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>ACTIVE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#AnimalStatus_ACTIVE"><code>agfoda:AnimalStatus_ACTIVE</code></a></td></tr>
+<tr><td><code>SOLD</code></td><td><a href="https://ontology.agrifooddata.org/term.html#AnimalStatus_SOLD"><code>agfoda:AnimalStatus_SOLD</code></a></td></tr>
+<tr><td><code>SLAUGHTERED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#AnimalStatus_SLAUGHTERED"><code>agfoda:AnimalStatus_SLAUGHTERED</code></a></td></tr>
+<tr><td><code>DEAD</code></td><td><a href="https://ontology.agrifooddata.org/term.html#AnimalStatus_DEAD"><code>agfoda:AnimalStatus_DEAD</code></a></td></tr>
+<tr><td><code>TRANSFERRED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#AnimalStatus_TRANSFERRED"><code>agfoda:AnimalStatus_TRANSFERRED</code></a></td></tr>
+</tbody></table>
+<h2 id="DeviceStatus">DeviceStatus</h2>
+<p>Status of a device · used by <a href="Device.html">Device</a>.status</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>ACTIVE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#DeviceStatus_ACTIVE"><code>agfoda:DeviceStatus_ACTIVE</code></a></td></tr>
+<tr><td><code>INACTIVE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#DeviceStatus_INACTIVE"><code>agfoda:DeviceStatus_INACTIVE</code></a></td></tr>
+<tr><td><code>FAULTY</code></td><td><a href="https://ontology.agrifooddata.org/term.html#DeviceStatus_FAULTY"><code>agfoda:DeviceStatus_FAULTY</code></a></td></tr>
+</tbody></table>
+<h2 id="ObservationValidity">ObservationValidity</h2>
+<p>Outcome of the quality assurance of an observation · used by <a href="Observation.html">Observation</a>.validity</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>VALID</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ObservationValidity_VALID"><code>agfoda:ObservationValidity_VALID</code></a></td></tr>
+<tr><td><code>SUSPECT</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ObservationValidity_SUSPECT"><code>agfoda:ObservationValidity_SUSPECT</code></a></td></tr>
+<tr><td><code>INVALID</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ObservationValidity_INVALID"><code>agfoda:ObservationValidity_INVALID</code></a></td></tr>
+</tbody></table>
+<h2 id="IOType">IOType</h2>
+<p>Whether a quantity is consumed or produced · used by <a href="InputOutput.html">InputOutput</a>.ioType</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>INPUT</code></td><td><a href="https://ontology.agrifooddata.org/term.html#IOType_INPUT"><code>agfoda:IOType_INPUT</code></a></td></tr>
+<tr><td><code>OUTPUT</code></td><td><a href="https://ontology.agrifooddata.org/term.html#IOType_OUTPUT"><code>agfoda:IOType_OUTPUT</code></a></td></tr>
+</tbody></table>
+<h2 id="ValueType">ValueType</h2>
+<p>Whether a value is planned, actual, estimated or predicted — the separation of planning and execution at the level of an individual value (clause 7.4) · used by <a href="InputOutput.html">InputOutput</a>.valueType, <a href="Economics.html">Economics</a>.valueType</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>PLANNED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ValueType_PLANNED"><code>agfoda:ValueType_PLANNED</code></a></td></tr>
+<tr><td><code>ACTUAL</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ValueType_ACTUAL"><code>agfoda:ValueType_ACTUAL</code></a></td></tr>
+<tr><td><code>ESTIMATION</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ValueType_ESTIMATION"><code>agfoda:ValueType_ESTIMATION</code></a></td></tr>
+<tr><td><code>PREDICTION</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ValueType_PREDICTION"><code>agfoda:ValueType_PREDICTION</code></a></td></tr>
+</tbody></table>
+<h2 id="BudgetScopeType">BudgetScopeType</h2>
+<p>Kind of object a budget applies to · used by <a href="Budget.html">Budget</a>.scopeType</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>FARM</code></td><td><a href="https://ontology.agrifooddata.org/term.html#BudgetScopeType_FARM"><code>agfoda:BudgetScopeType_FARM</code></a></td></tr>
+<tr><td><code>CULTIVATION_PERIOD</code></td><td><a href="https://ontology.agrifooddata.org/term.html#BudgetScopeType_CULTIVATION_PERIOD"><code>agfoda:BudgetScopeType_CULTIVATION_PERIOD</code></a></td></tr>
+<tr><td><code>ANIMAL_GROUP</code></td><td><a href="https://ontology.agrifooddata.org/term.html#BudgetScopeType_ANIMAL_GROUP"><code>agfoda:BudgetScopeType_ANIMAL_GROUP</code></a></td></tr>
+<tr><td><code>COST_CATEGORY</code></td><td><a href="https://ontology.agrifooddata.org/term.html#BudgetScopeType_COST_CATEGORY"><code>agfoda:BudgetScopeType_COST_CATEGORY</code></a></td></tr>
+</tbody></table>
+<h2 id="SustainabilityScopeType">SustainabilityScopeType</h2>
+<p>Kind of object a sustainability indicator applies to · used by <a href="SustainabilityIndicator.html">SustainabilityIndicator</a>.scopeType</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>FARM</code></td><td><a href="https://ontology.agrifooddata.org/term.html#SustainabilityScopeType_FARM"><code>agfoda:SustainabilityScopeType_FARM</code></a></td></tr>
+<tr><td><code>FIELD</code></td><td><a href="https://ontology.agrifooddata.org/term.html#SustainabilityScopeType_FIELD"><code>agfoda:SustainabilityScopeType_FIELD</code></a></td></tr>
+<tr><td><code>REGION</code></td><td><a href="https://ontology.agrifooddata.org/term.html#SustainabilityScopeType_REGION"><code>agfoda:SustainabilityScopeType_REGION</code></a></td></tr>
+<tr><td><code>CULTIVATION_PERIOD</code></td><td><a href="https://ontology.agrifooddata.org/term.html#SustainabilityScopeType_CULTIVATION_PERIOD"><code>agfoda:SustainabilityScopeType_CULTIVATION_PERIOD</code></a></td></tr>
+<tr><td><code>ANIMAL_GROUP</code></td><td><a href="https://ontology.agrifooddata.org/term.html#SustainabilityScopeType_ANIMAL_GROUP"><code>agfoda:SustainabilityScopeType_ANIMAL_GROUP</code></a></td></tr>
+<tr><td><code>PRODUCT_LOT</code></td><td><a href="https://ontology.agrifooddata.org/term.html#SustainabilityScopeType_PRODUCT_LOT"><code>agfoda:SustainabilityScopeType_PRODUCT_LOT</code></a></td></tr>
+</tbody></table>
+<h2 id="RegulatoryReportStatus">RegulatoryReportStatus</h2>
+<p>Status of a regulatory report · used by <a href="RegulatoryReport.html">RegulatoryReport</a>.status</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>DRAFT</code></td><td><a href="https://ontology.agrifooddata.org/term.html#RegulatoryReportStatus_DRAFT"><code>agfoda:RegulatoryReportStatus_DRAFT</code></a></td></tr>
+<tr><td><code>GENERATED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#RegulatoryReportStatus_GENERATED"><code>agfoda:RegulatoryReportStatus_GENERATED</code></a></td></tr>
+<tr><td><code>SUBMITTED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#RegulatoryReportStatus_SUBMITTED"><code>agfoda:RegulatoryReportStatus_SUBMITTED</code></a></td></tr>
+<tr><td><code>ACCEPTED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#RegulatoryReportStatus_ACCEPTED"><code>agfoda:RegulatoryReportStatus_ACCEPTED</code></a></td></tr>
+<tr><td><code>REJECTED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#RegulatoryReportStatus_REJECTED"><code>agfoda:RegulatoryReportStatus_REJECTED</code></a></td></tr>
+</tbody></table>
+<h2 id="AuditAction">AuditAction</h2>
+<p>Kind of change recorded in the audit log · used by <a href="AuditLog.html">AuditLog</a>.action</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>CREATE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#AuditAction_CREATE"><code>agfoda:AuditAction_CREATE</code></a></td></tr>
+<tr><td><code>UPDATE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#AuditAction_UPDATE"><code>agfoda:AuditAction_UPDATE</code></a></td></tr>
+<tr><td><code>DELETE</code></td><td><a href="https://ontology.agrifooddata.org/term.html#AuditAction_DELETE"><code>agfoda:AuditAction_DELETE</code></a></td></tr>
+</tbody></table>
+<h2 id="ServiceType">ServiceType</h2>
+<p>Kind of processing a service performs · used by <a href="ProcessingService.html">ProcessingService</a>.serviceType</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>CLASSIFICATION</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ServiceType_CLASSIFICATION"><code>agfoda:ServiceType_CLASSIFICATION</code></a></td></tr>
+<tr><td><code>DETECTION</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ServiceType_DETECTION"><code>agfoda:ServiceType_DETECTION</code></a></td></tr>
+<tr><td><code>SEGMENTATION</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ServiceType_SEGMENTATION"><code>agfoda:ServiceType_SEGMENTATION</code></a></td></tr>
+<tr><td><code>PREDICTION</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ServiceType_PREDICTION"><code>agfoda:ServiceType_PREDICTION</code></a></td></tr>
+<tr><td><code>ANALYSIS</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ServiceType_ANALYSIS"><code>agfoda:ServiceType_ANALYSIS</code></a></td></tr>
+<tr><td><code>TRANSFORMATION</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ServiceType_TRANSFORMATION"><code>agfoda:ServiceType_TRANSFORMATION</code></a></td></tr>
+<tr><td><code>AGGREGATION</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ServiceType_AGGREGATION"><code>agfoda:ServiceType_AGGREGATION</code></a></td></tr>
+<tr><td><code>VALIDATION</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ServiceType_VALIDATION"><code>agfoda:ServiceType_VALIDATION</code></a></td></tr>
+<tr><td><code>INGESTION</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ServiceType_INGESTION"><code>agfoda:ServiceType_INGESTION</code></a></td></tr>
+<tr><td><code>REPORT_GENERATION</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ServiceType_REPORT_GENERATION"><code>agfoda:ServiceType_REPORT_GENERATION</code></a></td></tr>
+<tr><td><code>CUSTOM</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ServiceType_CUSTOM"><code>agfoda:ServiceType_CUSTOM</code></a></td></tr>
+</tbody></table>
+<h2 id="ProcessingJobStatus">ProcessingJobStatus</h2>
+<p>Status of a processing run · used by <a href="ProcessingJob.html">ProcessingJob</a>.status</p>
+<table><thead><tr><th>Value</th><th>Individual</th></tr></thead><tbody>
+<tr><td><code>PENDING</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ProcessingJobStatus_PENDING"><code>agfoda:ProcessingJobStatus_PENDING</code></a></td></tr>
+<tr><td><code>RUNNING</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ProcessingJobStatus_RUNNING"><code>agfoda:ProcessingJobStatus_RUNNING</code></a></td></tr>
+<tr><td><code>SUCCEEDED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ProcessingJobStatus_SUCCEEDED"><code>agfoda:ProcessingJobStatus_SUCCEEDED</code></a></td></tr>
+<tr><td><code>FAILED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ProcessingJobStatus_FAILED"><code>agfoda:ProcessingJobStatus_FAILED</code></a></td></tr>
+<tr><td><code>CANCELLED</code></td><td><a href="https://ontology.agrifooddata.org/term.html#ProcessingJobStatus_CANCELLED"><code>agfoda:ProcessingJobStatus_CANCELLED</code></a></td></tr>
+</tbody></table>
+<p class="footnote">AgriFoodData model 1.0.0-draft.3 · machine-readable specification of the Recommendation <em>Data model for digital agriculture and farm management systems</em> (draft, revision 3, proposed to ITU-T Study Group 20, 2026-07-29). In the event of a discrepancy between the Recommendation and this machine-readable specification or the ontology, the text of the Recommendation takes precedence (clause 8). Published under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · <a href="https://github.com/NaLamKI/datamodel">source</a>.</p>

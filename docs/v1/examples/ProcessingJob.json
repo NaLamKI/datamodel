@@ -1,0 +1,35 @@
+[
+  {
+    "id": "13be3cac-b988-5188-b9dc-54567a54a9c5",
+    "serviceId": "a209e90d-18ec-5b2d-84b3-8eb2955963d2",
+    "status": "SUCCEEDED",
+    "startedAt": "2026-05-10T04:00:00Z",
+    "finishedAt": "2026-05-10T04:02:00Z",
+    "parameters": {
+      "horizonDays": 7,
+      "threshold": 0.6
+    },
+    "createdAt": "2026-05-10T04:00:00Z",
+    "updatedAt": "2026-05-10T04:02:00Z",
+    "originType": "SYSTEM",
+    "clientId": "scheduler"
+  },
+  {
+    "id": "d5df87bc-1074-507a-a3f3-eb659c5580cd",
+    "serviceId": "31682e2e-453a-510e-a131-72dd6024f163",
+    "status": "SUCCEEDED",
+    "startedAt": "2026-09-15T09:55:00Z",
+    "finishedAt": "2026-09-15T09:56:00Z",
+    "parameters": {
+      "periodStart": "2026-01-01",
+      "periodEnd": "2026-08-31",
+      "format": "PDF"
+    },
+    "triggeredByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "createdAt": "2026-09-15T09:55:00Z",
+    "updatedAt": "2026-09-15T09:56:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  }
+]

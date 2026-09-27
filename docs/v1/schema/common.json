@@ -1,0 +1,388 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://datamodel.agrifooddata.org/v1/schema/common.json",
+  "title": "Common definitions",
+  "$defs": {
+    "Uuid": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "description": "A UUID in its canonical lower-case form, so that a reference and the record it points at yield the same IRI (urn:uuid:...)."
+    },
+    "DateTime": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|\\+00:00)$",
+      "description": "ISO 8601-1 timestamp in coordinated universal time (clause 5.1 c))."
+    },
+    "Date": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "ISO 8601-1 calendar date."
+    },
+    "Uri": {
+      "type": "string",
+      "format": "uri"
+    },
+    "ConceptUri": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https?://",
+      "description": "Dereferenceable URI of a concept in a canonical vocabulary, AGROVOC being the primary one (clause 5.1 e))."
+    },
+    "CurrencyCode": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 currency code.",
+      "examples": ["EUR"]
+    },
+    "CountryCode": {
+      "type": "string",
+      "pattern": "^([A-Z]{2}|[A-Z]{3}|[0-9]{3})$",
+      "description": "ISO 3166-1 country code; alpha-2 is recommended.",
+      "examples": ["DE"]
+    },
+    "LanguageTag": {
+      "type": "string",
+      "pattern": "^[A-Za-z]{2,8}(-[A-Za-z0-9]{1,8})*$",
+      "description": "IETF BCP 47 language tag.",
+      "examples": ["de-DE"]
+    },
+    "TimeZone": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_+-]*(/[A-Za-z0-9_+-]+)*$",
+      "description": "IANA time zone identifier.",
+      "examples": ["Europe/Berlin"]
+    },
+    "UcumCode": {
+      "type": "string",
+      "description": "A unit, which should be a UCUM code (clause 5.1 j)).",
+      "examples": ["kg", "t/har", "L/har", "%"]
+    },
+    "MediaType": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9!#$&^_.+-]*/[A-Za-z0-9][A-Za-z0-9!#$&^_.+-]*(\\s*;.*)?$",
+      "description": "Media type (RFC 6838).",
+      "examples": ["application/pdf"]
+    },
+    "Gtin": {
+      "type": "string",
+      "pattern": "^(\\d{8}|\\d{12}|\\d{13}|\\d{14})$",
+      "description": "GS1 Global Trade Item Number (GTIN-8, -12, -13 or -14)."
+    },
+    "ThingDescription": {
+      "type": "string",
+      "contentMediaType": "application/td+json",
+      "description": "A W3C WoT Thing Description 1.1, serialized as JSON-LD; where present, its content conforms to WoT-TD (clause 5.1 f))."
+    },
+    "EntityName": {
+      "type": "string",
+      "enum": [
+        "Organization",
+        "User",
+        "Worker",
+        "Address",
+        "Role",
+        "AccessAssignment",
+        "Farm",
+        "Site",
+        "Field",
+        "Region",
+        "CroppingPlan",
+        "CroppingPlanEntry",
+        "Stand",
+        "CultivationPeriod",
+        "Task",
+        "Activity",
+        "ActivityResource",
+        "TimeRecord",
+        "Product",
+        "StorageLocation",
+        "Lot",
+        "StockMovement",
+        "Machine",
+        "MaintenanceRecord",
+        "Animal",
+        "AnimalGroup",
+        "AnimalEvent",
+        "FeedRation",
+        "FeedRationComponent",
+        "Device",
+        "Observation",
+        "Data",
+        "DataType",
+        "File",
+        "InputOutput",
+        "Economics",
+        "Budget",
+        "RegulatoryReport",
+        "Certification",
+        "AuditLog",
+        "ServiceCatalogue",
+        "ProcessingService",
+        "ProcessingJob",
+        "ProcessingJobInput",
+        "Result",
+        "SustainabilityIndicator",
+        "CodeMapping"
+      ],
+      "description": "The name of an entity of the model."
+    },
+    "Permission": {
+      "type": "string",
+      "pattern": "^[^:\\s]+:[^:\\s]+$",
+      "description": "Permission identifier following the entity:action pattern (clause 8.1).",
+      "examples": ["activity:create"]
+    },
+    "Certificate": {
+      "type": "object",
+      "description": "A certificate of competence: its type, number and validity (clause 8.1).",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of certificate"
+        },
+        "number": {
+          "type": "string",
+          "description": "Certificate number"
+        },
+        "validFrom": {
+          "$ref": "#/$defs/Date"
+        },
+        "validTo": {
+          "$ref": "#/$defs/Date"
+        }
+      },
+      "required": ["type"]
+    },
+    "ChangeSet": {
+      "type": "object",
+      "description": "The values before and after a change (clause 8.11).",
+      "properties": {
+        "before": {
+          "type": "object"
+        },
+        "after": {
+          "type": "object"
+        }
+      }
+    },
+    "JsonLdContext": {
+      "description": "JSON-LD context of the representation: https://datamodel.agrifooddata.org/v1/context.jsonld.",
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uri"
+        },
+        {
+          "type": "object"
+        },
+        {
+          "type": "array"
+        }
+      ]
+    },
+    "JsonLdId": {
+      "type": "string",
+      "pattern": "^urn:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "description": "The record's IRI in JSON-LD: urn:uuid: followed by its id."
+    },
+    "Position": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 3,
+      "prefixItems": [
+        {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "items": {
+        "type": "number"
+      },
+      "description": "Longitude, latitude and optionally altitude, WGS 84."
+    },
+    "BoundingBox": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "number"
+      }
+    },
+    "Point": {
+      "type": "object",
+      "required": ["type", "coordinates"],
+      "properties": {
+        "type": {
+          "const": "Point"
+        },
+        "coordinates": {
+          "$ref": "#/$defs/Position"
+        },
+        "bbox": {
+          "$ref": "#/$defs/BoundingBox"
+        }
+      }
+    },
+    "MultiPoint": {
+      "type": "object",
+      "required": ["type", "coordinates"],
+      "properties": {
+        "type": {
+          "const": "MultiPoint"
+        },
+        "coordinates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Position"
+          }
+        },
+        "bbox": {
+          "$ref": "#/$defs/BoundingBox"
+        }
+      }
+    },
+    "LineString": {
+      "type": "object",
+      "required": ["type", "coordinates"],
+      "properties": {
+        "type": {
+          "const": "LineString"
+        },
+        "coordinates": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "$ref": "#/$defs/Position"
+          }
+        },
+        "bbox": {
+          "$ref": "#/$defs/BoundingBox"
+        }
+      }
+    },
+    "MultiLineString": {
+      "type": "object",
+      "required": ["type", "coordinates"],
+      "properties": {
+        "type": {
+          "const": "MultiLineString"
+        },
+        "coordinates": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "$ref": "#/$defs/Position"
+            }
+          }
+        },
+        "bbox": {
+          "$ref": "#/$defs/BoundingBox"
+        }
+      }
+    },
+    "Polygon": {
+      "type": "object",
+      "required": ["type", "coordinates"],
+      "properties": {
+        "type": {
+          "const": "Polygon"
+        },
+        "coordinates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LinearRing"
+          }
+        },
+        "bbox": {
+          "$ref": "#/$defs/BoundingBox"
+        }
+      }
+    },
+    "MultiPolygon": {
+      "type": "object",
+      "required": ["type", "coordinates"],
+      "properties": {
+        "type": {
+          "const": "MultiPolygon"
+        },
+        "coordinates": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/LinearRing"
+            }
+          }
+        },
+        "bbox": {
+          "$ref": "#/$defs/BoundingBox"
+        }
+      }
+    },
+    "LinearRing": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "$ref": "#/$defs/Position"
+      },
+      "description": "A closed ring: at least four positions, the first and the last identical."
+    },
+    "GeometryCollection": {
+      "type": "object",
+      "required": ["type", "geometries"],
+      "properties": {
+        "type": {
+          "const": "GeometryCollection"
+        },
+        "geometries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Geometry"
+          }
+        },
+        "bbox": {
+          "$ref": "#/$defs/BoundingBox"
+        }
+      }
+    },
+    "Geometry": {
+      "description": "A GeoJSON geometry object (RFC 7946) in WGS 84.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Point"
+        },
+        {
+          "$ref": "#/$defs/MultiPoint"
+        },
+        {
+          "$ref": "#/$defs/LineString"
+        },
+        {
+          "$ref": "#/$defs/MultiLineString"
+        },
+        {
+          "$ref": "#/$defs/Polygon"
+        },
+        {
+          "$ref": "#/$defs/MultiPolygon"
+        },
+        {
+          "$ref": "#/$defs/GeometryCollection"
+        }
+      ]
+    }
+  }
+}

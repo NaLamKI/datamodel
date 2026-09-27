@@ -1,0 +1,239 @@
+# P4 — Cropping Planning and Cultivation (clause 8.4)
+#
+# Attribute descriptions are the wording of Annex A. What clause 8 states
+# in prose — exclusive references, conditional requirements — is under
+# `constraints`; the attributes every entity carries (clause 5.1) are in
+# model/model.yaml and are not repeated here.
+
+package: P4
+title: Cropping Planning and Cultivation
+clause: "8.4"
+scope: Crop planning, crop rotation, perennial plantings, cultivation cycles
+summary: >-
+  This package separates what is intended from what has occurred. CroppingPlan
+  and CroppingPlanEntry express the intended assignment of crops to regions
+  for a harvest year; CultivationPeriod records the cultivation that actually
+  took place; and Stand represents the multi-year life cycle of a perennial
+  planting.
+
+notes:
+  - >-
+    Crop rotation is not an entity. It is the temporal sequence of
+    CroppingPlanEntry and CultivationPeriod records for a given Region across
+    harvest years (clause 7.4).
+  - >-
+    Where cultivation cycles overlap in time on the same region, each cycle is
+    a separate CultivationPeriod. For a perennial planting, a
+    CultivationPeriod represents the annual vegetative cycle of a Stand.
+
+entities:
+
+  CroppingPlan:
+    annex: A.11
+    path: cropping-plans
+    definition: >-
+      The CroppingPlan entity shall represent a versioned cropping plan for a
+      harvest year, permitting several alternative plans to be held in
+      parallel.
+    attributes:
+      farmId:
+        type: UUID
+        required: true
+        references: Farm
+        description: Foreign key to the Farm entity
+      harvestYear:
+        type: Integer
+        required: true
+        description: Harvest year to which the plan applies
+      name:
+        type: String
+        required: true
+        description: Name of the plan
+      status:
+        type: Enum
+        required: true
+        enum: CroppingPlanStatus
+        property: croppingPlanStatus
+        description: Status of the plan
+      notes:
+        type: String
+        description: Remarks
+
+  CroppingPlanEntry:
+    annex: A.12
+    path: cropping-plan-entries
+    definition: >-
+      The CroppingPlanEntry entity shall represent the crop intended on a
+      given Region.
+    attributes:
+      planId:
+        type: UUID
+        required: true
+        references: CroppingPlan
+        description: Foreign key to the CroppingPlan entity
+      regionId:
+        type: UUID
+        required: true
+        references: Region
+        description: Foreign key to the Region entity
+        note: >-
+          Refers to the default region where the whole field is concerned
+          (clause 8.4).
+      cropUri:
+        type: String
+        required: true
+        concept: true
+        description: Concept identifying the intended crop
+      varietyUri:
+        type: String
+        concept: true
+        description: Concept identifying the variety
+      varietyName:
+        type: String
+        description: Name of the variety
+      sequence:
+        type: Integer
+        description: Position in the sequence of crops within the year
+      notes:
+        type: String
+        description: Remarks
+
+  Stand:
+    annex: A.13
+    path: stands
+    definition: >-
+      The Stand entity shall represent a perennial planting, such as a
+      vineyard, an orchard, a hop garden or an asparagus planting, whose life
+      cycle extends over several years and is therefore distinct from the
+      seasonal CultivationPeriod.
+    attributes:
+      regionId:
+        type: UUID
+        required: true
+        references: Region
+        description: Foreign key to the Region entity
+      cropUri:
+        type: String
+        required: true
+        concept: true
+        description: Concept identifying the perennial crop
+      plantingDate:
+        type: Date
+        required: true
+        description: Date of planting
+      varietyUri:
+        type: String
+        concept: true
+        description: Concept identifying the variety
+      varietyName:
+        type: String
+        description: Name of the variety
+      rootstockUri:
+        type: String
+        concept: true
+        description: Concept identifying the rootstock
+      clearingDate:
+        type: Date
+        description: Date of clearing
+      rowSpacing:
+        type: Decimal
+        description: Distance between rows, in metres
+      plantSpacing:
+        type: Decimal
+        description: Distance between plants within a row, in metres
+      plantCount:
+        type: Integer
+        description: Number of plants
+      trainingSystem:
+        type: String
+        description: Training system applied
+      description:
+        type: String
+        thingDescription: true
+        description: Thing Description in JSON-LD format
+        note: >-
+          Annex A.13 describes this attribute as a Thing Description, although
+          clause 5.1 f) does not list Stand among the self-describing
+          entities.
+    constraints:
+      - order: [plantingDate, clearingDate]
+        rule: V08
+
+  CultivationPeriod:
+    annex: A.14
+    path: cultivation-periods
+    definition: >-
+      The CultivationPeriod entity shall represent the cultivation of a
+      specific crop, including its cultivar, on a specific Region over a
+      defined period of time. The period is not restricted to a single growing
+      season: depending on crop type, cultivar, environmental conditions and
+      management practice, it may cover part of a season, a full season, or
+      several successive or overlapping cultivation cycles. Where cultivation
+      cycles overlap in time on the same region, each cycle shall be
+      represented by a separate CultivationPeriod instance. For a perennial
+      planting it represents the annual vegetative cycle of a Stand.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Designation of the cultivation period
+      startsAt:
+        type: DateTime
+        required: true
+        description: Start of the cultivation period
+      endsAt:
+        type: DateTime
+        required: true
+        description: End of the cultivation period
+      regionId:
+        type: UUID
+        required: true
+        references: Region
+        description: Foreign key to the Region entity
+      typeUri:
+        type: String
+        required: true
+        concept: true
+        description: Concept identifying the crop cultivated
+      varietyUri:
+        type: String
+        concept: true
+        description: Concept identifying the variety
+      varietyName:
+        type: String
+        description: Name of the variety
+      standId:
+        type: UUID
+        references: Stand
+        description: Foreign key to the Stand entity for a perennial planting
+        note: >-
+          Shall reference a Stand of the same Region (rule V08).
+      planEntryId:
+        type: UUID
+        references: CroppingPlanEntry
+        description: Foreign key to the CroppingPlanEntry entity, linking plan and outcome
+        note: >-
+          Where set, typeUri should correspond to CroppingPlanEntry.cropUri
+          (rule V07).
+      status:
+        type: Enum
+        enum: CultivationPeriodStatus
+        property: cultivationPeriodStatus
+        description: Status of the cultivation period
+      expectedYield:
+        type: Decimal
+        description: Expected yield
+      expectedYieldUnit:
+        type: String
+        format: ucum
+        description: Unit of the expected yield
+      geometry:
+        type: JSON
+        geometry: any
+        description: Subset of the geometry of the parent region, where applicable
+        note: >-
+          A subset of the geometry of the parent region, where the crop does
+          not occupy the whole area (clause 8.4).
+      description:
+        type: String
+        description: Description of the cultivation period

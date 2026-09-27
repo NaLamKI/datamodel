@@ -1,0 +1,225 @@
+# P12 — Data Processing and Decision Support (clause 8.12)
+#
+# Attribute descriptions are the wording of Annex A. What clause 8 states
+# in prose — exclusive references, conditional requirements — is under
+# `constraints`; the attributes every entity carries (clause 5.1) are in
+# model/model.yaml and are not repeated here.
+
+package: P12
+title: Data Processing and Decision Support
+clause: "8.12"
+scope: Processing services and runs, analytics, decision support, provenance anchor
+summary: >-
+  This package provides a generic execution framework for all data processing
+  services, from deterministic transformations, aggregations, validations,
+  ingestion runs and report generation through to machine learning inference
+  and analysis supported by language models. The use of artificial
+  intelligence is a property of a service, indicated by the aiBased attribute,
+  and not a precondition. The package is also the provenance anchor of the
+  model: every automatic creation of data shall be executed as a ProcessingJob
+  of a registered ProcessingService.
+
+notes:
+  - >-
+    Every automatic creation of data — analysis, transformation, aggregation,
+    validation, ingestion, synchronization or report generation — is executed
+    as a ProcessingJob of a registered ProcessingService, so that any
+    automatically created record can be traced to the run that produced it
+    (clause 7.6).
+  - >-
+    The loop of the digital twin: a Result, for example a prescription map,
+    gives rise to a Task through sourceResultId; the Task is carried out as an
+    Activity; its effect returns as Observation and InputOutput records
+    (clause 7.1).
+
+entities:
+
+  ServiceCatalogue:
+    annex: A.41
+    path: service-catalogues
+    definition: >-
+      The ServiceCatalogue entity shall act as a registry of available
+      processing services, for example one catalogue per provider or per data
+      space.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Name of the catalogue
+      description:
+        type: String
+        description: Description of the catalogue
+      version:
+        type: String
+        description: Version of the catalogue
+
+  ProcessingService:
+    annex: A.42
+    path: processing-services
+    definition: >-
+      The ProcessingService entity shall describe a service that can be
+      invoked to process data.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Name of the service
+      serviceType:
+        type: Enum
+        required: true
+        enum: ServiceType
+        description: Kind of processing the service performs
+      endpoint:
+        type: String
+        required: true
+        format: uri
+        description: Endpoint at which the service is invoked
+      catalogueId:
+        type: UUID
+        required: true
+        references: ServiceCatalogue
+        description: Foreign key to the ServiceCatalogue entity
+      aiBased:
+        type: Boolean
+        description: Indicates a service based on artificial intelligence or machine learning
+      version:
+        type: String
+        description: Version of the service
+      providerOrganizationId:
+        type: UUID
+        references: Organization
+        description: Organization providing the service
+      typeUri:
+        type: String
+        concept: true
+        source: clause 8.12 and Annex B
+        description: Concept identifying the specific type of a CUSTOM service
+        note: >-
+          Not in the table of Annex A.42; clause 8.12 and Annex B call for it
+          where serviceType is CUSTOM.
+      description:
+        type: String
+        thingDescription: true
+        description: Thing Description of inputs, outputs and parameters
+    constraints:
+      - requiredWhen:
+          attribute: typeUri
+          when: {serviceType: [CUSTOM]}
+        level: should
+        source: clause 8.12
+
+  ProcessingJob:
+    annex: A.43
+    path: processing-jobs
+    definition: >-
+      The ProcessingJob entity shall represent a single run of a service and
+      is the reference point of the provenance model.
+    attributes:
+      serviceId:
+        type: UUID
+        required: true
+        references: ProcessingService
+        description: Foreign key to the ProcessingService entity
+      status:
+        type: Enum
+        required: true
+        enum: ProcessingJobStatus
+        property: processingJobStatus
+        description: Status of the run
+      startedAt:
+        type: DateTime
+        description: Time at which the run started
+      finishedAt:
+        type: DateTime
+        description: Time at which the run finished
+      parameters:
+        type: JSON
+        json: object
+        description: Complete parameters of the run, permitting reproduction of the result
+        note: >-
+          Holds the complete parameters of the run, so that its result can be
+          reproduced (clause 7.6).
+      triggeredByUserId:
+        type: UUID
+        references: User
+        description: User who triggered the run
+        note: >-
+          Absent for runs triggered by a schedule or by an event (clause
+          8.12).
+      errorMessage:
+        type: String
+        description: Details of a failure
+
+  ProcessingJobInput:
+    annex: A.44
+    path: processing-job-inputs
+    definition: >-
+      The ProcessingJobInput entity shall record the data processed by a run.
+    attributes:
+      jobId:
+        type: UUID
+        required: true
+        references: ProcessingJob
+        description: Foreign key to the ProcessingJob entity
+      dataId:
+        type: UUID
+        references: Data
+        description: Dataset processed
+      entityType:
+        type: String
+        entityName: true
+        description: Type of the alternative input scope
+      entityId:
+        type: UUID
+        referencesBy:
+          attribute: entityType
+        description: Identifier of the alternative input scope
+      role:
+        type: String
+        description: Role of the input within the run
+    constraints:
+      - exactlyOne: [dataId, [entityType, entityId]]
+        rule: V03
+      - requiredTogether: [entityType, entityId]
+        source: clause 8.12
+
+  Result:
+    annex: A.45
+    path: results
+    definition: >-
+      The Result entity shall store the output of a run.
+    attributes:
+      jobId:
+        type: UUID
+        required: true
+        references: ProcessingJob
+        description: Foreign key to the ProcessingJob entity
+      resultTypeUri:
+        type: String
+        concept: true
+        description: Concept identifying the type of result
+      resultsData:
+        type: JSON
+        json: any
+        description: Structured results, including GeoJSON
+        note: >-
+          May hold GeoJSON, for example a prescription map (clause 8.12).
+      resultsUrl:
+        type: String
+        format: uri
+        description: Reference to result artefacts held as files or in object storage
+      validFrom:
+        type: DateTime
+        property: resultValidFrom
+        description: Start of the period for which the result is valid
+      validUntil:
+        type: DateTime
+        description: End of the period for which the result is valid
+      description:
+        type: String
+        thingDescription: true
+        description: Description of the result
+        note: >-
+          Annex A.45 describes the attribute only as a description of the
+          result; clause 5.1 f) lists Result among the self-describing
+          entities.

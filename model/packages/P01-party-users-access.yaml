@@ -1,0 +1,249 @@
+# P1 — Party, Users and Access (clause 8.1)
+#
+# Attribute descriptions are the wording of Annex A. What clause 8 states
+# in prose — exclusive references, conditional requirements — is under
+# `constraints`; the attributes every entity carries (clause 5.1) are in
+# model/model.yaml and are not repeated here.
+
+package: P1
+title: Party, Users and Access
+clause: "8.1"
+scope: Multi-tenancy, roles and access, personnel master data
+summary: >-
+  This package provides the foundation for multi-tenancy, access to several
+  holdings, role-based access control and personnel master data. It
+  distinguishes between the User, a person who interacts with the system
+  through an account, and the Worker, a person who performs work on the
+  holding and who may have no system account, such as a seasonal worker or the
+  driver of a contractor.
+
+notes:
+  - >-
+    Fine-grained policies that depend on attributes or on the purpose of
+    processing remain in the external identity and access management system
+    (clause 10). Role and AccessAssignment provide the base layer within the
+    model itself and are evaluated in addition to, never in place of, those
+    policies.
+
+entities:
+
+  Organization:
+    annex: A.1
+    path: organizations
+    definition: >-
+      The Organization entity shall represent a legal entity, such as a
+      farming business, a cooperative, a contracting business, an advisory
+      service, a laboratory, a veterinary practice, a trading partner, a
+      certification body or a public authority. Within a given deployment it
+      is the top-level container for all other data; in a federated
+      environment each participating organization maintains its own
+      Organization root.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Name of the organization
+      legalForm:
+        type: String
+        description: Legal form of the organization
+      vatId:
+        type: String
+        description: Value added tax identification number
+      registrationNumbers:
+        type: JSON
+        json: map
+        description: Official identifiers of the organization, keyed by issuing scheme
+      roleUris:
+        type: JSON
+        concept: true
+        json: concepts
+        description: Roles performed by the organization in the value chain
+      addressId:
+        type: UUID
+        references: Address
+        description: Foreign key to the Address entity
+      externalId:
+        type: String
+        description: Identifier in an external system
+      externalProvider:
+        type: String
+        description: Identifier of the external system
+
+  User:
+    annex: A.2
+    path: users
+    definition: >-
+      The User entity shall represent an individual person who interacts with
+      the system through an account.
+    attributes:
+      email:
+        type: String
+        required: true
+        format: email
+        description: Electronic mail address, serving as the login identity
+        note: >-
+          Unique within the deployment (Table 3).
+      firstname:
+        type: String
+        required: true
+        description: First name of the user
+      lastname:
+        type: String
+        required: true
+        description: Last name of the user
+      organizationId:
+        type: UUID
+        required: true
+        references: Organization
+        description: Foreign key to the Organization entity
+      phone:
+        type: String
+        description: Telephone number
+      locale:
+        type: String
+        format: language-tag
+        description: Language tag conforming to [IETF BCP 47]
+      status:
+        type: Enum
+        enum: UserStatus
+        property: userStatus
+        description: Status of the account
+
+  Worker:
+    annex: A.3
+    path: workers
+    definition: >-
+      The Worker entity shall represent a person who performs work on the
+      holding, whether or not that person has a system account. It carries the
+      evidence of qualification that may be required for regulated operations,
+      such as a certificate of competence for the application of plant
+      protection products.
+    attributes:
+      organizationId:
+        type: UUID
+        required: true
+        references: Organization
+        description: Employing or instructing organization
+      firstname:
+        type: String
+        required: true
+        description: First name of the worker
+      lastname:
+        type: String
+        required: true
+        description: Last name of the worker
+      userId:
+        type: UUID
+        references: User
+        description: Foreign key to the User entity where a system account exists
+      employmentType:
+        type: Enum
+        enum: EmploymentType
+        description: Type of employment
+      costRatePerHour:
+        type: Decimal
+        description: Imputed hourly labour rate used in cost calculations
+      certifications:
+        type: JSON
+        json: certificates
+        description: Certificates of competence with type, number and validity
+        note: >-
+          Holds the certificate of competence that rule V09 checks for the
+          application of plant protection products.
+      startsAt:
+        type: DateTime
+        description: Start of the period of employment
+      endsAt:
+        type: DateTime
+        description: End of the period of employment
+
+  Address:
+    annex: A.4
+    path: addresses
+    definition: >-
+      The Address entity shall store the physical address of an Organization
+      or a Farm.
+    attributes:
+      street:
+        type: String
+        required: true
+        description: Street and number
+      city:
+        type: String
+        required: true
+        description: City or locality
+      zip:
+        type: String
+        required: true
+        description: Postal code
+      country:
+        type: String
+        required: true
+        format: country
+        description: Country code conforming to [ISO 3166-1]
+      organizationId:
+        type: UUID
+        references: Organization
+        description: Foreign key to the Organization entity
+      farmId:
+        type: UUID
+        references: Farm
+        description: Foreign key to the Farm entity
+      geo:
+        type: JSON
+        geometry: [Point]
+        description: GeoJSON Point resulting from geocoding
+    constraints:
+      - exactlyOne: [organizationId, farmId]
+        source: clause 8.1
+
+  Role:
+    annex: A.5
+    path: roles
+    definition: >-
+      The Role entity shall define a named set of permissions for role-based
+      access control.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Name of the role
+      permissions:
+        type: JSON
+        required: true
+        json: permissions
+        description: List of permission identifiers following an entity:action pattern
+      isSystemRole:
+        type: Boolean
+        description: Indicates a predefined role that cannot be edited
+
+  AccessAssignment:
+    annex: A.6
+    path: access-assignments
+    definition: >-
+      The AccessAssignment entity shall assign a Role to a User for a specific
+      Farm, and may limit that assignment in time. It realizes access to
+      several holdings and the granting of temporary access to advisers and
+      contractors.
+    attributes:
+      userId:
+        type: UUID
+        required: true
+        references: User
+        description: Foreign key to the User entity
+      farmId:
+        type: UUID
+        required: true
+        references: Farm
+        description: Foreign key to the Farm entity
+      roleId:
+        type: UUID
+        required: true
+        references: Role
+        description: Foreign key to the Role entity
+      startsAt:
+        type: DateTime
+        description: Start of the period of validity
+      endsAt:
+        type: DateTime
+        description: End of the period of validity

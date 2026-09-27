@@ -1,0 +1,122 @@
+# P2 — Farm and Sites (clause 8.2)
+#
+# Attribute descriptions are the wording of Annex A. What clause 8 states
+# in prose — exclusive references, conditional requirements — is under
+# `constraints`; the attributes every entity carries (clause 5.1) are in
+# model/model.yaml and are not repeated here.
+
+package: P2
+title: Farm and Sites
+clause: "8.2"
+scope: Holding structure, built and technical locations
+summary: >-
+  This package contains the central Farm entity, which acts as the primary
+  anchor for all agricultural operations and for the assignment of access
+  rights, together with the built and technical locations of the holding.
+
+entities:
+
+  Farm:
+    annex: A.7
+    path: farms
+    definition: >-
+      The Farm entity shall represent a single agricultural operation or
+      managed agricultural unit. It is the main container for fields, sites
+      and related operational data and is the primary entity for assigning
+      access rights.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Name of the farm
+      organizationId:
+        type: UUID
+        required: true
+        references: Organization
+        description: Foreign key to the Organization entity
+      iamResourceId:
+        type: String
+        property: accessResourceId
+        description: Resource identifier in the external IAM system
+        note: >-
+          Shall be present where an external identity and access management
+          system is used (clause 8.2). Clause 10 makes the use of such a
+          system mandatory for the security provisions.
+      farmNumber:
+        type: String
+        description: Official holding identifier
+        note: >-
+          Unique within the deployment, where set (Table 3).
+      farmTypeUri:
+        type: String
+        concept: true
+        description: Type of holding
+      addressId:
+        type: UUID
+        references: Address
+        description: Foreign key to the Address entity
+      timezone:
+        type: String
+        format: time-zone
+        description: IANA time zone identifier governing presentation of timestamps
+      defaultCurrency:
+        type: String
+        format: currency
+        description: Default currency code conforming to [ISO 4217]
+      externalId:
+        type: String
+        description: Identifier in an external system
+      externalProvider:
+        type: String
+        description: Identifier of the external system
+
+  Site:
+    annex: A.8
+    path: sites
+    definition: >-
+      The Site entity shall represent a built or technical location of the
+      holding, such as a barn, a greenhouse compartment, a storage building, a
+      silo, a farmyard, a biogas plant or a machinery shed. It complements the
+      field-centred spatial structure and carries animal housing, protected
+      cultivation and storage locations.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Designation of the site
+      farmId:
+        type: UUID
+        required: true
+        references: Farm
+        description: Foreign key to the Farm entity
+      siteTypeUri:
+        type: String
+        required: true
+        concept: true
+        description: Type of site, for example barn, greenhouse compartment or store
+      geometry:
+        type: JSON
+        geometry: [Point, Polygon]
+        description: GeoJSON Point or Polygon
+      description:
+        type: String
+        thingDescription: true
+        description: Thing Description in JSON-LD format
+      capacity:
+        type: Decimal
+        positive: true
+        description: Capacity of the site
+      capacityUnit:
+        type: String
+        format: ucum
+        description: Unit of the capacity
+      parentSiteId:
+        type: UUID
+        references: Site
+        description: Parent site, permitting a hierarchy of compartments
+      startsAt:
+        type: DateTime
+        description: Start of the period of use
+      endsAt:
+        type: DateTime
+        description: End of the period of use

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "fe3bffb7-a21b-5ba6-8ab9-7c699f76b59d",
+    "name": "Nordschlag (default)",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [13.4032, 52.5188],
+          [13.4091, 52.5188],
+          [13.4091, 52.5214],
+          [13.4032, 52.5214],
+          [13.4032, 52.5188]
+        ]
+      ]
+    },
+    "fieldId": "7adcec09-66ff-5ccf-8ef7-e75408287d38",
+    "typeUri": "https://w3id.org/agrifooddata/regions#default",
+    "area": 11.8,
+    "createdAt": "2025-01-16T09:00:00Z",
+    "updatedAt": "2025-01-16T09:00:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  },
+  {
+    "id": "ba0995ce-6015-5371-be3d-b0c575746248",
+    "name": "Obstwiese am Hof (default)",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [13.3978, 52.5166],
+          [13.3996, 52.5166],
+          [13.3996, 52.5176],
+          [13.3978, 52.5176],
+          [13.3978, 52.5166]
+        ]
+      ]
+    },
+    "fieldId": "a5f16773-cbbc-5568-8ce3-12de60b3f917",
+    "typeUri": "https://w3id.org/agrifooddata/regions#default",
+    "area": 1.2,
+    "createdAt": "2025-01-16T09:05:00Z",
+    "updatedAt": "2025-01-16T09:05:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  }
+]

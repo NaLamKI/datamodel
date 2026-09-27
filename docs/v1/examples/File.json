@@ -1,0 +1,28 @@
+[
+  {
+    "id": "54c7b434-ebad-5ea2-a499-972db07a6c45",
+    "nameWithExtension": "Bodenanalyse_Nordschlag_2026-03.pdf",
+    "mimeType": "application/pdf",
+    "dataId": "8f6dd05a-6869-5248-8af7-d83163cbec11",
+    "size": 184320,
+    "checksum": "sha256:4f2c9e8d1b7a6c5e3f0a9b8c7d6e5f4a3b2c1d0e9f8a7b6c5d4e3f2a1b0c9d8e",
+    "storageUrl": "s3://lindenhof/data/2026/Bodenanalyse_Nordschlag_2026-03.pdf",
+    "createdAt": "2026-03-20T12:00:00Z",
+    "updatedAt": "2026-03-20T12:00:00Z",
+    "originType": "IMPORT",
+    "clientId": "lab-import"
+  },
+  {
+    "id": "65ae5156-25e5-5321-9346-2091f388a672",
+    "nameWithExtension": "PSM-Aufzeichnung_2026.pdf",
+    "mimeType": "application/pdf",
+    "dataId": "3213d923-9f7f-5179-a6c3-b9368b0ebf97",
+    "size": 96256,
+    "storageUrl": "s3://lindenhof/reports/2026/PSM-Aufzeichnung_2026.pdf",
+    "createdAt": "2026-09-15T09:56:00Z",
+    "updatedAt": "2026-09-15T09:56:00Z",
+    "originType": "SERVICE",
+    "createdByJobId": "d5df87bc-1074-507a-a3f3-eb659c5580cd",
+    "clientId": "report-service"
+  }
+]

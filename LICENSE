@@ -1,0 +1,32 @@
+The model and everything generated from it (model/, examples/, docs/,
+BINDINGS.md) are published under the Creative Commons Attribution 4.0
+International licence (CC BY 4.0).
+
+    https://creativecommons.org/licenses/by/4.0/
+    Legal code: https://creativecommons.org/licenses/by/4.0/legalcode
+
+Attribution: NaLamKI, https://datamodel.agrifooddata.org
+
+The tooling under tool/ and the checks under tests/ are published under the
+MIT licence; see LICENSE-CODE.
+
+-------------------------------------------------------------------------------
+Third-party content
+
+ontology/ is not a copy but a git submodule: a reference to one commit of the
+agrifooddata ontology (https://github.com/NaLamKI/ontology,
+https://ontology.agrifooddata.org), published by NaLamKI under CC BY 4.0 with
+its own attribution of the BVL data in its schemes crops, pests and phenology.
+
+The examples take a crop label and its code (examples/CodeMapping.json) and
+the name and registration number of a plant protection product
+(examples/Product.json) from the plant protection product interface of the
+German Federal Office of Consumer Protection and Food Safety (BVL), which may
+be used free of charge under § 10 of the German Data Use Act. The prescribed
+attribution reads, in German:
+
+    BUNDESAMT FÜR VERBRAUCHERSCHUTZ UND LEBENSMITTELSICHERHEIT (BVL) 2026:
+    [https://psm-api.bvl.bund.de/], Stand 2026-09-02
+
+Concepts under http://aims.fao.org/aos/agrovoc/ are AGROVOC identifiers of the
+FAO; no AGROVOC labels are redistributed here.

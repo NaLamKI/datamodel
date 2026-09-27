@@ -1,0 +1,13 @@
+[
+  {
+    "id": "c7e52d08-7496-5666-9ca4-6fd4a6b43727",
+    "userId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "farmId": "997142c3-14cf-5cb4-b260-048af4b57a76",
+    "roleId": "a67dcd3e-3a44-5196-b5b8-423fefd2f99f",
+    "startsAt": "2025-01-15T00:00:00Z",
+    "createdAt": "2025-01-15T08:00:00Z",
+    "updatedAt": "2025-01-15T08:00:00Z",
+    "originType": "SYSTEM",
+    "clientId": "onboarding"
+  }
+]

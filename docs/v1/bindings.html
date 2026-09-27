@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bindings</title>
+<link rel="stylesheet" href="../style.css">
+<nav><a href="../">AgriFoodData model</a> › <a href="./">v1</a> › Bindings</nav>
+<h1>Bindings</h1>
+
+
+<p>The Recommendation specifies entities, attributes, rules and state models, and
+for their representation a small number of requirements: JSON as the canonical
+form, a JSON-LD context onto referenced vocabularies, OGC API - Features for
+the geospatial entities, synchronization over <code>updatedAt</code> (clause 9). This
+document says how this repository turns that into files a program can use —
+and where it had to decide something the Recommendation leaves open. Each
+decision is stated with its reason, so that it can be argued with.</p>
+<hr />
+<h2>0. One source, four views</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Answers</th>
+<th>Generated from <code>model/</code> by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>JSON Schema</strong> (<code>v1/schema/</code>)</td>
+<td>Is this JSON a well-formed record?</td>
+<td><code>tool/schemas.py</code></td>
+</tr>
+<tr>
+<td><strong>OpenAPI</strong> (<code>v1/openapi.yaml</code>)</td>
+<td>How is it read, written and synchronized over HTTP?</td>
+<td><code>tool/openapi.py</code></td>
+</tr>
+<tr>
+<td><strong>JSON-LD context</strong> (<code>v1/context.jsonld</code>)</td>
+<td>What does it mean, in the terms of the ontology?</td>
+<td><code>tool/context.py</code></td>
+</tr>
+<tr>
+<td><strong>SHACL</strong> (<code>v1/shapes.ttl</code>, <code>v1/shapes-dataset.ttl</code>)</td>
+<td>Does its RDF, and a dataset of such records, hold together?</td>
+<td><code>tool/shapes.py</code></td>
+</tr>
+</tbody>
+</table>
+<p>The four cannot drift apart: the OpenAPI description embeds the very schemas
+under <code>v1/schema/</code>, the context and the shapes are derived from the same
+attribute list, and the checks under <code>tests/</code> hold each of them against the
+example dataset and against the ontology.</p>
+<hr />
+<h2>1. JSON</h2>
+<p>Clause 9 fixes the essentials: camelCase attribute names, timestamps in
+ISO 8601 and UTC, GeoJSON geometries, enumerations in upper case, identifiers
+as strings, the system attributes on every record. Where it says nothing, this
+specification decides:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Decision</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>An optional attribute that is not set</td>
+<td>omitted, never <code>null</code></td>
+<td>"Exactly one of these references is set" (clause 5.1 h)) is then a question of presence, and JSON Schema and SHACL can check it. <code>null</code> appears only in a JSON Merge Patch, where it means "remove".</td>
+</tr>
+<tr>
+<td>The form of a UUID</td>
+<td>lower case</td>
+<td>Clause 9 turns every reference into an IRI (§ 2); <code>urn:uuid:ABC…</code> and <code>urn:uuid:abc…</code> are different IRIs, and a reference would miss its record.</td>
+</tr>
+<tr>
+<td>A timestamp</td>
+<td><code>…Z</code> or <code>…+00:00</code></td>
+<td>"Coordinated universal time" (clause 5.1 c)), checked by pattern, not merely by <code>format</code>.</td>
+</tr>
+<tr>
+<td>A Decimal</td>
+<td>a JSON number</td>
+<td>The natural reading of clause 9, and what every client expects. See § 2 for what that costs in RDF.</td>
+</tr>
+<tr>
+<td>A unit</td>
+<td>a string, UCUM recommended</td>
+<td>Clause 5.1 j) says <em>should</em>; the schema describes UCUM but does not reject other units. Currencies (ISO 4217), countries (ISO 3166-1) and languages (BCP 47) are <em>shall</em> and are checked.</td>
+</tr>
+<tr>
+<td>A country code</td>
+<td>alpha-2, alpha-3 or numeric</td>
+<td>ISO 3166-1 defines all three and the Recommendation names none; alpha-2 is recommended.</td>
+</tr>
+<tr>
+<td>A Thing Description</td>
+<td>a string, <code>contentMediaType: application/td+json</code></td>
+<td>Annex A gives <code>description</code> the type String; the content is a WoT Thing Description in JSON-LD.</td>
+</tr>
+<tr>
+<td>An attribute the model does not have</td>
+<td>rejected</td>
+<td>The schemas are closed (<code>additionalProperties: false</code>), so that a misspelt attribute is found. A client reading responses should nevertheless ignore what it does not know.</td>
+</tr>
+</tbody>
+</table>
+<p>Two attributes are in the schemas although the tables of Annex A lack them:
+<code>Machine.description</code> (clauses 5.1 f) and 9) and <code>ProcessingService.typeUri</code>
+(clause 8.12, Annex B). Both are marked with their source.</p>
+<hr />
+<h2>2. RDF</h2>
+<p><code>v1/context.jsonld</code> makes any record readable as RDF. It maps every attribute
+onto the property the ontology declares for it — <code>agfoda:farmId</code>, not
+<code>dct:isPartOf</code>; <code>agfoda:typeUri</code>, not <code>dct:type</code> — because those are the
+properties the ontology binds to its classes and concept schemes. A look-alike
+from another vocabulary would carry the same words and none of the
+constraints.</p>
+<p>A task, in JSON, as the server sends it for <code>application/ld+json</code>:</p>
+<pre><code class="language-json">{
+  &quot;@context&quot;: &quot;https://datamodel.agrifooddata.org/v1/context.jsonld&quot;,
+  &quot;@id&quot;: &quot;urn:uuid:069a9d2c-0d5c-5eda-b447-1eb9d3791f7e&quot;,
+  &quot;@type&quot;: &quot;Task&quot;,
+  &quot;id&quot;: &quot;069a9d2c-0d5c-5eda-b447-1eb9d3791f7e&quot;,
+  &quot;name&quot;: &quot;Fungizidbehandlung Septoria, Nordschlag&quot;,
+  &quot;farmId&quot;: &quot;997142c3-14cf-5cb4-b260-048af4b57a76&quot;,
+  &quot;status&quot;: &quot;COMPLETED&quot;,
+  &quot;typeUri&quot;: &quot;http://aims.fao.org/aos/agrovoc/c_5978&quot;,
+  &quot;createdAt&quot;: &quot;2026-05-10T07:00:00Z&quot;,
+  &quot;originType&quot;: &quot;USER&quot;,
+  &quot;createdByUserId&quot;: &quot;b630da76-9ec3-5faa-a1d7-e66d56bc5db4&quot;
+}
+</code></pre>
+<p>and the same record in Turtle:</p>
+<pre><code class="language-turtle">&lt;urn:uuid:069a9d2c-0d5c-5eda-b447-1eb9d3791f7e&gt; a agfoda:Task ;
+    agfoda:id &quot;069a9d2c-0d5c-5eda-b447-1eb9d3791f7e&quot; ;
+    agfoda:name &quot;Fungizidbehandlung Septoria, Nordschlag&quot; ;
+    agfoda:farmId &lt;urn:uuid:997142c3-14cf-5cb4-b260-048af4b57a76&gt; ;
+    agfoda:taskStatus agfoda:TaskStatus_COMPLETED ;
+    agfoda:typeUri &lt;http://aims.fao.org/aos/agrovoc/c_5978&gt; ;
+    agfoda:createdAt &quot;2026-05-10T07:00:00Z&quot;^^xsd:dateTime ;
+    agfoda:originType agfoda:OriginType_USER ;
+    agfoda:createdByUser &lt;urn:uuid:b630da76-9ec3-5faa-a1d7-e66d56bc5db4&gt; .
+</code></pre>
+<p>The attributes are unchanged; the three JSON-LD keywords in front are all the
+server adds. What the context does with them:</p>
+<ul>
+<li><strong>Records and references meet in one node.</strong> A record's IRI is <code>urn:uuid:</code>
+  and its id. A foreign key holds a bare UUID; its term carries a scoped
+  <code>@vocab</code> of <code>urn:uuid:</code>, so <code>farmId</code> becomes the IRI of the farm's own node.
+  <code>urn:uuid:</code> rather than an HTTP address, because the model is meant for a
+  federation of nodes (clause 7.3): the same record is served by more than one
+  of them, and its identity must not depend on which.</li>
+<li><strong>Enumerations are individuals.</strong> <code>"status": "COMPLETED"</code> on a task becomes
+  <code>agfoda:TaskStatus_COMPLETED</code>, the named individual the ontology declares.</li>
+<li><strong>Where the names differ.</strong> The ontology names some properties differently
+  from the attribute, and for <code>status</code>, <code>scopeType</code> and <code>validFrom</code> it has one
+  property per class where JSON has one name. The context maps each; a name
+  that depends on the class is resolved by a context scoped to the entity —
+  the reason a representation read as JSON-LD carries <code>@type</code>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>On</th>
+<th>Property</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>description</code></td>
+<td>Device</td>
+<td><code>agfoda:thingDescription</code></td>
+</tr>
+<tr>
+<td><code>iamResourceId</code></td>
+<td>Farm, Data</td>
+<td><code>agfoda:accessResourceId</code></td>
+</tr>
+<tr>
+<td><code>scopeType</code></td>
+<td>Budget</td>
+<td><code>agfoda:budgetScopeType</code></td>
+</tr>
+<tr>
+<td><code>scopeType</code></td>
+<td>SustainabilityIndicator</td>
+<td><code>agfoda:sustainabilityIndicatorScopeType</code></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>Activity</td>
+<td><code>agfoda:activityStatus</code></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>Animal</td>
+<td><code>agfoda:animalStatus</code></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>CroppingPlan</td>
+<td><code>agfoda:croppingPlanStatus</code></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>CultivationPeriod</td>
+<td><code>agfoda:cultivationPeriodStatus</code></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>Device</td>
+<td><code>agfoda:deviceStatus</code></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>Machine</td>
+<td><code>agfoda:machineStatus</code></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>ProcessingJob</td>
+<td><code>agfoda:processingJobStatus</code></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>RegulatoryReport</td>
+<td><code>agfoda:regulatoryReportStatus</code></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>Task</td>
+<td><code>agfoda:taskStatus</code></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>User</td>
+<td><code>agfoda:userStatus</code></td>
+</tr>
+<tr>
+<td><code>validFrom</code></td>
+<td>Certification</td>
+<td><code>agfoda:certificationValidFrom</code></td>
+</tr>
+<tr>
+<td><code>validFrom</code></td>
+<td>CodeMapping</td>
+<td><code>agfoda:codeMappingValidFrom</code></td>
+</tr>
+<tr>
+<td><code>validFrom</code></td>
+<td>FeedRation</td>
+<td><code>agfoda:feedRationValidFrom</code></td>
+</tr>
+<tr>
+<td><code>validFrom</code></td>
+<td>Result</td>
+<td><code>agfoda:resultValidFrom</code></td>
+</tr>
+<tr>
+<td><code>createdByJobId</code></td>
+<td>every entity</td>
+<td><code>agfoda:createdByJob</code></td>
+</tr>
+<tr>
+<td><code>createdByUserId</code></td>
+<td>every entity</td>
+<td><code>agfoda:createdByUser</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>JSON stays JSON.</strong> Attributes of type JSON become <code>rdf:JSON</code> literals
+  (<code>@type: @json</code>). That includes geometries: JSON-LD cannot produce a
+  <code>geo:geoJSONLiteral</code> from an embedded GeoJSON object, and the ontology's
+  range for geometries, <code>agfoda:GeoJSON</code>, admits both; the lexical form is the
+  same GeoJSON text.</li>
+<li><strong>Numbers are not typed.</strong> JSON-LD turns a number with a fraction into
+  <code>xsd:double</code>; typing the terms <code>xsd:decimal</code> would make JSON-LD write
+  lexical forms such as <code>"1.55E1"^^xsd:decimal</code>, which are invalid. The
+  ontology's range for Decimal attributes, <code>agfoda:Decimal</code>, admits
+  <code>xsd:decimal</code> and <code>xsd:double</code>, and the shapes accept all three numeric
+  datatypes.</li>
+<li><strong>Lists read as RDF too.</strong> In a page of a collection, <code>items</code> is an alias of
+  <code>@included</code>; <code>nextCursor</code> and <code>hasMore</code> map to nothing.</li>
+</ul>
+<p>One processor detail is worth knowing: a property-scoped
+context that is identical across terms is resolved once by some JSON-LD
+processors and the result reused for the next term — pyld 2.0.4 does, and from
+the second foreign key on, references came out as literals. Every scoped
+context in <code>context.jsonld</code> therefore restates its own term, which changes
+nothing in meaning and makes each one distinct; <code>tests/test_jsonld.py</code>
+compares pyld's output with rdflib's for every example record.</p>
+<hr />
+<h2>3. The ontology</h2>
+<p>The model is bound to the ontology, not merely named after it. Every entity is
+a class (<code>agfoda:Task</code>), every attribute a property (<code>agfoda:farmId</code>), every
+enumeration a class with one individual per value. The classifications
+(<code>typeUri</code>, <code>cropUri</code>, <code>speciesUri</code> …) take their values from the concept
+schemes the ontology binds them to: a cultivation period's <code>typeUri</code> is a
+concept of <code>crops</code>, an activity's of <code>activity-types</code>; <code>bbchStage</code> holds the
+notation of a concept of <code>phenology</code>.</p>
+<p>That binding is checked, offline, against the ontology under <code>ontology/</code> — a
+git submodule pinned at one commit of the ontology's repository:</p>
+<ul>
+<li>every entity is a class and every attribute a declared property whose domain
+  includes the entity and whose range fits its type;</li>
+<li>an attribute is mandatory exactly where the ontology states a minimum
+  cardinality;</li>
+<li>the values of every enumeration are the ontology's individuals;</li>
+<li>every record of the example dataset, read with the context, lands on
+  declared properties only.</li>
+</ul>
+<p>Where the ontology and the Recommendation differ, the Recommendation takes
+precedence (clause 8) and the difference is listed in
+<a href="https://datamodel.agrifooddata.org/v1/divergences.html">divergences</a>. Of the
+twelve found while binding the model, the ontology fixed eleven in its version
+of 2026-09-26; what remains is the mapping to AGROVOC that clause 7.2 asks
+for, which the ontology has made for part of its crops and pests only. A check
+fails as soon as such a difference appears, and again once it is fixed
+upstream but still listed.</p>
+<p>Every class, property and enumeration value links to its row on the
+ontology's <a href="https://ontology.agrifooddata.org/term.html">schema page</a>; its
+identifier, <code>https://w3id.org/agrifooddata/term/&lt;name&gt;</code>, is redirected there
+by the ontology's w3id rules.</p>
+<hr />
+<h2>4. HTTP</h2>
+<p><code>v1/openapi.yaml</code> is a reference binding, not text of the Recommendation. It
+maps its requirements onto HTTP as follows.</p>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Binding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identifiers generated by the client (clause 9)</td>
+<td><code>PUT /{collection}/{id}</code> creates a record under its own identifier; <code>If-None-Match: *</code> makes it create-only, so that a repeated request after a lost response cannot overwrite anything.</td>
+</tr>
+<tr>
+<td>Per-attribute last-write-wins (clause 5.1 b))</td>
+<td><code>PATCH</code> with JSON Merge Patch (RFC 7396) changes only the attributes it names; of two changes to the same attribute the later wins. <code>If-Match</code> with the <code>ETag</code> is available where a client prefers to fail.</td>
+</tr>
+<tr>
+<td>Correction path for reported documentation</td>
+<td>A change to a record that a RegulatoryReport in status <code>SUBMITTED</code> or later refers to needs <code>Change-Reason</code>, which the server records as <code>AuditLog.reason</code>. A submitted report itself is immutable (V15).</td>
+</tr>
+<tr>
+<td>Provenance (clause 5.1 l))</td>
+<td>The server sets <code>createdAt</code>, <code>updatedAt</code>, <code>createdByUserId</code>, <code>createdByJobId</code> and <code>clientId</code> from the authenticated caller. A processing run names its ProcessingJob in <code>Processing-Job-Id</code>; <code>originType</code> may be declared on creation and is checked against the caller.</td>
+</tr>
+<tr>
+<td>Synchronization by a cursor over <code>updatedAt</code> (clause 9)</td>
+<td>Every collection lists by <code>updatedAt</code>, then <code>id</code>. <code>updatedAfter</code> starts a synchronization, <code>nextCursor</code> continues it — returned on the last page too, so that the next poll resumes exactly there.</td>
+</tr>
+<tr>
+<td>Withdrawal and deletion propagated</td>
+<td>Withdrawal is a status change and arrives with the record; a deletion arrives as a <code>DELETE</code> entry of <code>/audit-logs</code>, which is read-only.</td>
+</tr>
+<tr>
+<td>State models (clause 13)</td>
+<td>A status change not in the state model is refused with <code>409</code> and the problem type <code>invalid-transition</code>.</td>
+</tr>
+<tr>
+<td>Integrity rules (clause 12)</td>
+<td>Violations are reported as RFC 9457 problem details whose <code>violations</code> name the rule (<code>V01</code> … <code>V16</code>) and the attribute.</td>
+</tr>
+<tr>
+<td>Authentication and authorization (clause 10)</td>
+<td>OpenID Connect against the external IAM system. <code>x-agfoda-permission</code> names the permission an operation requires, in the <code>entity:action</code> pattern of <code>Role.permissions</code>, evaluated per farm in addition to the IAM's policies.</td>
+</tr>
+<tr>
+<td>OGC API - Features for Field, Region, Site (clause 9)</td>
+<td><code>/features</code> with landing page, conformance, collections and items as GeoJSON.</td>
+</tr>
+<tr>
+<td>Derived stock levels (clauses 7.5, 8.6)</td>
+<td><code>GET /stock-levels</code>, computed from the stock movements, never stored.</td>
+</tr>
+</tbody>
+</table>
+<p>Deliberately not specified: how a client obtains its token, rate limits,
+bulk import, the transfer of file contents (a File refers to object storage
+through <code>storageUrl</code>), and the interfaces of external services — SensorThings
+endpoints are referenced, not described. The exchange formats clause 9 names
+besides the model's own JSON — task data conforming to ISO 11783-10, an export
+to an agricultural data exchange profile — are formats of their own; the model
+carries what they need (<code>Activity.isobusTaskRef</code>, <code>Machine.isobusDeviceId</code>,
+the ISOBUS codes bound through CodeMapping).</p>
+<hr />
+<h2>5. Which artefact checks what</h2>
+<p>A rule is checked where it can be checked. <code>model/rules.yaml</code> records this for
+each rule, and the <a href="https://datamodel.agrifooddata.org/v1/rules.html">rules page</a> shows it.</p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>JSON Schema</th>
+<th>SHACL, record</th>
+<th>SHACL, dataset</th>
+<th>Interface</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Types, mandatory attributes, enumerations, formats</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Exclusive references (V03), positive quantities (V02), provenance (V04)</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Conditions of clause 8 (registration number, resource type …)</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Period order (V01, V08)</td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+</tr>
+<tr>
+<td>References point at a record of the right entity</td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Classifications are concepts of the bound scheme</td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>One default region per field (V05), stand on the same region (V08), planned crop (V07), plant protection product behind an application (V09)</td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Business keys, state models, withdrawal periods (V11), stock levels (V12), immutability (V15), overlapping assignments (V16)</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+</tr>
+</tbody>
+</table>
+<p>A rule expressed with "should" is a warning, not an error (clause 12): the
+JSON Schemas leave it out, the shapes report it with <code>sh:severity sh:Warning</code>.</p>
+<hr />
+<h2>6. What deliberately does not live here</h2>
+<ul>
+<li><strong>Usage policies.</strong> Clause 11 places them in the data space or IAM layer,
+  expressed in a policy language such as ODRL; the model records only the
+  resource identifiers (<code>iamResourceId</code>) they are bound through.</li>
+<li><strong>Time series.</strong> High-frequency data remain in a time series backend or a
+  SensorThings service (clause 8.9); <code>Device.sensorThingsUrl</code> points there.</li>
+<li><strong>The vocabulary.</strong> Concepts and code lists live in the ontology and are
+  referenced by identifier, never copied into the schemas — a schema that
+  listed the crops would be out of date with the next BVL extract.</li>
+<li><strong>A provenance export.</strong> Clause 11 asks that provenance, audit log and
+  the chain from ProcessingJob to Result be exportable as PROV-O. The
+  attributes map onto ontology properties that are subproperties of PROV-O
+  where the ontology says so (<code>createdByUser</code>, <code>createdByJob</code>,
+  <code>changedByUserId</code>, <code>changedByJobId</code>); an export endpoint is an
+  implementation matter.</li>
+<li><strong>An application's own fields.</strong> They belong in the application's own
+  namespace, not in the model; the closed schemas reject them on purpose.</li>
+</ul>
+<p class="footnote">AgriFoodData model 1.0.0-draft.3 · machine-readable specification of the Recommendation <em>Data model for digital agriculture and farm management systems</em> (draft, revision 3, proposed to ITU-T Study Group 20, 2026-07-29). In the event of a discrepancy between the Recommendation and this machine-readable specification or the ontology, the text of the Recommendation takes precedence (clause 8). Published under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · <a href="https://github.com/NaLamKI/datamodel">source</a>.</p>

@@ -1,0 +1,23 @@
+[
+  {
+    "id": "069a9d2c-0d5c-5eda-b447-1eb9d3791f7e",
+    "name": "Fungizidbehandlung Septoria, Nordschlag",
+    "farmId": "997142c3-14cf-5cb4-b260-048af4b57a76",
+    "status": "COMPLETED",
+    "typeUri": "http://aims.fao.org/aos/agrovoc/c_5978",
+    "priority": "HIGH",
+    "dueAt": "2026-05-14T18:00:00Z",
+    "earliestStartAt": "2026-05-11T04:00:00Z",
+    "instructions": "Apply 1.0 L/ha at BBCH 32; observe buffer distances to the ditch.",
+    "cultivationPeriodId": "5dda887f-7b91-5007-916a-e571436175a1",
+    "regionId": "fe3bffb7-a21b-5ba6-8ab9-7c699f76b59d",
+    "assignedWorkerId": "4e9926da-08ac-51ed-82a9-2b425da8f54e",
+    "assignedMachineId": "2654e63d-26fb-5dce-b23a-eb92db85fd98",
+    "sourceResultId": "f8ad7ac2-87e0-5bf4-9362-86808c3a8753",
+    "createdAt": "2026-05-10T07:00:00Z",
+    "updatedAt": "2026-05-12T06:20:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  }
+]

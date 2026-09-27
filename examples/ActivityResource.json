@@ -1,0 +1,46 @@
+[
+  {
+    "id": "41e82371-ccd0-5708-ba51-73a817187759",
+    "activityId": "d01bf60e-ee75-5378-96c8-0c1fc90cf529",
+    "resourceType": "MACHINE",
+    "machineId": "2654e63d-26fb-5dce-b23a-eb92db85fd98",
+    "role": "tractor",
+    "startsAt": "2026-05-12T04:30:00Z",
+    "endsAt": "2026-05-12T06:10:00Z",
+    "usageAmount": 1.7,
+    "usageUnit": "h",
+    "createdAt": "2026-05-12T06:15:00Z",
+    "updatedAt": "2026-05-12T06:15:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-mobile"
+  },
+  {
+    "id": "7e8851ab-f377-5ba9-96fa-8d5d811b3cd9",
+    "activityId": "d01bf60e-ee75-5378-96c8-0c1fc90cf529",
+    "resourceType": "MACHINE",
+    "machineId": "db0250fd-96e3-5bfd-a02e-386ad756248c",
+    "role": "implement",
+    "usageAmount": 11.8,
+    "usageUnit": "har",
+    "createdAt": "2026-05-12T06:15:00Z",
+    "updatedAt": "2026-05-12T06:15:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-mobile"
+  },
+  {
+    "id": "859925c1-b2cc-5b91-b599-82b3946cdc66",
+    "activityId": "d01bf60e-ee75-5378-96c8-0c1fc90cf529",
+    "resourceType": "WORKER",
+    "workerId": "4e9926da-08ac-51ed-82a9-2b425da8f54e",
+    "role": "operator",
+    "usageAmount": 1.7,
+    "usageUnit": "h",
+    "createdAt": "2026-05-12T06:15:00Z",
+    "updatedAt": "2026-05-12T06:15:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-mobile"
+  }
+]

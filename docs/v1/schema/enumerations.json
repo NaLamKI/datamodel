@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://datamodel.agrifooddata.org/v1/schema/enumerations.json",
+  "title": "Enumerations (Annex B)",
+  "$defs": {
+    "OriginType": {
+      "type": "string",
+      "enum": ["USER", "SERVICE", "DEVICE", "IMPORT", "SYSTEM"],
+      "description": "How a record came into being (clause 5.1 l))",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/OriginType"
+    },
+    "UserStatus": {
+      "type": "string",
+      "enum": ["ACTIVE", "INVITED", "DEACTIVATED"],
+      "description": "Status of a user account",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/UserStatus"
+    },
+    "EmploymentType": {
+      "type": "string",
+      "enum": ["PERMANENT", "SEASONAL", "CONTRACTOR"],
+      "description": "Type of employment of a worker",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/EmploymentType"
+    },
+    "Tenure": {
+      "type": "string",
+      "enum": ["OWNED", "LEASED", "MANAGED"],
+      "description": "Tenure under which a field is managed",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/Tenure"
+    },
+    "CroppingPlanStatus": {
+      "type": "string",
+      "enum": ["DRAFT", "ACTIVE", "ARCHIVED"],
+      "description": "Status of a cropping plan",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/CroppingPlanStatus"
+    },
+    "CultivationPeriodStatus": {
+      "type": "string",
+      "enum": ["PLANNED", "ACTIVE", "COMPLETED", "ABORTED"],
+      "description": "Status of a cultivation period",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/CultivationPeriodStatus"
+    },
+    "TaskStatus": {
+      "type": "string",
+      "enum": ["PLANNED", "ASSIGNED", "IN_PROGRESS", "COMPLETED", "CANCELLED"],
+      "description": "Status of a task",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/TaskStatus"
+    },
+    "TaskPriority": {
+      "type": "string",
+      "enum": ["LOW", "NORMAL", "HIGH", "URGENT"],
+      "description": "Priority of a task",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/TaskPriority"
+    },
+    "ActivityStatus": {
+      "type": "string",
+      "enum": ["IN_PROGRESS", "COMPLETED", "ABORTED"],
+      "description": "Status of an operation carried out",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/ActivityStatus"
+    },
+    "ResourceType": {
+      "type": "string",
+      "enum": ["MACHINE", "WORKER"],
+      "description": "Kind of resource deployed in an operation",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/ResourceType"
+    },
+    "TimeRecordType": {
+      "type": "string",
+      "enum": ["WORK", "ABSENCE", "SICK", "VACATION"],
+      "description": "Kind of time recorded",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/TimeRecordType"
+    },
+    "ProductCategory": {
+      "type": "string",
+      "enum": [
+        "SEED",
+        "PLANT_MATERIAL",
+        "FERTILIZER",
+        "PLANT_PROTECTION",
+        "FEED",
+        "VETERINARY_MEDICINE",
+        "FUEL",
+        "HARVEST_PRODUCT",
+        "ANIMAL_PRODUCT",
+        "OTHER"
+      ],
+      "description": "Category of a product",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/ProductCategory"
+    },
+    "MovementType": {
+      "type": "string",
+      "enum": [
+        "PURCHASE",
+        "HARVEST_INTAKE",
+        "CONSUMPTION",
+        "SALE",
+        "TRANSFER",
+        "ADJUSTMENT",
+        "LOSS"
+      ],
+      "description": "Kind of stock movement",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/MovementType"
+    },
+    "MachineStatus": {
+      "type": "string",
+      "enum": ["ACTIVE", "INACTIVE", "SOLD"],
+      "description": "Status of a machine",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/MachineStatus"
+    },
+    "AnimalSex": {
+      "type": "string",
+      "enum": ["FEMALE", "MALE", "CASTRATED"],
+      "description": "Sex of an animal",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/AnimalSex"
+    },
+    "AnimalStatus": {
+      "type": "string",
+      "enum": ["ACTIVE", "SOLD", "SLAUGHTERED", "DEAD", "TRANSFERRED"],
+      "description": "Status of an animal",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/AnimalStatus"
+    },
+    "DeviceStatus": {
+      "type": "string",
+      "enum": ["ACTIVE", "INACTIVE", "FAULTY"],
+      "description": "Status of a device",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/DeviceStatus"
+    },
+    "ObservationValidity": {
+      "type": "string",
+      "enum": ["VALID", "SUSPECT", "INVALID"],
+      "description": "Outcome of the quality assurance of an observation",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/ObservationValidity"
+    },
+    "IOType": {
+      "type": "string",
+      "enum": ["INPUT", "OUTPUT"],
+      "description": "Whether a quantity is consumed or produced",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/IOType"
+    },
+    "ValueType": {
+      "type": "string",
+      "enum": ["PLANNED", "ACTUAL", "ESTIMATION", "PREDICTION"],
+      "description": "Whether a value is planned, actual, estimated or predicted — the separation of planning and execution at the level of an individual value (clause 7.4)",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/ValueType"
+    },
+    "BudgetScopeType": {
+      "type": "string",
+      "enum": ["FARM", "CULTIVATION_PERIOD", "ANIMAL_GROUP", "COST_CATEGORY"],
+      "description": "Kind of object a budget applies to",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/BudgetScopeType"
+    },
+    "SustainabilityScopeType": {
+      "type": "string",
+      "enum": ["FARM", "FIELD", "REGION", "CULTIVATION_PERIOD", "ANIMAL_GROUP", "PRODUCT_LOT"],
+      "description": "Kind of object a sustainability indicator applies to",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/SustainabilityScopeType"
+    },
+    "RegulatoryReportStatus": {
+      "type": "string",
+      "enum": ["DRAFT", "GENERATED", "SUBMITTED", "ACCEPTED", "REJECTED"],
+      "description": "Status of a regulatory report",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/RegulatoryReportStatus"
+    },
+    "AuditAction": {
+      "type": "string",
+      "enum": ["CREATE", "UPDATE", "DELETE"],
+      "description": "Kind of change recorded in the audit log",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/AuditAction"
+    },
+    "ServiceType": {
+      "type": "string",
+      "enum": [
+        "CLASSIFICATION",
+        "DETECTION",
+        "SEGMENTATION",
+        "PREDICTION",
+        "ANALYSIS",
+        "TRANSFORMATION",
+        "AGGREGATION",
+        "VALIDATION",
+        "INGESTION",
+        "REPORT_GENERATION",
+        "CUSTOM"
+      ],
+      "description": "Kind of processing a service performs",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/ServiceType"
+    },
+    "ProcessingJobStatus": {
+      "type": "string",
+      "enum": ["PENDING", "RUNNING", "SUCCEEDED", "FAILED", "CANCELLED"],
+      "description": "Status of a processing run",
+      "x-agfoda-class": "https://w3id.org/agrifooddata/term/ProcessingJobStatus"
+    }
+  }
+}

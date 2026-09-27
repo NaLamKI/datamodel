@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgriFoodData model v1</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="alternate" type="application/ld+json" href="context.jsonld">
+<nav><a href="../">AgriFoodData model</a> › v1</nav>
+<h1>AgriFoodData model v1</h1>
+<p class="sub">1.0.0-draft.3 · 47 entities in 14 packages · <code>https://datamodel.agrifooddata.org/v1/</code></p>
+
+<p>Machine-readable specification of the data model for digital agriculture and farm management systems: 47 entities in 14 packages, bound to the classes and properties of the agrifooddata ontology. Every entity is a class of the <a href="https://ontology.agrifooddata.org/">agrifooddata ontology</a>, every attribute one of its properties; this version is checked against the ontology as of 2026-09-27 (<code>809c186</code>). Where the two part ways, <a href="divergences.html">Divergences</a> says so.</p>
+<h2>Artefacts</h2>
+<table><thead><tr><th>File</th><th>Format</th><th>For</th></tr></thead><tbody>
+<tr><td><a href="openapi.yaml">openapi.yaml</a>, <a href="openapi.json">.json</a></td><td>OpenAPI 3.1</td><td>The REST binding: every entity as a collection, synchronization, OGC API - Features. <a href="api.html">Overview</a></td></tr>
+<tr><td><a href="schema/">schema/</a><code>&lt;Entity&gt;.json</code></td><td>JSON Schema 2020-12</td><td>One schema per entity, for records as stored and exchanged.</td></tr>
+<tr><td><a href="context.jsonld">context.jsonld</a></td><td>JSON-LD 1.1</td><td>Reads the JSON of the model as RDF on the ontology's properties.</td></tr>
+<tr><td><a href="shapes.ttl">shapes.ttl</a></td><td>SHACL</td><td>Checks a single record in RDF, closed.</td></tr>
+<tr><td><a href="shapes-dataset.ttl">shapes-dataset.ttl</a></td><td>SHACL</td><td>Checks a dataset: references, concept schemes, rules across records.</td></tr>
+<tr><td><a href="model.json">model.json</a></td><td>JSON</td><td>The whole model in one document, for generators.</td></tr>
+<tr><td><a href="examples/">examples/</a></td><td>JSON</td><td>One consistent, fictitious farm: every entity at least once.</td></tr>
+</tbody></table>
+<p>Also: <a href="rules.html">rules, state models and business keys</a> · <a href="enumerations.html">enumerations</a> · <a href="bindings.html">how the model becomes JSON, RDF and HTTP</a> · <a href="divergences.html">divergences</a>.</p>
+<h2>Packages</h2>
+<h3 id="P1">P1 Party, Users and Access <span class="muted">(clause 8.1)</span></h3>
+<p>This package provides the foundation for multi-tenancy, access to several holdings, role-based access control and personnel master data. It distinguishes between the User, a person who interacts with the system through an account, and the Worker, a person who performs work on the holding and who may have no system account, such as a seasonal worker or the driver of a contractor.</p>
+<table><thead><tr><th>Entity</th><th>Annex</th><th>Definition</th><th>API</th></tr></thead><tbody>
+<tr><td><a href="Organization.html">Organization</a></td><td>A.1</td><td>The Organization entity shall represent a legal entity, such as a farming business, a cooperative, a contracting business, an advisory service, a laboratory, a veterinary practice, a trading partner, a certification body or a public authority.</td><td><code>/organizations</code></td></tr>
+<tr><td><a href="User.html">User</a></td><td>A.2</td><td>The User entity shall represent an individual person who interacts with the system through an account.</td><td><code>/users</code></td></tr>
+<tr><td><a href="Worker.html">Worker</a></td><td>A.3</td><td>The Worker entity shall represent a person who performs work on the holding, whether or not that person has a system account.</td><td><code>/workers</code></td></tr>
+<tr><td><a href="Address.html">Address</a></td><td>A.4</td><td>The Address entity shall store the physical address of an Organization or a Farm.</td><td><code>/addresses</code></td></tr>
+<tr><td><a href="Role.html">Role</a></td><td>A.5</td><td>The Role entity shall define a named set of permissions for role-based access control.</td><td><code>/roles</code></td></tr>
+<tr><td><a href="AccessAssignment.html">AccessAssignment</a></td><td>A.6</td><td>The AccessAssignment entity shall assign a Role to a User for a specific Farm, and may limit that assignment in time.</td><td><code>/access-assignments</code></td></tr>
+</tbody></table>
+<ul><li class="note">Fine-grained policies that depend on attributes or on the purpose of processing remain in the external identity and access management system (clause 10). Role and AccessAssignment provide the base layer within the model itself and are evaluated in addition to, never in place of, those policies.</li></ul>
+<h3 id="P2">P2 Farm and Sites <span class="muted">(clause 8.2)</span></h3>
+<p>This package contains the central Farm entity, which acts as the primary anchor for all agricultural operations and for the assignment of access rights, together with the built and technical locations of the holding.</p>
+<table><thead><tr><th>Entity</th><th>Annex</th><th>Definition</th><th>API</th></tr></thead><tbody>
+<tr><td><a href="Farm.html">Farm</a></td><td>A.7</td><td>The Farm entity shall represent a single agricultural operation or managed agricultural unit.</td><td><code>/farms</code></td></tr>
+<tr><td><a href="Site.html">Site</a></td><td>A.8</td><td>The Site entity shall represent a built or technical location of the holding, such as a barn, a greenhouse compartment, a storage building, a silo, a farmyard, a biogas plant or a machinery shed.</td><td><code>/sites</code></td></tr>
+</tbody></table>
+<h3 id="P3">P3 Fields and Geospatial Data <span class="muted">(clause 8.3)</span></h3>
+<p>This package defines the geospatial structure of the holding and the physical layout of the land.</p>
+<table><thead><tr><th>Entity</th><th>Annex</th><th>Definition</th><th>API</th></tr></thead><tbody>
+<tr><td><a href="Field.html">Field</a></td><td>A.9</td><td>The Field entity shall represent a single, contiguous parcel of land managed as part of the farm.</td><td><code>/fields</code></td></tr>
+<tr><td><a href="Region.html">Region</a></td><td>A.10</td><td>The Region entity shall represent a specific, geographically defined area within a Field.</td><td><code>/regions</code></td></tr>
+</tbody></table>
+<ul><li class="note">Default region convention: every Field has exactly one Region of the default type, whose geometry corresponds to the field boundary. All references from cultivation and data entities are thereby directed uniformly at Region, without a special case for operations that concern the whole field (rule V05).</li><li class="note">A Region lies within the boundary of exactly one Field and does not span several fields; regions of the same field may overlap. An area of interest that crosses field boundaries is represented as a separate Region in each field concerned.</li><li class="note">In speciality crop production, vine rows, tree rows and beds are represented through Region.typeUri together with parentRegionId. Spatial references within protected cultivation are represented through Site.</li></ul>
+<h3 id="P4">P4 Cropping Planning and Cultivation <span class="muted">(clause 8.4)</span></h3>
+<p>This package separates what is intended from what has occurred. CroppingPlan and CroppingPlanEntry express the intended assignment of crops to regions for a harvest year; CultivationPeriod records the cultivation that actually took place; and Stand represents the multi-year life cycle of a perennial planting.</p>
+<table><thead><tr><th>Entity</th><th>Annex</th><th>Definition</th><th>API</th></tr></thead><tbody>
+<tr><td><a href="CroppingPlan.html">CroppingPlan</a></td><td>A.11</td><td>The CroppingPlan entity shall represent a versioned cropping plan for a harvest year, permitting several alternative plans to be held in parallel.</td><td><code>/cropping-plans</code></td></tr>
+<tr><td><a href="CroppingPlanEntry.html">CroppingPlanEntry</a></td><td>A.12</td><td>The CroppingPlanEntry entity shall represent the crop intended on a given Region.</td><td><code>/cropping-plan-entries</code></td></tr>
+<tr><td><a href="Stand.html">Stand</a></td><td>A.13</td><td>The Stand entity shall represent a perennial planting, such as a vineyard, an orchard, a hop garden or an asparagus planting, whose life cycle extends over several years and is therefore distinct from the seasonal CultivationPeriod.</td><td><code>/stands</code></td></tr>
+<tr><td><a href="CultivationPeriod.html">CultivationPeriod</a></td><td>A.14</td><td>The CultivationPeriod entity shall represent the cultivation of a specific crop, including its cultivar, on a specific Region over a defined period of time.</td><td><code>/cultivation-periods</code></td></tr>
+</tbody></table>
+<ul><li class="note">Crop rotation is not an entity. It is the temporal sequence of CroppingPlanEntry and CultivationPeriod records for a given Region across harvest years (clause 7.4).</li><li class="note">Where cultivation cycles overlap in time on the same region, each cycle is a separate CultivationPeriod. For a perennial planting, a CultivationPeriod represents the annual vegetative cycle of a Stand.</li></ul>
+<h3 id="P5">P5 Work and Operations Management <span class="muted">(clause 8.5)</span></h3>
+<p>This package models the work carried out on the holding. It covers the ordering of work (Task), its documentation (Activity), the resources deployed (ActivityResource) and the working time recorded (TimeRecord). Together these entities constitute the electronic field record.</p>
+<table><thead><tr><th>Entity</th><th>Annex</th><th>Definition</th><th>API</th></tr></thead><tbody>
+<tr><td><a href="Task.html">Task</a></td><td>A.15</td><td>The Task entity shall represent work that is planned or ordered and that has not yet been carried out.</td><td><code>/tasks</code></td></tr>
+<tr><td><a href="Activity.html">Activity</a></td><td>A.16</td><td>The Activity entity shall represent an operation that has been carried out, such as ploughing, sowing, application of a plant protection product or a fertilizer, irrigation, harvesting or work in a building.</td><td><code>/activities</code></td></tr>
+<tr><td><a href="ActivityResource.html">ActivityResource</a></td><td>A.17</td><td>The ActivityResource entity shall record the deployment of a machine or of a person in an operation, resolving the many-to-many relationship between operations and resources.</td><td><code>/activity-resources</code></td></tr>
+<tr><td><a href="TimeRecord.html">TimeRecord</a></td><td>A.18</td><td>The TimeRecord entity shall record working time, including time that is not attributable to a single operation, such as absence or leave.</td><td><code>/time-records</code></td></tr>
+</tbody></table>
+<h3 id="P6">P6 Products and Inventory <span class="muted">(clause 8.6)</span></h3>
+<p>This package covers the master data of all inputs and produce and the movements of stock. It is the anchor for regulatory information attached to products and for traceability from the field to the customer.</p>
+<table><thead><tr><th>Entity</th><th>Annex</th><th>Definition</th><th>API</th></tr></thead><tbody>
+<tr><td><a href="Product.html">Product</a></td><td>A.19</td><td>The Product entity shall represent the master data of an input or of produce.</td><td><code>/products</code></td></tr>
+<tr><td><a href="StorageLocation.html">StorageLocation</a></td><td>A.20</td><td>The StorageLocation entity shall represent a place at which products are held.</td><td><code>/storage-locations</code></td></tr>
+<tr><td><a href="Lot.html">Lot</a></td><td>A.21</td><td>The Lot entity shall represent a quantity of a product treated as a single traceable unit.</td><td><code>/lots</code></td></tr>
+<tr><td><a href="StockMovement.html">StockMovement</a></td><td>A.22</td><td>The StockMovement entity shall record a movement of stock.</td><td><code>/stock-movements</code></td></tr>
+</tbody></table>
+<ul><li class="note">Stock levels are not stored. They are derived from the StockMovement records for a combination of product, lot and storage location (clause 7.5; derived view stock-level).</li></ul>
+<h3 id="P7">P7 Machinery and Equipment <span class="muted">(clause 8.7)</span></h3>
+<p>This package covers machines and implements, including their machine-level identity and their attachment to telemetry.</p>
+<table><thead><tr><th>Entity</th><th>Annex</th><th>Definition</th><th>API</th></tr></thead><tbody>
+<tr><td><a href="Machine.html">Machine</a></td><td>A.23</td><td>The Machine entity shall represent a machine or an implement.</td><td><code>/machines</code></td></tr>
+<tr><td><a href="MaintenanceRecord.html">MaintenanceRecord</a></td><td>A.24</td><td>The MaintenanceRecord entity shall record maintenance, inspection or repair of a machine.</td><td><code>/maintenance-records</code></td></tr>
+</tbody></table>
+<ul><li class="note">Live telemetry, such as position, machine states and diagnostic codes, is not duplicated as an entity. It is attached through Device and Observation, or referenced at an external interface.</li><li class="note">Machinery held in common by several holdings may be represented through a separate Organization and Farm.</li></ul>
+<h3 id="P8">P8 Animal Husbandry <span class="muted">(clause 8.8)</span></h3>
+<p>This package models animal husbandry. Its design is event-oriented: occurrences are recorded through a single generic AnimalEvent entity rather than through a separate entity per type of occurrence, and the event types are aligned with ICAR ADE. Notifications required by an authority are generated from these events as specified in clause 8.11.</p>
+<table><thead><tr><th>Entity</th><th>Annex</th><th>Definition</th><th>API</th></tr></thead><tbody>
+<tr><td><a href="Animal.html">Animal</a></td><td>A.25</td><td>The Animal entity shall represent an individual animal.</td><td><code>/animals</code></td></tr>
+<tr><td><a href="AnimalGroup.html">AnimalGroup</a></td><td>A.26</td><td>The AnimalGroup entity shall represent a herd, a group or the occupancy of a pen as a unit of management.</td><td><code>/animal-groups</code></td></tr>
+<tr><td><a href="AnimalEvent.html">AnimalEvent</a></td><td>A.27</td><td>The AnimalEvent entity shall record an occurrence relating to an individual animal or to a group.</td><td><code>/animal-events</code></td></tr>
+<tr><td><a href="FeedRation.html">FeedRation</a></td><td>A.28</td><td>The FeedRation entity shall represent a planned ration for a group of animals.</td><td><code>/feed-rations</code></td></tr>
+<tr><td><a href="FeedRationComponent.html">FeedRationComponent</a></td><td>A.29</td><td>The FeedRationComponent entity shall represent one component of a ration.</td><td><code>/feed-ration-components</code></td></tr>
+</tbody></table>
+<ul><li class="note">Performance indicators such as lactation yield, calving interval, daily weight gain and replacement rate are derived views over AnimalEvent and Observation records, not entities.</li><li class="note">Sensors carried by animals and equipment such as milking installations are represented through Device and Observation. Feed actually consumed is recorded as InputOutput with an animal or animal group reference, so that plan and outcome can be compared.</li></ul>
+<h3 id="P9">P9 Observations and Data <span class="muted">(clause 8.9)</span></h3>
+<p>This package covers structured individual measurements, the devices that produce them, and the datasets and files associated with the holding. Weather data, soil sensing, animal sensing and machine telemetry are thereby modelled uniformly.</p>
+<table><thead><tr><th>Entity</th><th>Annex</th><th>Definition</th><th>API</th></tr></thead><tbody>
+<tr><td><a href="Device.html">Device</a></td><td>A.30</td><td>The Device entity shall represent a sensor, an item of equipment or a station as a Thing in the sense of [W3C WoT-TD].</td><td><code>/devices</code></td></tr>
+<tr><td><a href="Observation.html">Observation</a></td><td>A.31</td><td>The Observation entity shall record the value of an observed property for a feature of interest at a stated time, in alignment with [ISO 19156] and [OGC SensorThings].</td><td><code>/observations</code></td></tr>
+<tr><td><a href="Data.html">Data</a></td><td>A.32</td><td>The Data entity shall be a container for a dataset or a data stream, such as satellite imagery, laboratory reports, yield maps or imagery from unmanned aircraft.</td><td><code>/data</code></td></tr>
+<tr><td><a href="DataType.html">DataType</a></td><td>A.33</td><td>The DataType entity shall provide an extensible categorization of datasets.</td><td><code>/data-types</code></td></tr>
+<tr><td><a href="File.html">File</a></td><td>A.34</td><td>The File entity shall represent a single digital file belonging to a dataset.</td><td><code>/files</code></td></tr>
+</tbody></table>
+<ul><li class="note">Scaling convention: high-frequency raw time series remain in a dedicated time series backend or an OGC SensorThings service, referenced through Device.sensorThingsUrl or through Data and File. Observation holds consolidated values relevant to decisions or documentation.</li><li class="note">Weather convention: weather data are Observation records whose source identifies the weather service and whose feature of interest is a Field or a Site. There is no weather entity.</li><li class="note">Sampling and scouting convention: a soil sample is a Data record of the corresponding DataType with a Region reference and capturedAt, the laboratory report a File; each analysed parameter is an Observation referencing the Data record, with the time of sampling as phenomenonTime. Scouting is recorded as Observation records whose observedPropertyUri identifies the pest or disease.</li></ul>
+<h3 id="P10">P10 Economics <span class="muted">(clause 8.10)</span></h3>
+<p>This package records the quantities consumed and produced and their monetary valuation, across crop production and animal husbandry alike.</p>
+<table><thead><tr><th>Entity</th><th>Annex</th><th>Definition</th><th>API</th></tr></thead><tbody>
+<tr><td><a href="InputOutput.html">InputOutput</a></td><td>A.35</td><td>The InputOutput entity shall be a generic container quantifying any resource that is consumed or produced.</td><td><code>/input-outputs</code></td></tr>
+<tr><td><a href="Economics.html">Economics</a></td><td>A.36</td><td>The Economics entity shall attach a monetary value to a quantity, a stock movement or the deployment of a resource.</td><td><code>/economics</code></td></tr>
+<tr><td><a href="Budget.html">Budget</a></td><td>A.37</td><td>The Budget entity shall hold planned values for a defined scope and period.</td><td><code>/budgets</code></td></tr>
+</tbody></table>
+<ul><li class="note">The gross margin of a CultivationPeriod or an AnimalGroup is a derived view, not an entity (derived view gross-margin).</li></ul>
+<h3 id="P11">P11 Compliance and Audit <span class="muted">(clause 8.11)</span></h3>
+<p>This package covers formal reporting to authorities and certification bodies, the certification status of the holding, and the record of changes. Reports are generated from the operational data, which remain the single authoritative source.</p>
+<table><thead><tr><th>Entity</th><th>Annex</th><th>Definition</th><th>API</th></tr></thead><tbody>
+<tr><td><a href="RegulatoryReport.html">RegulatoryReport</a></td><td>A.38</td><td>The RegulatoryReport entity shall represent a formal, versioned artefact generated from operational data for submission to an authority or a certification body.</td><td><code>/regulatory-reports</code></td></tr>
+<tr><td><a href="Certification.html">Certification</a></td><td>A.39</td><td>The Certification entity shall record a certification held by the holding.</td><td><code>/certifications</code></td></tr>
+<tr><td><a href="AuditLog.html">AuditLog</a></td><td>A.40</td><td>The AuditLog entity shall record changes to the records of the model.</td><td><code>/audit-logs</code></td></tr>
+</tbody></table>
+<ul><li class="note">The audit log records the history of changes at the level of individual attributes. How a record came into being is recorded separately, through the provenance attributes every entity carries (clause 5.1 l)).</li></ul>
+<h3 id="P12">P12 Data Processing and Decision Support <span class="muted">(clause 8.12)</span></h3>
+<p>This package provides a generic execution framework for all data processing services, from deterministic transformations, aggregations, validations, ingestion runs and report generation through to machine learning inference and analysis supported by language models. The use of artificial intelligence is a property of a service, indicated by the aiBased attribute, and not a precondition. The package is also the provenance anchor of the model: every automatic creation of data shall be executed as a ProcessingJob of a registered ProcessingService.</p>
+<table><thead><tr><th>Entity</th><th>Annex</th><th>Definition</th><th>API</th></tr></thead><tbody>
+<tr><td><a href="ServiceCatalogue.html">ServiceCatalogue</a></td><td>A.41</td><td>The ServiceCatalogue entity shall act as a registry of available processing services, for example one catalogue per provider or per data space.</td><td><code>/service-catalogues</code></td></tr>
+<tr><td><a href="ProcessingService.html">ProcessingService</a></td><td>A.42</td><td>The ProcessingService entity shall describe a service that can be invoked to process data.</td><td><code>/processing-services</code></td></tr>
+<tr><td><a href="ProcessingJob.html">ProcessingJob</a></td><td>A.43</td><td>The ProcessingJob entity shall represent a single run of a service and is the reference point of the provenance model.</td><td><code>/processing-jobs</code></td></tr>
+<tr><td><a href="ProcessingJobInput.html">ProcessingJobInput</a></td><td>A.44</td><td>The ProcessingJobInput entity shall record the data processed by a run.</td><td><code>/processing-job-inputs</code></td></tr>
+<tr><td><a href="Result.html">Result</a></td><td>A.45</td><td>The Result entity shall store the output of a run.</td><td><code>/results</code></td></tr>
+</tbody></table>
+<ul><li class="note">Every automatic creation of data — analysis, transformation, aggregation, validation, ingestion, synchronization or report generation — is executed as a ProcessingJob of a registered ProcessingService, so that any automatically created record can be traced to the run that produced it (clause 7.6).</li><li class="note">The loop of the digital twin: a Result, for example a prescription map, gives rise to a Task through sourceResultId; the Task is carried out as an Activity; its effect returns as Observation and InputOutput records (clause 7.1).</li></ul>
+<h3 id="P13">P13 Sustainability <span class="muted">(clause 8.13)</span></h3>
+<p>This package holds sustainability indicators that are calculated or recorded for a defined scope and period, together with the method used and, where applicable, the body that verified them. It provides the basis for monitoring, reporting and verification of environmental performance and for supplying sustainability information to reporting frameworks.</p>
+<table><thead><tr><th>Entity</th><th>Annex</th><th>Definition</th><th>API</th></tr></thead><tbody>
+<tr><td><a href="SustainabilityIndicator.html">SustainabilityIndicator</a></td><td>A.46</td><td>The SustainabilityIndicator entity shall represent a sustainability indicator.</td><td><code>/sustainability-indicators</code></td></tr>
+</tbody></table>
+<ul><li class="note">The run that calculated an indicator follows from the provenance attributes, and the parameters of that run permit the calculation to be reproduced. The registration and trading of certificates derived from indicators are outside the scope of the model.</li></ul>
+<h3 id="P14">P14 Semantics and Interoperability <span class="muted">(clause 8.14)</span></h3>
+<p>This package links the data model to external vocabularies and code systems. The typeUri pattern and the self-description convention of clause 5.1 apply across all packages; this package specifies the entity that binds canonical concepts to code systems that are not URI-based.</p>
+<table><thead><tr><th>Entity</th><th>Annex</th><th>Definition</th><th>API</th></tr></thead><tbody>
+<tr><td><a href="CodeMapping.html">CodeMapping</a></td><td>A.47</td><td>The CodeMapping entity shall record the correspondence between a canonical concept and a code of an external scheme.</td><td><code>/code-mappings</code></td></tr>
+</tbody></table>
+<ul><li class="note">CodeMapping binds, among others, crops to EPPO codes, plant protection products to authorization numbers, operations and measured quantities to ISO 11783 data dictionary identifiers, animal events to ICAR ADE codes and growth stages to the BBCH scale.</li><li class="note">Because concept URIs carry labels in several languages, the same data can be presented in different languages without altering the stored data.</li></ul>
+<h2>Conventions for every entity</h2>
+<p class="note">Clause 5.1 of the Recommendation. The attributes they introduce are listed with every entity as EntityBase.</p>
+<dl><dt><strong>a) Primary key</strong></dt><dd>Every entity carries an id holding a UUID, which serves as its primary key and permits decentralized creation and conflict-free synchronization.</dd><dt><strong>b) System timestamps</strong></dt><dd>Every entity carries createdAt and updatedAt, set by the system. Concurrent modifications are resolved per attribute on a last-write-wins basis using updatedAt; a conflict affecting documentation that has already been reported is resolved through the correction path, by recording the change in the AuditLog together with a reason.</dd><dt><strong>c) Time</strong></dt><dd>Timestamps are stored in accordance with ISO 8601-1 in coordinated universal time. The time zone used for presentation is given by Farm.timezone.</dd><dt><strong>d) Geometry</strong></dt><dd>Every geometry attribute holds a GeoJSON geometry object (RFC 7946) in WGS 84 and can be served through OGC API - Features.</dd><dt><strong>e) Semantic type identifiers</strong></dt><dd>typeUri and every other attribute whose name ends in Uri hold dereferenceable URIs of canonical vocabularies, AGROVOC being the primary one. Codes of other systems are bound to canonical concepts through CodeMapping.</dd><dt><strong>f) Self-description</strong></dt><dd>Field, Region, Site, Machine, Device, Data, ProcessingService and Result should carry a description holding a W3C WoT Thing Description in JSON-LD. The attribute is optional; where present, its content conforms to WoT-TD.</dd><dt><strong>g) External synchronization</strong></dt><dd>Organization, Farm, Field, Machine, Animal, Product and Device may carry externalId and externalProvider to reference records of external systems persistently.</dd><dt><strong>h) Exclusive references</strong></dt><dd>Where an entity offers alternative references to different parent entities, exactly one of them is set.</dd><dt><strong>i) Retention of operational records</strong></dt><dd>Operational records are withdrawn from use by a terminal status or an endsAt timestamp rather than deleted, and every change is recorded in the append-only AuditLog. Personal data in User and Worker are erased or pseudonymized where the law requires it, while identifiers and operational references are retained.</dd><dt><strong>j) Units and currencies</strong></dt><dd>Attributes named unit should use UCUM codes. Currencies are ISO 4217 codes, countries ISO 3166-1 codes, languages BCP 47 tags.</dd><dt><strong>k) Naming</strong></dt><dd>Entity names in PascalCase, attribute names in camelCase, foreign keys named &lt;entity&gt;Id.</dd><dt><strong>l) Provenance</strong></dt><dd>Every entity carries originType, createdByUserId, createdByJobId and clientId, set by the system and not modified after creation. Where originType is USER, createdByUserId is set; where it is SERVICE, createdByJobId is set.</dd></dl>
+<p class="footnote">AgriFoodData model 1.0.0-draft.3 · machine-readable specification of the Recommendation <em>Data model for digital agriculture and farm management systems</em> (draft, revision 3, proposed to ITU-T Study Group 20, 2026-07-29). In the event of a discrepancy between the Recommendation and this machine-readable specification or the ontology, the text of the Recommendation takes precedence (clause 8). Published under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · <a href="https://github.com/NaLamKI/datamodel">source</a>.</p>

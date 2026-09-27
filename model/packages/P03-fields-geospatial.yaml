@@ -1,0 +1,155 @@
+# P3 — Fields and Geospatial Data (clause 8.3)
+#
+# Attribute descriptions are the wording of Annex A. What clause 8 states
+# in prose — exclusive references, conditional requirements — is under
+# `constraints`; the attributes every entity carries (clause 5.1) are in
+# model/model.yaml and are not repeated here.
+
+package: P3
+title: Fields and Geospatial Data
+clause: "8.3"
+scope: Field boundaries, management zones, spatial reference
+summary: >-
+  This package defines the geospatial structure of the holding and the
+  physical layout of the land.
+
+notes:
+  - >-
+    Default region convention: every Field has exactly one Region of the
+    default type, whose geometry corresponds to the field boundary. All
+    references from cultivation and data entities are thereby directed
+    uniformly at Region, without a special case for operations that concern
+    the whole field (rule V05).
+  - >-
+    A Region lies within the boundary of exactly one Field and does not span
+    several fields; regions of the same field may overlap. An area of interest
+    that crosses field boundaries is represented as a separate Region in each
+    field concerned.
+  - >-
+    In speciality crop production, vine rows, tree rows and beds are
+    represented through Region.typeUri together with parentRegionId. Spatial
+    references within protected cultivation are represented through Site.
+
+entities:
+
+  Field:
+    annex: A.9
+    path: fields
+    definition: >-
+      The Field entity shall represent a single, contiguous parcel of land
+      managed as part of the farm. It is a core geospatial entity.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Name of the field
+        note: >-
+          Unique within farmId (Table 3).
+      farmId:
+        type: UUID
+        required: true
+        references: Farm
+        description: Foreign key to the Farm entity
+      geometry:
+        type: JSON
+        geometry: any
+        description: GeoJSON field boundary
+      area:
+        type: Decimal
+        positive: true
+        description: Area of the field
+      areaUnit:
+        type: String
+        format: ucum
+        default: har
+        description: Unit of the area, by default hectares
+      landUseUri:
+        type: String
+        concept: true
+        description: Type of land use
+      cadastralReference:
+        type: String
+        description: Reference into a land parcel identification system
+      tenure:
+        type: Enum
+        enum: Tenure
+        description: Tenure under which the field is managed
+      description:
+        type: String
+        thingDescription: true
+        description: Thing Description in JSON-LD format
+      code:
+        type: String
+        description: Internal short code
+      state:
+        type: String
+        description: Region or administrative subdivision
+      country:
+        type: String
+        format: country
+        description: Country code conforming to [ISO 3166-1]
+      startsAt:
+        type: DateTime
+        description: Start of the period of management
+      endsAt:
+        type: DateTime
+        description: End of the period of management
+      externalId:
+        type: String
+        description: Identifier in an external system
+      externalProvider:
+        type: String
+        description: Identifier of the external system
+
+  Region:
+    annex: A.10
+    path: regions
+    definition: >-
+      The Region entity shall represent a specific, geographically defined
+      area within a Field. It permits the subdivision of a field into
+      management zones, experimental plots or areas with particular
+      characteristics, and is the primary spatial unit to which cultivation
+      information, observations and data are attached.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Designation of the region
+      geometry:
+        type: JSON
+        required: true
+        geometry: any
+        description: GeoJSON geometry of the region
+        note: >-
+          Should lie within Field.geometry, subject to a defined tolerance
+          (rule V06).
+      fieldId:
+        type: UUID
+        required: true
+        references: Field
+        description: Foreign key to the Field entity
+      typeUri:
+        type: String
+        concept: true
+        description: Type of region, for example default region, management zone or buffer strip
+        note: >-
+          Every Field has exactly one Region of the default type, whose
+          geometry corresponds to the field boundary (clause 8.3, rule V05).
+      parentRegionId:
+        type: UUID
+        references: Region
+        description: Parent region, permitting a hierarchy
+      area:
+        type: Decimal
+        positive: true
+        description: Area of the region
+      description:
+        type: String
+        thingDescription: true
+        description: Thing Description in JSON-LD format
+      startsAt:
+        type: DateTime
+        description: Start of the period of validity
+      endsAt:
+        type: DateTime
+        description: End of the period of validity

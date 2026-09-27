@@ -1,0 +1,148 @@
+# Where the Recommendation, the ontology and this specification part ways —
+# named, so that each difference is fixed where it belongs instead of being
+# papered over in a generator.
+#
+# The Recommendation takes precedence (clause 8). `ontology` lists where the
+# ontology, as pinned under ontology/, differs from it; `recommendation` lists
+# where its own text is inconsistent or leaves room, and which reading this
+# specification takes.
+#
+# tests/test_ontology.py computes the differences of kind `domain` and
+# `multiplicity` itself and demands that this file names exactly those: a new
+# difference fails the checks, and so does one fixed upstream but still
+# listed here. The other kinds are checked where a check is cheap.
+
+ontology:
+
+  # O1–O9, O11 and O12 were fixed in the ontology's version of 2026-09-26:
+  # the domains of organizationId, farmId, description and typeUri, the
+  # multiplicity of roleUris, one binding over the union of the schemes for
+  # observedPropertyUri, datatypes for geometry and Decimal, the Lot comment,
+  # the alignment with PROV-O and DCMI Terms, its context, and an address for
+  # every term. Their identifiers are not reused.
+
+  - id: O10
+    kind: vocabulary
+    finding: >-
+      Clause 7.2 admits domain-specific vocabularies alongside AGROVOC
+      "provided that the concepts they express are mapped to AGROVOC
+      concepts". The ontology maps its schemes crops and pests in part, in
+      the link set links/agrovoc.ttl, where AGROVOC names a concept as the
+      ontology does; the rest of them, and the stages of phenology, carry no
+      mapping. They are values of CultivationPeriod.typeUri,
+      CroppingPlanEntry.cropUri, Stand.cropUri,
+      Observation.observedPropertyUri and Activity.bbchStage.
+    resolution: >-
+      None here; the remaining mappings belong in the ontology, which lists
+      them as a gap of its own.
+
+recommendation:
+
+  - id: R1
+    subject: Machine.description
+    finding: >-
+      Clauses 5.1 f) and 9 list Machine among the entities with a
+      self-description; the table in Annex A.23 has no description attribute.
+    resolution: >-
+      Included, optional, holding a Thing Description, with the source noted
+      on the attribute.
+
+  - id: R2
+    subject: ProcessingService.typeUri
+    finding: >-
+      Clause 8.12 and Annex B require a typeUri where serviceType is CUSTOM;
+      the table in Annex A.42 has no such attribute.
+    resolution: >-
+      Included, optional; its presence where serviceType is CUSTOM is checked
+      as a "should".
+
+  - id: R3
+    subject: Stand.description, Result.description
+    finding: >-
+      Annex A.13 describes Stand.description as a Thing Description, although
+      clause 5.1 f) does not list Stand; Annex A.45 describes
+      Result.description merely as a description, although clause 5.1 f)
+      lists Result.
+    resolution: >-
+      Both are read as Thing Descriptions — the reading that follows from
+      either source.
+
+  - id: R4
+    subject: RegulatoryReport.status
+    finding: >-
+      Table 4 permits REJECTED → GENERATED "where the report is
+      regenerated", while rule V15 makes a report immutable from SUBMITTED
+      onwards and admits corrections only through a new report.
+    resolution: >-
+      The transition is kept as Table 4 lists it; the conflict is for the
+      Recommendation to resolve.
+
+  - id: R5
+    subject: Stock level
+    finding: >-
+      Clauses 7.5 and 8.6 derive stock levels per productId, lotId and
+      storageLocationId, but StockMovement has no storageLocationId — it has
+      fromStorageLocationId and toStorageLocationId.
+    resolution: >-
+      A movement adds to the level at its destination and subtracts from the
+      level at its origin (rules.yaml, derived view stock-level).
+
+  - id: R6
+    subject: Budget.scopeType COST_CATEGORY
+    finding: >-
+      scopeRefId is a UUID "referring to the object identified by scopeType",
+      but a cost category is a concept (costCategoryUri), not a record, and
+      Budget has no attribute to hold it.
+    resolution: >-
+      None; for COST_CATEGORY, scopeRefId has no defined target.
+
+  - id: R7
+    subject: Region.area
+    finding: >-
+      Field carries area and areaUnit, Region only area — its unit is not
+      stated.
+    resolution: None.
+
+  - id: R8
+    subject: Appendix II
+    finding: >-
+      The Thing Description in Appendix II does not conform to WoT TD 1.1: it
+      lacks the mandatory securityDefinitions and security, its property
+      affordances lack forms, `value` is not a member of a property
+      affordance, the prefix td is not defined, and the AGROVOC namespace is
+      given as a JSON-LD context, which it is not.
+    resolution: >-
+      The example of a Field in examples/ carries a Thing Description that
+      does conform.
+
+  - id: R9
+    subject: Appendix III
+    finding: >-
+      Four of the eight AGROVOC identifiers in Appendix III name other
+      concepts: c_5979 is "plant resources" (not ploughing), c_6954
+      "Selenomonas" (not seeding), c_3533 "Hedysarum coronarium" (not
+      harvesting), c_5192 "nitrogen" (not nitrogen fertilizers). Checked
+      against the AGROVOC service on 2026-09-26.
+    resolution: >-
+      The Recommendation should read c_6021 (ploughing), c_7268 (sowing),
+      c_3500 (harvesting) and c_5195 (nitrogen fertilizers). The ontology
+      already uses c_7268 and c_3500 in activity-types.
+
+  - id: R10
+    subject: ISO 3166-1
+    finding: >-
+      Country codes shall conform to ISO 3166-1 (clause 5.1 j)), which
+      defines alpha-2, alpha-3 and numeric codes; the Recommendation does not
+      say which.
+    resolution: >-
+      All three forms are accepted; alpha-2 is recommended in the
+      descriptions.
+
+  - id: R11
+    subject: Lot.supplierOrganizationId
+    finding: >-
+      Rule V13 requires purchased lots to set supplierOrganizationId, but
+      whether a lot was purchased is not recorded in the lot itself.
+    resolution: >-
+      At most one origin of own production is checked on the record;
+      the supplier requirement is left to the interface layer.

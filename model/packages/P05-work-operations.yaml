@@ -1,0 +1,268 @@
+# P5 — Work and Operations Management (clause 8.5)
+#
+# Attribute descriptions are the wording of Annex A. What clause 8 states
+# in prose — exclusive references, conditional requirements — is under
+# `constraints`; the attributes every entity carries (clause 5.1) are in
+# model/model.yaml and are not repeated here.
+
+package: P5
+title: Work and Operations Management
+clause: "8.5"
+scope: Work orders, field record keeping, resource deployment, working time
+summary: >-
+  This package models the work carried out on the holding. It covers the
+  ordering of work (Task), its documentation (Activity), the resources
+  deployed (ActivityResource) and the working time recorded (TimeRecord).
+  Together these entities constitute the electronic field record.
+
+entities:
+
+  Task:
+    annex: A.15
+    path: tasks
+    definition: >-
+      The Task entity shall represent work that is planned or ordered and that
+      has not yet been carried out. It may be addressed from the office to an
+      operator, and it may arise from a recommendation produced by a
+      processing service, thereby closing the digital twin control loop
+      described in clause 7.1.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Designation of the task
+      farmId:
+        type: UUID
+        required: true
+        references: Farm
+        description: Foreign key to the Farm entity
+      status:
+        type: Enum
+        required: true
+        enum: TaskStatus
+        property: taskStatus
+        description: Status of the task
+      typeUri:
+        type: String
+        concept: true
+        description: Type of operation
+      priority:
+        type: Enum
+        enum: TaskPriority
+        description: Priority of the task
+      dueAt:
+        type: DateTime
+        description: Latest time by which the task is to be carried out
+      earliestStartAt:
+        type: DateTime
+        description: Earliest time at which the task may start
+      instructions:
+        type: String
+        description: Instructions for the operator
+      cultivationPeriodId:
+        type: UUID
+        references: CultivationPeriod
+        description: Operational context
+      regionId:
+        type: UUID
+        references: Region
+        description: Operational context
+      siteId:
+        type: UUID
+        references: Site
+        description: Operational context
+      animalGroupId:
+        type: UUID
+        references: AnimalGroup
+        description: Operational context
+      assignedWorkerId:
+        type: UUID
+        references: Worker
+        description: Worker to whom the task is assigned
+      assignedMachineId:
+        type: UUID
+        references: Machine
+        description: Machine assigned to the task
+      sourceResultId:
+        type: UUID
+        references: Result
+        description: Foreign key to the Result from which the task arose
+    constraints:
+      - atLeastOne: [cultivationPeriodId, regionId, siteId, animalGroupId]
+        level: should
+        source: clause 8.5
+
+  Activity:
+    annex: A.16
+    path: activities
+    definition: >-
+      The Activity entity shall represent an operation that has been carried
+      out, such as ploughing, sowing, application of a plant protection
+      product or a fertilizer, irrigation, harvesting or work in a building.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Designation of the activity
+      startsAt:
+        type: DateTime
+        required: true
+        description: Start of the operation
+      endsAt:
+        type: DateTime
+        required: true
+        description: End of the operation
+      typeUri:
+        type: String
+        required: true
+        concept: true
+        description: Concept identifying the type of operation
+      typeLabel:
+        type: String
+        description: Human-readable label for the type of operation
+      status:
+        type: Enum
+        enum: ActivityStatus
+        property: activityStatus
+        description: Status of the operation
+      taskId:
+        type: UUID
+        references: Task
+        description: Foreign key to the Task entity
+      cultivationPeriodId:
+        type: UUID
+        references: CultivationPeriod
+        description: Operational context
+      regionId:
+        type: UUID
+        references: Region
+        description: Operational context
+      siteId:
+        type: UUID
+        references: Site
+        description: Operational context
+      animalGroupId:
+        type: UUID
+        references: AnimalGroup
+        description: Operational context
+      geometry:
+        type: JSON
+        geometry: any
+        description: GeoJSON representation of the extent actually treated
+        note: >-
+          Should lie within the geometry of the spatial unit referenced (rule
+          V06).
+      bbchStage:
+        type: String
+        description: Growth stage of the crop at the time of the operation
+        note: >-
+          Should be set for the application of a plant protection product
+          (rule V09).
+      conditions:
+        type: JSON
+        json: object
+        description: Conditions of application, for example wind speed, temperature and soil condition
+      isobusTaskRef:
+        type: String
+        description: Reference to task data conforming to [ISO 11783-10]
+      description:
+        type: String
+        description: Remarks
+    constraints:
+      - atLeastOne: [cultivationPeriodId, regionId, siteId, animalGroupId]
+        source: clause 8.5
+
+  ActivityResource:
+    annex: A.17
+    path: activity-resources
+    definition: >-
+      The ActivityResource entity shall record the deployment of a machine or
+      of a person in an operation, resolving the many-to-many relationship
+      between operations and resources. It is the basis for the attribution of
+      machine costs and labour costs.
+    attributes:
+      activityId:
+        type: UUID
+        required: true
+        references: Activity
+        description: Foreign key to the Activity entity
+      resourceType:
+        type: Enum
+        required: true
+        enum: ResourceType
+        description: Kind of resource deployed
+      machineId:
+        type: UUID
+        references: Machine
+        description: Foreign key to the Machine entity
+      workerId:
+        type: UUID
+        references: Worker
+        description: Foreign key to the Worker entity
+      role:
+        type: String
+        description: Role of the resource, for example operator, tractor or implement
+      startsAt:
+        type: DateTime
+        description: Start of the deployment
+      endsAt:
+        type: DateTime
+        description: End of the deployment
+      usageAmount:
+        type: Decimal
+        description: Quantity of use, for example operating hours, distance or area worked
+      usageUnit:
+        type: String
+        format: ucum
+        description: Unit of the quantity of use
+    constraints:
+      - exactlyOne: [machineId, workerId]
+        rule: V03
+      - requiredWhen:
+          attribute: machineId
+          when: {resourceType: [MACHINE]}
+        source: clause 8.5
+      - requiredWhen:
+          attribute: workerId
+          when: {resourceType: [WORKER]}
+        source: clause 8.5
+
+  TimeRecord:
+    annex: A.18
+    path: time-records
+    definition: >-
+      The TimeRecord entity shall record working time, including time that is
+      not attributable to a single operation, such as absence or leave.
+    attributes:
+      workerId:
+        type: UUID
+        required: true
+        references: Worker
+        description: Foreign key to the Worker entity
+      farmId:
+        type: UUID
+        required: true
+        references: Farm
+        description: Foreign key to the Farm entity
+      startsAt:
+        type: DateTime
+        required: true
+        description: Start of the recorded period
+      endsAt:
+        type: DateTime
+        required: true
+        description: End of the recorded period
+      breakMinutes:
+        type: Integer
+        description: Break time in minutes
+      activityId:
+        type: UUID
+        references: Activity
+        description: Foreign key to the Activity entity, where the time is attributable
+      recordType:
+        type: Enum
+        enum: TimeRecordType
+        description: Kind of time recorded
+      notes:
+        type: String
+        description: Remarks

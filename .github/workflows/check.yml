@@ -1,0 +1,47 @@
+# Checks the repository on its own — without network access, on every pull
+# request and every push. A push to main is checked by pages.yml, which calls
+# this workflow and deploys only when it passes.
+name: Check
+
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      # The ontology is a submodule; the model is checked against it.
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Check the model
+        run: python3 -m pytest -q --ignore=tests/test_docs.py
+
+      # The real guard. docs/ is generated in full; editing it by hand or
+      # forgetting to rebuild shows up here — as a changed file, or as a new
+      # one nobody committed.
+      - name: docs/ is reproducible
+        run: |
+          python3 tool/build.py
+          git diff --exit-code --stat docs/ \
+            || { echo "::error::docs/ does not match model/ – run 'python3 tool/build.py' and commit."; exit 1; }
+          untracked=$(git status --porcelain --untracked-files=all docs/)
+          test -z "$untracked" \
+            || { echo "::error::docs/ has files that are not committed:"; echo "$untracked"; exit 1; }
+
+      # Once more after building: the checks of the published output then
+      # see the freshly generated state, not only what was committed.
+      - name: Check the published output
+        run: python3 -m pytest -q tests/test_docs.py

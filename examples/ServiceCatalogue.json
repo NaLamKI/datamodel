@@ -1,0 +1,11 @@
+[
+  {
+    "id": "8174d017-4355-519c-bf58-599804e0f0af",
+    "name": "Beispiel Analytics services",
+    "version": "2026.1",
+    "createdAt": "2025-01-15T08:00:00Z",
+    "updatedAt": "2025-01-15T08:00:00Z",
+    "originType": "SYSTEM",
+    "clientId": "onboarding"
+  }
+]

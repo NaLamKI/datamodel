@@ -1,0 +1,163 @@
+# P11 — Compliance and Audit (clause 8.11)
+#
+# Attribute descriptions are the wording of Annex A. What clause 8 states
+# in prose — exclusive references, conditional requirements — is under
+# `constraints`; the attributes every entity carries (clause 5.1) are in
+# model/model.yaml and are not repeated here.
+
+package: P11
+title: Compliance and Audit
+clause: "8.11"
+scope: Regulatory reporting, certification, change history
+summary: >-
+  This package covers formal reporting to authorities and certification
+  bodies, the certification status of the holding, and the record of changes.
+  Reports are generated from the operational data, which remain the single
+  authoritative source.
+
+notes:
+  - >-
+    The audit log records the history of changes at the level of individual
+    attributes. How a record came into being is recorded separately, through
+    the provenance attributes every entity carries (clause 5.1 l)).
+
+entities:
+
+  RegulatoryReport:
+    annex: A.38
+    path: regulatory-reports
+    definition: >-
+      The RegulatoryReport entity shall represent a formal, versioned artefact
+      generated from operational data for submission to an authority or a
+      certification body.
+    attributes:
+      farmId:
+        type: UUID
+        required: true
+        references: Farm
+        description: Foreign key to the Farm entity
+      reportTypeUri:
+        type: String
+        required: true
+        concept: true
+        description: Concept identifying the type of report
+      status:
+        type: Enum
+        required: true
+        enum: RegulatoryReportStatus
+        property: regulatoryReportStatus
+        description: Status of the report
+      periodStart:
+        type: Date
+        description: Start of the reporting period
+      periodEnd:
+        type: Date
+        description: End of the reporting period
+      format:
+        type: String
+        description: Format of the generated artefact
+      payloadFileId:
+        type: UUID
+        references: File
+        description: Foreign key to the File entity holding the generated artefact
+      submittedAt:
+        type: DateTime
+        description: Time of submission
+      authority:
+        type: String
+        description: Receiving body
+      submissionRef:
+        type: String
+        description: Reference assigned by the receiving body
+      supersedesReportId:
+        type: UUID
+        references: RegulatoryReport
+        description: Earlier report corrected or replaced by this report
+
+  Certification:
+    annex: A.39
+    path: certifications
+    definition: >-
+      The Certification entity shall record a certification held by the
+      holding.
+    attributes:
+      farmId:
+        type: UUID
+        required: true
+        references: Farm
+        description: Foreign key to the Farm entity
+      scheme:
+        type: String
+        required: true
+        description: Certification scheme
+      validFrom:
+        type: Date
+        required: true
+        property: certificationValidFrom
+        description: Start of validity
+      validTo:
+        type: Date
+        required: true
+        description: End of validity
+      certificateNumber:
+        type: String
+        description: Certificate number
+      scopeDescription:
+        type: String
+        description: Scope of the certification
+      certificateFileId:
+        type: UUID
+        references: File
+        description: Foreign key to the File entity holding the certificate
+      issuingBody:
+        type: String
+        description: Body that issued the certificate
+
+  AuditLog:
+    annex: A.40
+    path: audit-logs
+    # Written by the system on every change and persisted append-only; the
+    # interface offers it for reading only.
+    systemManaged: true
+    definition: >-
+      The AuditLog entity shall record changes to the records of the model.
+      The audit log shall be persisted in an append-only manner and should be
+      exportable in accordance with W3C PROV-O.
+    attributes:
+      entityType:
+        type: String
+        required: true
+        entityName: true
+        description: Type of the entity concerned
+      entityId:
+        type: UUID
+        required: true
+        referencesBy:
+          attribute: entityType
+        description: Identifier of the record concerned
+      action:
+        type: Enum
+        required: true
+        enum: AuditAction
+        description: Kind of change
+      changedAt:
+        type: DateTime
+        required: true
+        description: Time of the change
+      changedByUserId:
+        type: UUID
+        references: User
+        description: User who made the change
+      changedByJobId:
+        type: UUID
+        references: ProcessingJob
+        description: Processing run that made the change
+      changeSet:
+        type: JSON
+        json: change-set
+        description: Values before and after the change
+      reason:
+        type: String
+        description: Reason for the change
+        note: >-
+          Shall be given for subsequent corrections (clause 8.11).

@@ -1,0 +1,25 @@
+:root { color-scheme: light dark; --rule: #d8d8d2; --muted: #6b6b66; }
+body { font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+       max-width: 68rem; margin: 0 auto; padding: 1.2rem 1rem 5rem; }
+nav { font-size: .88rem; color: var(--muted); margin-bottom: 1.6rem; }
+h1 { font-size: 1.6rem; margin-bottom: .2rem; }
+h2 { font-size: 1.15rem; margin-top: 2.4rem; }
+h3 { font-size: 1rem; margin-top: 1.8rem; }
+.sub { color: var(--muted); margin-top: 0; }
+table { border-collapse: collapse; width: 100%; margin: 1.4rem 0; }
+th, td { text-align: left; padding: .45rem .6rem;
+         border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { position: sticky; top: 0; background: Canvas; }
+code { font-size: .92em; overflow-wrap: anywhere; }
+pre { overflow-x: auto; padding: .8rem 1rem; border: 1px solid var(--rule);
+      border-radius: 6px; font-size: .86rem; line-height: 1.45; }
+pre code { overflow-wrap: normal; }
+blockquote { margin: 1.2rem 0; padding: .1rem 1rem; border-left: 3px solid var(--rule);
+             color: var(--muted); }
+.code { white-space: nowrap; }
+.muted { color: var(--muted); }
+.note { color: var(--muted); font-size: .92rem; }
+.footnote { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--rule);
+            color: var(--muted); font-size: .9rem; }
+a { color: inherit; }
+@media (max-width: 40rem) { table { font-size: .9rem; } }

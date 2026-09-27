@@ -1,0 +1,21 @@
+[
+  {
+    "id": "926aeddd-4e9f-5e7f-bc59-d3cf57cd3b43",
+    "speciesUri": "http://aims.fao.org/aos/agrovoc/c_1391",
+    "status": "ACTIVE",
+    "officialId": "DE0000000001",
+    "name": "Berta",
+    "sex": "FEMALE",
+    "birthDate": "2021-02-14",
+    "currentGroupId": "5f051cbe-f417-59be-9e47-51c170536253",
+    "currentSiteId": "1fddf33e-1e3d-54c1-ad82-0bb7f41fe2b2",
+    "enteredAt": "2021-02-14",
+    "externalId": "DE0000000001",
+    "externalProvider": "HIT",
+    "createdAt": "2025-01-17T10:00:00Z",
+    "updatedAt": "2025-01-17T10:00:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  }
+]

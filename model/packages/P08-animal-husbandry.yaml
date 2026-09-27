@@ -1,0 +1,289 @@
+# P8 — Animal Husbandry (clause 8.8)
+#
+# Attribute descriptions are the wording of Annex A. What clause 8 states
+# in prose — exclusive references, conditional requirements — is under
+# `constraints`; the attributes every entity carries (clause 5.1) are in
+# model/model.yaml and are not repeated here.
+
+package: P8
+title: Animal Husbandry
+clause: "8.8"
+scope: Herd and animal management, animal events, feeding
+summary: >-
+  This package models animal husbandry. Its design is event-oriented:
+  occurrences are recorded through a single generic AnimalEvent entity rather
+  than through a separate entity per type of occurrence, and the event types
+  are aligned with ICAR ADE. Notifications required by an authority are
+  generated from these events as specified in clause 8.11.
+
+notes:
+  - >-
+    Performance indicators such as lactation yield, calving interval, daily
+    weight gain and replacement rate are derived views over AnimalEvent and
+    Observation records, not entities.
+  - >-
+    Sensors carried by animals and equipment such as milking installations are
+    represented through Device and Observation. Feed actually consumed is
+    recorded as InputOutput with an animal or animal group reference, so that
+    plan and outcome can be compared.
+
+entities:
+
+  Animal:
+    annex: A.25
+    path: animals
+    definition: >-
+      The Animal entity shall represent an individual animal.
+    attributes:
+      speciesUri:
+        type: String
+        required: true
+        concept: true
+        description: Concept identifying the species
+      status:
+        type: Enum
+        required: true
+        enum: AnimalStatus
+        property: animalStatus
+        description: Status of the animal
+      officialId:
+        type: String
+        description: Official identification
+        note: >-
+          Shall be set where the species is subject to official identification
+          (clause 8.8).
+      name:
+        type: String
+        description: Name of the animal
+      breedUri:
+        type: String
+        concept: true
+        description: Concept identifying the breed
+      sex:
+        type: Enum
+        enum: AnimalSex
+        description: Sex of the animal
+      birthDate:
+        type: Date
+        description: Date of birth
+      motherAnimalId:
+        type: UUID
+        references: Animal
+        description: Dam of the animal
+      fatherAnimalId:
+        type: UUID
+        references: Animal
+        description: Sire of the animal
+      currentGroupId:
+        type: UUID
+        references: AnimalGroup
+        description: Current animal group; the history is available through AnimalEvent
+        note: >-
+          A denormalized value (clause 8.8).
+      currentSiteId:
+        type: UUID
+        references: Site
+        description: Current site
+      enteredAt:
+        type: Date
+        description: Date of entry to the holding
+      leftAt:
+        type: Date
+        description: Date of departure from the holding
+      externalId:
+        type: String
+        description: Identifier in an external system
+      externalProvider:
+        type: String
+        description: Identifier of the external system
+
+  AnimalGroup:
+    annex: A.26
+    path: animal-groups
+    definition: >-
+      The AnimalGroup entity shall represent a herd, a group or the occupancy
+      of a pen as a unit of management. In poultry and pig production it is
+      frequently the only level at which animals are managed, individual
+      animals not being recorded.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Designation of the group
+      farmId:
+        type: UUID
+        required: true
+        references: Farm
+        description: Foreign key to the Farm entity
+      siteId:
+        type: UUID
+        references: Site
+        description: Site at which the group is housed or grazed
+      purposeUri:
+        type: String
+        concept: true
+        description: Production purpose, for example dairy, fattening, rearing or laying
+      speciesUri:
+        type: String
+        concept: true
+        description: Concept identifying the species
+      headCount:
+        type: Integer
+        positive: true
+        description: Number of animals, for groups managed without individual records
+      startsAt:
+        type: DateTime
+        description: Start of the period of occupancy
+      endsAt:
+        type: DateTime
+        description: End of the period of occupancy
+
+  AnimalEvent:
+    annex: A.27
+    path: animal-events
+    definition: >-
+      The AnimalEvent entity shall record an occurrence relating to an
+      individual animal or to a group. The type of occurrence is given by
+      eventTypeUri and may denote, among others, birth, insemination,
+      pregnancy diagnosis, parturition, drying off, weighing, milk recording,
+      vaccination, treatment, diagnosis, hoof care, relocation, entry,
+      departure or death.
+    attributes:
+      eventTypeUri:
+        type: String
+        required: true
+        concept: true
+        description: Concept identifying the type of event, aligned with [ICAR ADE]
+      occurredAt:
+        type: DateTime
+        required: true
+        description: Time at which the event occurred
+      animalId:
+        type: UUID
+        references: Animal
+        description: Individual animal concerned
+      animalGroupId:
+        type: UUID
+        references: AnimalGroup
+        description: Group concerned
+      value:
+        type: Decimal
+        description: Measured quantity, for example a weight or a milk yield
+      valueUnit:
+        type: String
+        format: ucum
+        description: Unit of the measured quantity
+      diagnosisUri:
+        type: String
+        concept: true
+        description: Concept identifying a diagnosis
+      productId:
+        type: UUID
+        references: Product
+        description: Medicinal product or vaccine administered
+      lotId:
+        type: UUID
+        references: Lot
+        description: Lot of the product used
+        note: >-
+          Required for the traceability of medicinal products and of semen
+          (clause 8.8).
+      dosage:
+        type: Decimal
+        positive: true
+        description: Dose administered
+      dosageUnit:
+        type: String
+        format: ucum
+        description: Unit of the dose
+      relatedAnimalId:
+        type: UUID
+        references: Animal
+        description: Related animal, for example the sire, the offspring or the dam
+      withdrawalUntilMilk:
+        type: Date
+        description: End of the withdrawal period for milk
+        note: >-
+          Calculated and stored where a treatment references a product with
+          withdrawalPeriodDays (rule V11).
+      withdrawalUntilMeat:
+        type: Date
+        description: End of the withdrawal period for meat
+        note: >-
+          Calculated and stored where a treatment references a product with
+          withdrawalPeriodDays (rule V11).
+      performedByWorkerId:
+        type: UUID
+        references: Worker
+        description: Person who performed the event
+      vetOrganizationId:
+        type: UUID
+        references: Organization
+        description: Veterinary practice involved
+      activityId:
+        type: UUID
+        references: Activity
+        description: Related operation
+      notes:
+        type: String
+        description: Remarks
+    constraints:
+      - exactlyOne: [animalId, animalGroupId]
+        rule: V03
+
+  FeedRation:
+    annex: A.28
+    path: feed-rations
+    definition: >-
+      The FeedRation entity shall represent a planned ration for a group of
+      animals.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Name of the ration
+      animalGroupId:
+        type: UUID
+        required: true
+        references: AnimalGroup
+        description: Foreign key to the AnimalGroup entity
+      validFrom:
+        type: Date
+        required: true
+        property: feedRationValidFrom
+        description: Start of the period of validity
+      validTo:
+        type: Date
+        description: End of the period of validity
+      notes:
+        type: String
+        description: Remarks
+
+  FeedRationComponent:
+    annex: A.29
+    path: feed-ration-components
+    definition: >-
+      The FeedRationComponent entity shall represent one component of a
+      ration.
+    attributes:
+      rationId:
+        type: UUID
+        required: true
+        references: FeedRation
+        description: Foreign key to the FeedRation entity
+      productId:
+        type: UUID
+        required: true
+        references: Product
+        description: Foreign key to the Product entity of category FEED
+        note: >-
+          Refers to a product of category FEED (clause 8.8).
+      amountPerAnimalPerDay:
+        type: Decimal
+        required: true
+        description: Quantity per animal and day
+      unit:
+        type: String
+        required: true
+        format: ucum
+        description: Unit of the quantity, expressed as a [UCUM] code

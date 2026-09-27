@@ -1,0 +1,26 @@
+[
+  {
+    "id": "7ab8b7b5-c485-5225-bc7b-1e33dfdbba5e",
+    "conceptUri": "https://w3id.org/agrifooddata/crops#TRZAW",
+    "externalScheme": "EPPO",
+    "externalCode": "TRZAW",
+    "label": "Winterweichweizen",
+    "isPreferred": true,
+    "createdAt": "2025-01-15T08:00:00Z",
+    "updatedAt": "2025-01-15T08:00:00Z",
+    "originType": "SYSTEM",
+    "clientId": "onboarding"
+  },
+  {
+    "id": "6962d477-0cfa-57a2-a3d8-00eb801e8c4e",
+    "conceptUri": "http://aims.fao.org/aos/agrovoc/c_24050",
+    "externalScheme": "ICAR",
+    "externalCode": "MREC",
+    "label": "Milk recording",
+    "isPreferred": true,
+    "createdAt": "2025-01-15T08:00:00Z",
+    "updatedAt": "2025-01-15T08:00:00Z",
+    "originType": "SYSTEM",
+    "clientId": "onboarding"
+  }
+]

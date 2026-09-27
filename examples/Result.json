@@ -1,0 +1,18 @@
+[
+  {
+    "id": "f8ad7ac2-87e0-5bf4-9362-86808c3a8753",
+    "jobId": "13be3cac-b988-5188-b9dc-54567a54a9c5",
+    "resultsData": {
+      "riskIndex": 0.78,
+      "recommendation": "fungicide application within 72 h",
+      "regionId": "fe3bffb7-a21b-5ba6-8ab9-7c699f76b59d"
+    },
+    "validFrom": "2026-05-10T04:02:00Z",
+    "validUntil": "2026-05-17T04:02:00Z",
+    "createdAt": "2026-05-10T04:02:00Z",
+    "updatedAt": "2026-05-10T04:02:00Z",
+    "originType": "SERVICE",
+    "createdByJobId": "13be3cac-b988-5188-b9dc-54567a54a9c5",
+    "clientId": "septoria-service"
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "7511ba84-72fb-5ebc-b4a2-a75a6dafe0d2",
+    "name": "Lindenhof Agrar GbR",
+    "legalForm": "GbR",
+    "roleUris": ["http://aims.fao.org/aos/agrovoc/c_2805"],
+    "addressId": "f76c808f-9e3a-5cc6-9757-bccb81e980cd",
+    "createdAt": "2025-01-15T08:00:00Z",
+    "updatedAt": "2025-01-15T08:00:00Z",
+    "originType": "SYSTEM",
+    "clientId": "onboarding"
+  },
+  {
+    "id": "9c570762-7d27-5e0b-9033-0a4bae177512",
+    "name": "Agrarhandel Nord eG",
+    "legalForm": "eG",
+    "roleUris": ["http://aims.fao.org/aos/agrovoc/c_8385"],
+    "createdAt": "2025-02-03T09:12:00Z",
+    "updatedAt": "2025-02-03T09:12:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  },
+  {
+    "id": "b84690fe-3200-5fb7-8476-b277270bcc8c",
+    "name": "Tierarztpraxis am Deich",
+    "roleUris": ["http://aims.fao.org/aos/agrovoc/c_8203"],
+    "createdAt": "2025-02-03T09:20:00Z",
+    "updatedAt": "2025-02-03T09:20:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  },
+  {
+    "id": "34f0d074-defb-5b88-8937-fb22cd84d44a",
+    "name": "Beispiel Analytics GmbH",
+    "legalForm": "GmbH",
+    "createdAt": "2025-01-15T08:00:00Z",
+    "updatedAt": "2025-01-15T08:00:00Z",
+    "originType": "SYSTEM",
+    "clientId": "onboarding"
+  },
+  {
+    "id": "3aa36e17-0cd2-5399-890d-4e6ffc299e45",
+    "name": "Landtechnik Service Mitte",
+    "createdAt": "2025-02-03T09:25:00Z",
+    "updatedAt": "2025-02-03T09:25:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  }
+]

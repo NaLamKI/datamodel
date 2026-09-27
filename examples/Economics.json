@@ -1,0 +1,42 @@
+[
+  {
+    "id": "d101bf55-e16b-54ba-9aa7-7cc85c3853d8",
+    "value": 330.4,
+    "unit": "EUR",
+    "valueType": "ACTUAL",
+    "inputOutputId": "16379bad-9958-5c9a-bb73-a76dc395daa3",
+    "date": "2026-05-12T00:00:00Z",
+    "costCategoryUri": "http://aims.fao.org/aos/agrovoc/c_6202",
+    "createdAt": "2026-05-12T06:16:00Z",
+    "updatedAt": "2026-05-12T06:16:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  },
+  {
+    "id": "4c47c229-9921-52fa-a95c-0275ff2ff2bd",
+    "value": 22567.5,
+    "unit": "EUR",
+    "valueType": "ACTUAL",
+    "stockMovementId": "3648618d-b0d5-5ff5-a42e-36d913d0b0eb",
+    "date": "2026-09-10T00:00:00Z",
+    "counterpartyOrganizationId": "9c570762-7d27-5e0b-9033-0a4bae177512",
+    "createdAt": "2026-09-10T08:12:00Z",
+    "updatedAt": "2026-09-10T08:12:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  },
+  {
+    "id": "240a6d5e-318b-5a32-a237-705f6b6824a0",
+    "value": 98.6,
+    "unit": "EUR",
+    "valueType": "ESTIMATION",
+    "activityResourceId": "41e82371-ccd0-5708-ba51-73a817187759",
+    "createdAt": "2026-05-12T06:16:00Z",
+    "updatedAt": "2026-05-12T06:16:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  }
+]

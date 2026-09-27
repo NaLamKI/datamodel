@@ -1,0 +1,28 @@
+[
+  {
+    "id": "18f771e5-a877-5260-9bf3-1ff540eaa300",
+    "name": "Getreidelager Halle 2",
+    "farmId": "997142c3-14cf-5cb4-b260-048af4b57a76",
+    "siteId": "f4613765-823e-5e2a-8a76-983e8f547df2",
+    "storageTypeUri": "http://aims.fao.org/aos/agrovoc/c_7434",
+    "capacity": 800,
+    "capacityUnit": "t",
+    "createdAt": "2025-01-16T08:20:00Z",
+    "updatedAt": "2025-01-16T08:20:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  },
+  {
+    "id": "9016f5a5-80b7-5169-906d-c3891d4daee2",
+    "name": "PSM-Schrank",
+    "farmId": "997142c3-14cf-5cb4-b260-048af4b57a76",
+    "siteId": "b5a71bd4-c4f9-56c8-8112-837415d2e8f3",
+    "storageTypeUri": "https://w3id.org/agrifooddata/site-types#ppp-cabinet",
+    "createdAt": "2025-01-16T08:22:00Z",
+    "updatedAt": "2025-01-16T08:22:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  }
+]

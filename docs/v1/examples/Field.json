@@ -1,0 +1,61 @@
+[
+  {
+    "id": "7adcec09-66ff-5ccf-8ef7-e75408287d38",
+    "name": "Nordschlag",
+    "farmId": "997142c3-14cf-5cb4-b260-048af4b57a76",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [13.4032, 52.5188],
+          [13.4091, 52.5188],
+          [13.4091, 52.5214],
+          [13.4032, 52.5214],
+          [13.4032, 52.5188]
+        ]
+      ]
+    },
+    "area": 11.8,
+    "areaUnit": "har",
+    "landUseUri": "http://aims.fao.org/aos/agrovoc/c_18948",
+    "cadastralReference": "Gemarkung Musterhausen, Flur 3, Flurstück 112",
+    "tenure": "OWNED",
+    "description": "{\"@context\":\"https://www.w3.org/2022/wot/td/v1.1\",\"title\":\"Nordschlag\",\"description\":\"Arable field of the Lindenhof farm\",\"securityDefinitions\":{\"oauth2_sc\":{\"scheme\":\"oauth2\",\"flow\":\"code\"}},\"security\":[\"oauth2_sc\"],\"properties\":{\"area\":{\"type\":\"number\",\"unit\":\"har\",\"readOnly\":true,\"forms\":[{\"href\":\"https://fmis.example.org/v1/fields/7adcec09-66ff-5ccf-8ef7-e75408287d38\",\"contentType\":\"application/json\"}]}},\"links\":[{\"rel\":\"collection\",\"href\":\"https://fmis.example.org/v1/regions?fieldId=7adcec09-66ff-5ccf-8ef7-e75408287d38\",\"type\":\"application/json\"}]}",
+    "code": "NS",
+    "state": "Brandenburg",
+    "country": "DE",
+    "startsAt": "2010-01-01T00:00:00Z",
+    "createdAt": "2025-01-16T09:00:00Z",
+    "updatedAt": "2025-01-16T09:00:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  },
+  {
+    "id": "a5f16773-cbbc-5568-8ce3-12de60b3f917",
+    "name": "Obstwiese am Hof",
+    "farmId": "997142c3-14cf-5cb4-b260-048af4b57a76",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [13.3978, 52.5166],
+          [13.3996, 52.5166],
+          [13.3996, 52.5176],
+          [13.3978, 52.5176],
+          [13.3978, 52.5166]
+        ]
+      ]
+    },
+    "area": 1.2,
+    "areaUnit": "har",
+    "landUseUri": "http://aims.fao.org/aos/agrovoc/c_5379",
+    "tenure": "LEASED",
+    "country": "DE",
+    "createdAt": "2025-01-16T09:05:00Z",
+    "updatedAt": "2025-01-16T09:05:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  }
+]

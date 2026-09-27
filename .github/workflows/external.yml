@@ -1,0 +1,50 @@
+# Checks against the outside world.
+#
+# Explicitly not on a pull request: an outage of the ontology's site or of
+# GitHub Pages should raise a flag, not block a contribution.
+name: External
+
+on:
+  schedule:
+    - cron: '41 4 * * 1'     # Mondays, early
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ontology:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Has the ontology published changes since the pinned commit?
+        run: |
+          git -C ontology fetch --quiet origin main
+          if ! git -C ontology diff --quiet HEAD FETCH_HEAD -- docs/; then
+            git -C ontology diff --stat HEAD FETCH_HEAD -- docs/ | tail -20
+            echo "::warning::The ontology has changed – run 'git submodule update --remote ontology' and 'python3 -m pytest', then commit the new pointer."
+            exit 1
+          fi
+
+  site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Does Pages serve the right media types?
+        run: |
+          set -u
+          failed=0
+          for pair in "v1/context.jsonld application/ld+json" \
+                      "v1/shapes.ttl text/turtle" \
+                      "v1/openapi.json application/json" \
+                      "v1/schema/Task.json application/json"; do
+            set -- $pair
+            type=$(curl -sI "https://datamodel.agrifooddata.org/$1" \
+                   | tr -d '\r' | awk -F': ' 'tolower($1)=="content-type"{print $2}')
+            case "$type" in
+              "$2"*) echo "ok    $1 -> $type" ;;
+              *)     echo "::error::$1 arrives as '$type', expected $2"; failed=1 ;;
+            esac
+          done
+          exit $failed

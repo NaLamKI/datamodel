@@ -1,0 +1,86 @@
+# P13 — Sustainability (clause 8.13)
+#
+# Attribute descriptions are the wording of Annex A. What clause 8 states
+# in prose — exclusive references, conditional requirements — is under
+# `constraints`; the attributes every entity carries (clause 5.1) are in
+# model/model.yaml and are not repeated here.
+
+package: P13
+title: Sustainability
+clause: "8.13"
+scope: Environmental and sustainability indicators, monitoring, reporting and verification
+summary: >-
+  This package holds sustainability indicators that are calculated or recorded
+  for a defined scope and period, together with the method used and, where
+  applicable, the body that verified them. It provides the basis for
+  monitoring, reporting and verification of environmental performance and for
+  supplying sustainability information to reporting frameworks.
+
+notes:
+  - >-
+    The run that calculated an indicator follows from the provenance
+    attributes, and the parameters of that run permit the calculation to be
+    reproduced. The registration and trading of certificates derived from
+    indicators are outside the scope of the model.
+
+entities:
+
+  SustainabilityIndicator:
+    annex: A.46
+    path: sustainability-indicators
+    definition: >-
+      The SustainabilityIndicator entity shall represent a sustainability
+      indicator.
+    attributes:
+      indicatorUri:
+        type: String
+        required: true
+        concept: true
+        description: Concept identifying the indicator
+      scopeType:
+        type: Enum
+        required: true
+        enum: SustainabilityScopeType
+        property: sustainabilityIndicatorScopeType
+        description: Kind of object the indicator applies to
+      scopeRefId:
+        type: UUID
+        required: true
+        referencesBy:
+          attribute: scopeType
+          targets:
+            FARM: Farm
+            FIELD: Field
+            REGION: Region
+            CULTIVATION_PERIOD: CultivationPeriod
+            ANIMAL_GROUP: AnimalGroup
+            PRODUCT_LOT: Lot
+        description: Reference to the object identified by scopeType
+      periodStart:
+        type: Date
+        required: true
+        description: Start of the reference period
+      periodEnd:
+        type: Date
+        required: true
+        description: End of the reference period
+      value:
+        type: Decimal
+        required: true
+        description: Value of the indicator
+      unit:
+        type: String
+        required: true
+        format: ucum
+        description: Unit of the value, expressed as a [UCUM] code
+      methodUri:
+        type: String
+        concept: true
+        description: Concept identifying the calculation method applied
+      verifiedByOrganizationId:
+        type: UUID
+        references: Organization
+        description: Organization that verified the indicator
+      notes:
+        type: String
+        description: Remarks

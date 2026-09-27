@@ -1,0 +1,62 @@
+# P14 — Semantics and Interoperability (clause 8.14)
+#
+# Attribute descriptions are the wording of Annex A. What clause 8 states
+# in prose — exclusive references, conditional requirements — is under
+# `constraints`; the attributes every entity carries (clause 5.1) are in
+# model/model.yaml and are not repeated here.
+
+package: P14
+title: Semantics and Interoperability
+clause: "8.14"
+scope: Binding of canonical concepts to external code systems
+summary: >-
+  This package links the data model to external vocabularies and code systems.
+  The typeUri pattern and the self-description convention of clause 5.1 apply
+  across all packages; this package specifies the entity that binds canonical
+  concepts to code systems that are not URI-based.
+
+notes:
+  - >-
+    CodeMapping binds, among others, crops to EPPO codes, plant protection
+    products to authorization numbers, operations and measured quantities to
+    ISO 11783 data dictionary identifiers, animal events to ICAR ADE codes and
+    growth stages to the BBCH scale.
+  - >-
+    Because concept URIs carry labels in several languages, the same data can
+    be presented in different languages without altering the stored data.
+
+entities:
+
+  CodeMapping:
+    annex: A.47
+    path: code-mappings
+    definition: >-
+      The CodeMapping entity shall record the correspondence between a
+      canonical concept and a code of an external scheme.
+    attributes:
+      conceptUri:
+        type: String
+        required: true
+        concept: true
+        description: Canonical concept URI, as a rule an [AGROVOC] concept
+      externalScheme:
+        type: String
+        required: true
+        description: Identifier of the external code system
+      externalCode:
+        type: String
+        required: true
+        description: Code within the external scheme
+      label:
+        type: String
+        description: Display label
+      validFrom:
+        type: Date
+        property: codeMappingValidFrom
+        description: Start of validity of the mapping
+      validTo:
+        type: Date
+        description: End of validity of the mapping
+      isPreferred:
+        type: Boolean
+        description: Preferred mapping where a concept maps to more than one code in the scheme

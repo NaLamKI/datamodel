@@ -1,0 +1,246 @@
+# Integrity and validation rules (clause 12, Table 2), business keys (Table 3)
+# and derived views (clauses 7.4, 7.5, 8.6, 8.10).
+#
+# `enforcement` says where a rule can be checked, and the checks hold the
+# generated artefacts to it:
+#
+#   json-schema    on a single record, by the JSON Schema of its entity
+#   shacl          on a single record, by v1/shapes.ttl
+#   shacl-dataset  on a dataset that contains the records referred to and the
+#                  concept schemes, by v1/shapes-dataset.ttl
+#   interface      only by the persistence or interface layer: the rule needs
+#                  history, arithmetic over many records, geometry or time
+#
+# A rule expressed with "shall" is enforced; one expressed with "should" at
+# least raises a warning (clause 12) — in SHACL, `sh:severity sh:Warning`.
+
+rules:
+
+  V01:
+    level: shall
+    text: >-
+      For every period, the closing value (endsAt, validTo, periodEnd) shall
+      be greater than or equal to the opening value (startsAt, validFrom,
+      periodStart) where both are set.
+    # The pairs the rule is applied to, wherever an entity carries both.
+    # validUntil and finishedAt close a period as validTo and endsAt do.
+    pairs:
+      - [startsAt, endsAt]
+      - [validFrom, validTo]
+      - [validFrom, validUntil]
+      - [periodStart, periodEnd]
+      - [startedAt, finishedAt]
+    enforcement: [shacl, interface]
+
+  V02:
+    level: shall
+    text: >-
+      Quantities (amount, quantity, dosage, area, capacity, headCount) shall
+      be greater than zero. Economics.value may be negative, in order to
+      permit credits and corrections.
+    enforcement: [json-schema, shacl]
+
+  V03:
+    level: shall
+    text: >-
+      Exclusive references shall set exactly one of the permitted references.
+      This applies to InputOutput, Observation, Data, Economics, AnimalEvent,
+      ActivityResource and ProcessingJobInput.
+    enforcement: [json-schema, shacl]
+
+  V04:
+    level: shall
+    text: >-
+      Where originType is USER, createdByUserId shall be set. Where
+      originType is SERVICE, createdByJobId shall be set.
+    enforcement: [json-schema, shacl]
+
+  V05:
+    level: shall
+    text: >-
+      Every Field shall have exactly one default Region, whose geometry
+      corresponds to Field.geometry.
+    # The default region type, resolved against the scheme the ontology publishes.
+    concepts:
+      default: {scheme: regions, notation: default}
+    enforcement: [shacl-dataset, interface]
+
+  V06:
+    level: should
+    text: >-
+      Region.geometry should lie within Field.geometry, subject to a defined
+      tolerance, and Activity.geometry should lie within the geometry of the
+      spatial unit referenced.
+    enforcement: [interface]
+
+  V07:
+    level: should
+    text: >-
+      Several CultivationPeriod records may exist in parallel for the same
+      Region, in order to represent mixed cropping, undersowing and
+      agroforestry. Where planEntryId is set, typeUri should correspond to
+      CroppingPlanEntry.cropUri.
+    enforcement: [shacl-dataset]
+
+  V08:
+    level: shall
+    text: >-
+      Stand.clearingDate shall be greater than or equal to Stand.plantingDate,
+      and CultivationPeriod.standId shall reference a Stand of the same
+      Region.
+    enforcement: [shacl, shacl-dataset]
+
+  V09:
+    level: shall / should
+    text: >-
+      An Activity whose typeUri denotes the application of a plant protection
+      product shall have at least one associated InputOutput referencing a
+      Product of category PLANT_PROTECTION. The bbchStage attribute should be
+      set, and the person recorded through ActivityResource should hold a
+      valid certificate of competence in Worker.certifications.
+    concepts:
+      application: {scheme: activity-types, notation: plant-protection}
+    enforcement: [shacl-dataset, interface]
+
+  V10:
+    level: shall
+    text: >-
+      An InputOutput referencing a Product of category PLANT_PROTECTION or
+      VETERINARY_MEDICINE shall set productId, so that the authorization
+      number and the withdrawal period are resolvable.
+    enforcement: [interface]
+
+  V11:
+    level: shall
+    text: >-
+      Where a treatment AnimalEvent references a product for which
+      withdrawalPeriodDays is set, withdrawalUntilMilk and withdrawalUntilMeat
+      shall be calculated and stored. A departure or delivery event occurring
+      before the end of that period shall raise a blocking warning.
+    enforcement: [interface]
+
+  V12:
+    level: should
+    text: >-
+      A StockMovement should not cause the derived stock level for a
+      combination of productId, lotId and storageLocationId to become
+      negative. Movements of type ADJUSTMENT are exempt.
+    enforcement: [interface]
+
+  V13:
+    level: shall
+    text: >-
+      A Lot shall set at most one origin of own production, either
+      originCultivationPeriodId or originAnimalGroupId. Purchased lots shall
+      instead set supplierOrganizationId.
+    enforcement: [json-schema, shacl, interface]
+
+  V14:
+    level: should
+    text: >-
+      New references to records that have been withdrawn from use, whether by
+      a terminal status value or by an endsAt timestamp in the past, should be
+      prevented. References that already exist shall remain valid.
+    enforcement: [interface]
+
+  V15:
+    level: shall
+    text: >-
+      A RegulatoryReport shall be immutable from the status SUBMITTED
+      onwards. Corrections shall be made only through a new report
+      referencing the earlier one through supersedesReportId.
+    enforcement: [interface]
+
+  V16:
+    level: shall
+    text: >-
+      Periods of validity of AccessAssignment records shall not overlap for
+      the same combination of userId, farmId and roleId.
+    enforcement: [interface]
+
+# Table 3. Unique in addition to the identifier; enforced by the persistence
+# or interface layer, and answered with 409 by the API.
+businessKeys:
+  - entity: User
+    attributes: [email]
+    scope: the deployment
+  - entity: Farm
+    attributes: [farmNumber]
+    scope: the deployment, where set
+  - entity: Field
+    attributes: [name]
+    within: [farmId]
+  - entity: Region
+    text: Exactly one default Region per fieldId (rule V05).
+  - entity: Animal
+    attributes: [officialId]
+    within: [externalProvider]
+    scope: the official numbering scheme
+  - entity: Lot
+    attributes: [lotNumber]
+    within: [productId]
+    text: together with the origin reference for own production
+  - entity: Product
+    attributes: [registrationNumber]
+    scope: the authorization scheme concerned
+  - entity: CodeMapping
+    attributes: [conceptUri, externalScheme, externalCode]
+    scope: the deployment
+    text: >-
+      At most one mapping per conceptUri and externalScheme may set
+      isPreferred.
+
+# Quantities computed from stored records and deliberately not stored as
+# entities (clause 7.5): storing them would let the stored value and the
+# records it is computed from diverge.
+derivedViews:
+  - id: stock-level
+    title: Stock level
+    source: clauses 6, 7.5 and 8.6
+    from: [StockMovement]
+    text: >-
+      The sum of the StockMovement records for a combination of productId,
+      lotId and storage location.
+    # StockMovement carries fromStorageLocationId and toStorageLocationId
+    # rather than one storage location; the rule below is how this
+    # specification resolves that.
+    rule: >-
+      A movement adds its quantity to the level at toStorageLocationId and
+      subtracts it from the level at fromStorageLocationId, per productId,
+      lotId and unit. A movement without a storage location on one side does
+      not affect a level on that side. Levels in different units are not
+      added up.
+    api: /stock-levels
+  - id: gross-margin
+    title: Gross margin
+    source: clause 8.10
+    from: [Economics, InputOutput, ActivityResource, Machine, Worker]
+    text: >-
+      For a CultivationPeriod or an AnimalGroup: the sum of the Economics
+      records associated with output quantities, less the sum of those
+      associated with input quantities and with the machine and labour
+      resources deployed in the corresponding operations. Where an Economics
+      record is absent, the imputed rates Machine.costRatePerHour and
+      Worker.costRatePerHour, multiplied by the duration recorded in
+      ActivityResource, should be used instead.
+  - id: nutrient-balance
+    title: Nutrient balance
+    source: clause 7.5
+    from: [InputOutput, Product]
+    text: >-
+      Derived from InputOutput records together with Product.composition.
+  - id: animal-performance
+    title: Animal performance indicators
+    source: clauses 7.5 and 8.8
+    from: [AnimalEvent, Observation]
+    text: >-
+      Lactation yield, calving interval, daily weight gain, replacement rate
+      and the like, derived from AnimalEvent and Observation records.
+  - id: crop-rotation
+    title: Crop rotation
+    source: clause 7.4
+    from: [CroppingPlanEntry, CultivationPeriod]
+    text: >-
+      The temporal sequence of CroppingPlanEntry and CultivationPeriod records
+      for a given Region across harvest years. Rules governing the sequence
+      are validation logic applied to it, not structures of the model.

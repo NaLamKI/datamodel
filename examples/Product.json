@@ -1,0 +1,58 @@
+[
+  {
+    "id": "8f848057-ceb6-53ac-a3f4-ff0674949f3c",
+    "name": "DOMARK 10 EC",
+    "category": "PLANT_PROTECTION",
+    "typeUri": "http://aims.fao.org/aos/agrovoc/c_3146",
+    "registrationNumber": "004329-00",
+    "defaultUnit": "L",
+    "organicApproved": false,
+    "createdAt": "2026-04-20T08:50:00Z",
+    "updatedAt": "2026-04-20T08:50:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  },
+  {
+    "id": "2325fa92-5626-587b-aeb0-ae914853d7c2",
+    "name": "Winterweizen, Ernte 2026",
+    "category": "HARVEST_PRODUCT",
+    "typeUri": "https://w3id.org/agrifooddata/product-classes#harvest-product",
+    "defaultUnit": "t",
+    "createdAt": "2026-08-04T17:05:00Z",
+    "updatedAt": "2026-08-04T17:05:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  },
+  {
+    "id": "7b307b41-5e0a-586d-bc1f-c3297e7e2fb1",
+    "name": "Kalkammonsalpeter 27 % N",
+    "category": "FERTILIZER",
+    "typeUri": "http://aims.fao.org/aos/agrovoc/c_27870",
+    "composition": {
+      "N": {
+        "value": 27,
+        "unit": "%"
+      }
+    },
+    "defaultUnit": "kg",
+    "createdAt": "2025-09-01T10:00:00Z",
+    "updatedAt": "2025-09-01T10:00:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  },
+  {
+    "id": "9b09018b-e131-5707-8307-8654e83ce5cf",
+    "name": "Milchleistungsfutter 18/4",
+    "category": "FEED",
+    "typeUri": "http://aims.fao.org/aos/agrovoc/c_2843",
+    "defaultUnit": "kg",
+    "createdAt": "2026-04-28T10:00:00Z",
+    "updatedAt": "2026-04-28T10:00:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-web"
+  }
+]

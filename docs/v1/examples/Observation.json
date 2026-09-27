@@ -1,0 +1,61 @@
+[
+  {
+    "id": "2c081c4b-2225-5833-9d36-8d309298ab41",
+    "observedPropertyUri": "http://aims.fao.org/aos/agrovoc/c_7208",
+    "phenomenonTime": "2026-05-11T00:00:00Z",
+    "regionId": "fe3bffb7-a21b-5ba6-8ab9-7c699f76b59d",
+    "resultValue": 23.4,
+    "resultUnit": "%",
+    "deviceId": "60e526c0-c3a0-518a-996e-86ee02540446",
+    "validity": "VALID",
+    "createdAt": "2026-05-11T00:05:00Z",
+    "updatedAt": "2026-05-11T00:05:00Z",
+    "originType": "DEVICE",
+    "clientId": "sta-bridge"
+  },
+  {
+    "id": "c27c0621-43ed-57d0-b734-c8f1eccd8320",
+    "observedPropertyUri": "http://aims.fao.org/aos/agrovoc/c_6161",
+    "phenomenonTime": "2026-05-11T00:00:00Z",
+    "fieldId": "7adcec09-66ff-5ccf-8ef7-e75408287d38",
+    "resultValue": 0.4,
+    "resultUnit": "mm",
+    "source": "DWD Open Data",
+    "validity": "VALID",
+    "createdAt": "2026-05-12T01:00:00Z",
+    "updatedAt": "2026-05-12T01:00:00Z",
+    "originType": "IMPORT",
+    "clientId": "weather-import"
+  },
+  {
+    "id": "5027ba8f-b8c5-5395-a0da-14a5fc4e4b5a",
+    "observedPropertyUri": "https://w3id.org/agrifooddata/pests#SEPTTR",
+    "phenomenonTime": "2026-05-09T10:00:00Z",
+    "regionId": "fe3bffb7-a21b-5ba6-8ab9-7c699f76b59d",
+    "resultValue": 15,
+    "resultUnit": "%",
+    "resultJson": {
+      "method": "visual scouting",
+      "leafLayer": "F-2"
+    },
+    "createdAt": "2026-05-09T10:30:00Z",
+    "updatedAt": "2026-05-09T10:30:00Z",
+    "originType": "USER",
+    "createdByUserId": "b630da76-9ec3-5faa-a1d7-e66d56bc5db4",
+    "clientId": "fmis-mobile"
+  },
+  {
+    "id": "d868e1f0-c13c-51c0-a198-833430a78469",
+    "observedPropertyUri": "https://w3id.org/agrifooddata/soil-glosis#soil-ph",
+    "phenomenonTime": "2026-03-02T09:00:00Z",
+    "regionId": "fe3bffb7-a21b-5ba6-8ab9-7c699f76b59d",
+    "resultValue": 6.4,
+    "resultUnit": "[pH]",
+    "dataId": "8f6dd05a-6869-5248-8af7-d83163cbec11",
+    "source": "soil laboratory",
+    "createdAt": "2026-03-20T12:00:00Z",
+    "updatedAt": "2026-03-20T12:00:00Z",
+    "originType": "IMPORT",
+    "clientId": "lab-import"
+  }
+]

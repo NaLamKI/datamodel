@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rules, state models and business keys</title>
+<link rel="stylesheet" href="../style.css">
+<nav><a href="../">AgriFoodData model</a> › <a href="./">v1</a> › Rules</nav>
+<h1>Rules, state models and business keys</h1>
+<p class="sub">Clauses 12 and 13 of the Recommendation</p>
+
+<p>Where each rule is checked: <em>JSON Schema</em> and <em>SHACL</em> on a single record, <em>SHACL dataset</em> on a dataset holding the records referred to and the concept schemes, <em>interface</em> only in the persistence or interface layer, because the rule needs history, sums over many records, geometry or time. A rule expressed with “should” raises a warning.</p>
+<table><thead><tr><th>Rule</th><th>Level</th><th>Text</th><th>Checked by</th></tr></thead><tbody>
+<tr><td><span id="V01"><strong>V01</strong></span></td><td>shall</td><td>For every period, the closing value (endsAt, validTo, periodEnd) shall be greater than or equal to the opening value (startsAt, validFrom, periodStart) where both are set.</td><td>SHACL, interface</td></tr>
+<tr><td><span id="V02"><strong>V02</strong></span></td><td>shall</td><td>Quantities (amount, quantity, dosage, area, capacity, headCount) shall be greater than zero. Economics.value may be negative, in order to permit credits and corrections.</td><td>JSON Schema, SHACL</td></tr>
+<tr><td><span id="V03"><strong>V03</strong></span></td><td>shall</td><td>Exclusive references shall set exactly one of the permitted references. This applies to InputOutput, Observation, Data, Economics, AnimalEvent, ActivityResource and ProcessingJobInput.</td><td>JSON Schema, SHACL</td></tr>
+<tr><td><span id="V04"><strong>V04</strong></span></td><td>shall</td><td>Where originType is USER, createdByUserId shall be set. Where originType is SERVICE, createdByJobId shall be set.</td><td>JSON Schema, SHACL</td></tr>
+<tr><td><span id="V05"><strong>V05</strong></span></td><td>shall</td><td>Every Field shall have exactly one default Region, whose geometry corresponds to Field.geometry.</td><td>SHACL dataset, interface</td></tr>
+<tr><td><span id="V06"><strong>V06</strong></span></td><td>should</td><td>Region.geometry should lie within Field.geometry, subject to a defined tolerance, and Activity.geometry should lie within the geometry of the spatial unit referenced.</td><td>interface</td></tr>
+<tr><td><span id="V07"><strong>V07</strong></span></td><td>should</td><td>Several CultivationPeriod records may exist in parallel for the same Region, in order to represent mixed cropping, undersowing and agroforestry. Where planEntryId is set, typeUri should correspond to CroppingPlanEntry.cropUri.</td><td>SHACL dataset</td></tr>
+<tr><td><span id="V08"><strong>V08</strong></span></td><td>shall</td><td>Stand.clearingDate shall be greater than or equal to Stand.plantingDate, and CultivationPeriod.standId shall reference a Stand of the same Region.</td><td>SHACL, SHACL dataset</td></tr>
+<tr><td><span id="V09"><strong>V09</strong></span></td><td>shall / should</td><td>An Activity whose typeUri denotes the application of a plant protection product shall have at least one associated InputOutput referencing a Product of category PLANT_PROTECTION. The bbchStage attribute should be set, and the person recorded through ActivityResource should hold a valid certificate of competence in Worker.certifications.</td><td>SHACL dataset, interface</td></tr>
+<tr><td><span id="V10"><strong>V10</strong></span></td><td>shall</td><td>An InputOutput referencing a Product of category PLANT_PROTECTION or VETERINARY_MEDICINE shall set productId, so that the authorization number and the withdrawal period are resolvable.</td><td>interface</td></tr>
+<tr><td><span id="V11"><strong>V11</strong></span></td><td>shall</td><td>Where a treatment AnimalEvent references a product for which withdrawalPeriodDays is set, withdrawalUntilMilk and withdrawalUntilMeat shall be calculated and stored. A departure or delivery event occurring before the end of that period shall raise a blocking warning.</td><td>interface</td></tr>
+<tr><td><span id="V12"><strong>V12</strong></span></td><td>should</td><td>A StockMovement should not cause the derived stock level for a combination of productId, lotId and storageLocationId to become negative. Movements of type ADJUSTMENT are exempt.</td><td>interface</td></tr>
+<tr><td><span id="V13"><strong>V13</strong></span></td><td>shall</td><td>A Lot shall set at most one origin of own production, either originCultivationPeriodId or originAnimalGroupId. Purchased lots shall instead set supplierOrganizationId.</td><td>JSON Schema, SHACL, interface</td></tr>
+<tr><td><span id="V14"><strong>V14</strong></span></td><td>should</td><td>New references to records that have been withdrawn from use, whether by a terminal status value or by an endsAt timestamp in the past, should be prevented. References that already exist shall remain valid.</td><td>interface</td></tr>
+<tr><td><span id="V15"><strong>V15</strong></span></td><td>shall</td><td>A RegulatoryReport shall be immutable from the status SUBMITTED onwards. Corrections shall be made only through a new report referencing the earlier one through supersedesReportId.</td><td>interface</td></tr>
+<tr><td><span id="V16"><strong>V16</strong></span></td><td>shall</td><td>Periods of validity of AccessAssignment records shall not overlap for the same combination of userId, farmId and roleId.</td><td>interface</td></tr>
+</tbody></table>
+<p class="note">V01 is applied to these pairs, wherever an entity carries both: <code>startsAt</code> ≤ <code>endsAt</code>, <code>validFrom</code> ≤ <code>validTo</code>, <code>validFrom</code> ≤ <code>validUntil</code>, <code>periodStart</code> ≤ <code>periodEnd</code>, <code>startedAt</code> ≤ <code>finishedAt</code>.</p>
+<h2 id="unique">Business keys</h2>
+<table><thead><tr><th>Entity</th><th>Unique</th><th>Scope</th></tr></thead><tbody>
+<tr><td><a href="User.html">User</a></td><td><code>email</code></td><td>the deployment</td></tr>
+<tr><td><a href="Farm.html">Farm</a></td><td><code>farmNumber</code></td><td>the deployment, where set</td></tr>
+<tr><td><a href="Field.html">Field</a></td><td><code>name</code></td><td>within farmId</td></tr>
+<tr><td><a href="Region.html">Region</a></td><td><code>—</code></td><td>Exactly one default Region per fieldId (rule V05).</td></tr>
+<tr><td><a href="Animal.html">Animal</a></td><td><code>officialId</code></td><td>within externalProvider the official numbering scheme</td></tr>
+<tr><td><a href="Lot.html">Lot</a></td><td><code>lotNumber</code></td><td>within productId together with the origin reference for own production</td></tr>
+<tr><td><a href="Product.html">Product</a></td><td><code>registrationNumber</code></td><td>the authorization scheme concerned</td></tr>
+<tr><td><a href="CodeMapping.html">CodeMapping</a></td><td><code>conceptUri, externalScheme, externalCode</code></td><td>the deployment At most one mapping per conceptUri and externalScheme may set isPreferred.</td></tr>
+</tbody></table>
+<h2 id="states">State models</h2>
+<h3><a href="Task.html">Task</a>.status</h3>
+<p><code>PLANNED → ASSIGNED</code>, <code>ASSIGNED → IN_PROGRESS</code>, <code>IN_PROGRESS → COMPLETED</code>, <code>ASSIGNED → PLANNED</code>, <code>PLANNED → CANCELLED</code>, <code>ASSIGNED → CANCELLED</code>, <code>IN_PROGRESS → CANCELLED</code>. Terminal: <code>COMPLETED</code>, <code>CANCELLED</code>.</p>
+<h3><a href="CultivationPeriod.html">CultivationPeriod</a>.status</h3>
+<p><code>PLANNED → ACTIVE</code>, <code>ACTIVE → COMPLETED</code>, <code>PLANNED → ABORTED</code>, <code>ACTIVE → ABORTED</code>. Terminal: <code>COMPLETED</code>, <code>ABORTED</code>.</p>
+<h3><a href="Activity.html">Activity</a>.status</h3>
+<p><code>IN_PROGRESS → COMPLETED</code>, <code>IN_PROGRESS → ABORTED</code>. Terminal: <code>COMPLETED</code>, <code>ABORTED</code>.</p>
+<h3><a href="ProcessingJob.html">ProcessingJob</a>.status</h3>
+<p><code>PENDING → RUNNING</code>, <code>RUNNING → SUCCEEDED</code>, <code>RUNNING → FAILED</code>, <code>PENDING → CANCELLED</code>, <code>RUNNING → CANCELLED</code>. Terminal: <code>SUCCEEDED</code>, <code>FAILED</code>, <code>CANCELLED</code>.</p>
+<h3><a href="RegulatoryReport.html">RegulatoryReport</a>.status</h3>
+<p><code>DRAFT → GENERATED</code>, <code>GENERATED → SUBMITTED</code>, <code>SUBMITTED → ACCEPTED</code>, <code>SUBMITTED → REJECTED</code>, <code>REJECTED → GENERATED</code>, <code>GENERATED → DRAFT</code>. Terminal: <code>ACCEPTED</code>.</p>
+<p class="note">A rejected report is either regenerated or corrected by a new report referencing the earlier one through supersedesReportId. From SUBMITTED onwards the report is otherwise immutable (rule V15).</p>
+<h3><a href="CroppingPlan.html">CroppingPlan</a>.status</h3>
+<p><code>DRAFT → ACTIVE</code>, <code>ACTIVE → ARCHIVED</code>, <code>DRAFT → ARCHIVED</code>. Terminal: <code>ARCHIVED</code>.</p>
+<h3><a href="Animal.html">Animal</a>.status</h3>
+<p><code>ACTIVE → SOLD</code>, <code>ACTIVE → SLAUGHTERED</code>, <code>ACTIVE → DEAD</code>, <code>ACTIVE → TRANSFERRED</code>. Terminal: <code>SOLD</code>, <code>SLAUGHTERED</code>, <code>DEAD</code>, <code>TRANSFERRED</code>.</p>
+<h3><a href="User.html">User</a>.status</h3>
+<p><code>INVITED → ACTIVE</code>, <code>ACTIVE → DEACTIVATED</code>, <code>DEACTIVATED → ACTIVE</code>. Terminal: none.</p>
+<h3><a href="Machine.html">Machine</a>.status</h3>
+<p><code>ACTIVE → INACTIVE</code>, <code>INACTIVE → ACTIVE</code>, <code>ACTIVE → SOLD</code>, <code>INACTIVE → SOLD</code>. Terminal: <code>SOLD</code>.</p>
+<h3><a href="Device.html">Device</a>.status</h3>
+<p><code>ACTIVE → INACTIVE</code>, <code>ACTIVE → FAULTY</code>, <code>INACTIVE → ACTIVE</code>, <code>FAULTY → ACTIVE</code>. Terminal: none.</p>
+<h2 id="derived">Derived views</h2>
+<h3 id="stock-level">Stock level <span class="muted">(clauses 6, 7.5 and 8.6)</span></h3>
+<p>The sum of the StockMovement records for a combination of productId, lotId and storage location.</p>
+<p class="note">A movement adds its quantity to the level at toStorageLocationId and subtracts it from the level at fromStorageLocationId, per productId, lotId and unit. A movement without a storage location on one side does not affect a level on that side. Levels in different units are not added up.</p>
+<h3 id="gross-margin">Gross margin <span class="muted">(clause 8.10)</span></h3>
+<p>For a CultivationPeriod or an AnimalGroup: the sum of the Economics records associated with output quantities, less the sum of those associated with input quantities and with the machine and labour resources deployed in the corresponding operations. Where an Economics record is absent, the imputed rates Machine.costRatePerHour and Worker.costRatePerHour, multiplied by the duration recorded in ActivityResource, should be used instead.</p>
+<h3 id="nutrient-balance">Nutrient balance <span class="muted">(clause 7.5)</span></h3>
+<p>Derived from InputOutput records together with Product.composition.</p>
+<h3 id="animal-performance">Animal performance indicators <span class="muted">(clauses 7.5 and 8.8)</span></h3>
+<p>Lactation yield, calving interval, daily weight gain, replacement rate and the like, derived from AnimalEvent and Observation records.</p>
+<h3 id="crop-rotation">Crop rotation <span class="muted">(clause 7.4)</span></h3>
+<p>The temporal sequence of CroppingPlanEntry and CultivationPeriod records for a given Region across harvest years. Rules governing the sequence are validation logic applied to it, not structures of the model.</p>
+<p class="footnote">AgriFoodData model 1.0.0-draft.3 · machine-readable specification of the Recommendation <em>Data model for digital agriculture and farm management systems</em> (draft, revision 3, proposed to ITU-T Study Group 20, 2026-07-29). In the event of a discrepancy between the Recommendation and this machine-readable specification or the ontology, the text of the Recommendation takes precedence (clause 8). Published under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · <a href="https://github.com/NaLamKI/datamodel">source</a>.</p>

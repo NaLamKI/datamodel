@@ -1,0 +1,20 @@
+[
+  {
+    "id": "83f1bba6-702d-5e16-86d7-78e9cdd8e066",
+    "farmId": "997142c3-14cf-5cb4-b260-048af4b57a76",
+    "reportTypeUri": "https://w3id.org/agrifooddata/report-types#plant-protection",
+    "status": "SUBMITTED",
+    "periodStart": "2026-01-01",
+    "periodEnd": "2026-08-31",
+    "format": "PDF",
+    "payloadFileId": "65ae5156-25e5-5321-9346-2091f388a672",
+    "submittedAt": "2026-09-15T10:00:00Z",
+    "authority": "Pflanzenschutzdienst",
+    "submissionRef": "PS-2026-000123",
+    "createdAt": "2026-09-15T09:56:00Z",
+    "updatedAt": "2026-09-15T10:00:00Z",
+    "originType": "SERVICE",
+    "createdByJobId": "d5df87bc-1074-507a-a3f3-eb659c5580cd",
+    "clientId": "report-service"
+  }
+]

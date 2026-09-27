@@ -1,0 +1,30 @@
+[
+  {
+    "id": "a209e90d-18ec-5b2d-84b3-8eb2955963d2",
+    "name": "Septoria risk model",
+    "serviceType": "PREDICTION",
+    "endpoint": "https://services.example.org/septoria/v2/runs",
+    "catalogueId": "8174d017-4355-519c-bf58-599804e0f0af",
+    "aiBased": true,
+    "version": "2.3.0",
+    "providerOrganizationId": "34f0d074-defb-5b88-8937-fb22cd84d44a",
+    "createdAt": "2025-01-15T08:00:00Z",
+    "updatedAt": "2025-01-15T08:00:00Z",
+    "originType": "SYSTEM",
+    "clientId": "onboarding"
+  },
+  {
+    "id": "31682e2e-453a-510e-a131-72dd6024f163",
+    "name": "Plant protection record",
+    "serviceType": "REPORT_GENERATION",
+    "endpoint": "https://services.example.org/reports/ppp",
+    "catalogueId": "8174d017-4355-519c-bf58-599804e0f0af",
+    "aiBased": false,
+    "version": "1.4.0",
+    "providerOrganizationId": "34f0d074-defb-5b88-8937-fb22cd84d44a",
+    "createdAt": "2025-01-15T08:00:00Z",
+    "updatedAt": "2025-01-15T08:00:00Z",
+    "originType": "SYSTEM",
+    "clientId": "onboarding"
+  }
+]

@@ -1,0 +1,305 @@
+# P9 — Observations and Data (clause 8.9)
+#
+# Attribute descriptions are the wording of Annex A. What clause 8 states
+# in prose — exclusive references, conditional requirements — is under
+# `constraints`; the attributes every entity carries (clause 5.1) are in
+# model/model.yaml and are not repeated here.
+
+package: P9
+title: Observations and Data
+clause: "8.9"
+scope: Sensors, weather, measurements, datasets and files
+summary: >-
+  This package covers structured individual measurements, the devices that
+  produce them, and the datasets and files associated with the holding.
+  Weather data, soil sensing, animal sensing and machine telemetry are thereby
+  modelled uniformly.
+
+notes:
+  - >-
+    Scaling convention: high-frequency raw time series remain in a dedicated
+    time series backend or an OGC SensorThings service, referenced through
+    Device.sensorThingsUrl or through Data and File. Observation holds
+    consolidated values relevant to decisions or documentation.
+  - >-
+    Weather convention: weather data are Observation records whose source
+    identifies the weather service and whose feature of interest is a Field or
+    a Site. There is no weather entity.
+  - >-
+    Sampling and scouting convention: a soil sample is a Data record of the
+    corresponding DataType with a Region reference and capturedAt, the
+    laboratory report a File; each analysed parameter is an Observation
+    referencing the Data record, with the time of sampling as phenomenonTime.
+    Scouting is recorded as Observation records whose observedPropertyUri
+    identifies the pest or disease.
+
+entities:
+
+  Device:
+    annex: A.30
+    path: devices
+    definition: >-
+      The Device entity shall represent a sensor, an item of equipment or a
+      station as a Thing in the sense of [W3C WoT-TD].
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Designation of the device
+      deviceTypeUri:
+        type: String
+        required: true
+        concept: true
+        description: Concept identifying the type of device
+      farmId:
+        type: UUID
+        required: true
+        references: Farm
+        description: Foreign key to the Farm entity
+      siteId:
+        type: UUID
+        references: Site
+        description: Mounting reference
+      regionId:
+        type: UUID
+        references: Region
+        description: Mounting reference
+      machineId:
+        type: UUID
+        references: Machine
+        description: Mounting reference
+      animalId:
+        type: UUID
+        references: Animal
+        description: Mounting reference
+      description:
+        type: String
+        property: thingDescription
+        thingDescription: true
+        description: Thing Description in JSON-LD format
+      sensorThingsUrl:
+        type: String
+        format: uri
+        description: Endpoint conforming to [OGC SensorThings] for live series
+        note: >-
+          High-frequency raw series remain in that service (clause 8.9).
+      manufacturer:
+        type: String
+        description: Manufacturer
+      serialNumber:
+        type: String
+        description: Serial number
+      status:
+        type: Enum
+        enum: DeviceStatus
+        property: deviceStatus
+        description: Status of the device
+      externalId:
+        type: String
+        description: Identifier in an external system
+      externalProvider:
+        type: String
+        description: Identifier of the external system
+    constraints:
+      - atMostOne: [siteId, regionId, machineId, animalId]
+        source: clause 8.9
+
+  Observation:
+    annex: A.31
+    path: observations
+    definition: >-
+      The Observation entity shall record the value of an observed property
+      for a feature of interest at a stated time, in alignment with [ISO
+      19156] and [OGC SensorThings].
+    attributes:
+      observedPropertyUri:
+        type: String
+        required: true
+        concept: true
+        description: Concept identifying the observed property
+      phenomenonTime:
+        type: DateTime
+        required: true
+        description: Time to which the observation applies
+      regionId:
+        type: UUID
+        references: Region
+        description: Feature of interest
+      fieldId:
+        type: UUID
+        references: Field
+        description: Feature of interest
+      siteId:
+        type: UUID
+        references: Site
+        description: Feature of interest
+      animalId:
+        type: UUID
+        references: Animal
+        description: Feature of interest
+      machineId:
+        type: UUID
+        references: Machine
+        description: Feature of interest
+      resultValue:
+        type: Decimal
+        description: Numeric result of the observation
+      resultUnit:
+        type: String
+        format: ucum
+        description: Unit of the result, expressed as a [UCUM] code
+      resultJson:
+        type: JSON
+        json: any
+        description: Complex result
+      deviceId:
+        type: UUID
+        references: Device
+        description: Device that produced the observation
+        note: >-
+          Absent where the value originates from an external service (clause
+          8.9).
+      dataId:
+        type: UUID
+        references: Data
+        description: Bulk dataset with which the observation is associated
+      source:
+        type: String
+        description: Source of the observation, for example an external service
+      validity:
+        type: Enum
+        enum: ObservationValidity
+        description: Outcome of quality assurance
+    constraints:
+      - exactlyOne: [regionId, fieldId, siteId, animalId, machineId]
+        rule: V03
+
+  Data:
+    annex: A.32
+    path: data
+    definition: >-
+      The Data entity shall be a container for a dataset or a data stream,
+      such as satellite imagery, laboratory reports, yield maps or imagery
+      from unmanned aircraft. In this Recommendation, a dataset denotes a
+      bounded collection of data recorded over a defined period and made
+      available as one or more files, whereas a data stream denotes a
+      continuously updated sequence of observations made available through an
+      endpoint.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Designation of the dataset
+      typeId:
+        type: UUID
+        required: true
+        references: DataType
+        description: Foreign key to the DataType entity
+      regionId:
+        type: UUID
+        references: Region
+        description: Operational context
+      fieldId:
+        type: UUID
+        references: Field
+        description: Operational context
+      farmId:
+        type: UUID
+        references: Farm
+        description: Operational context
+      siteId:
+        type: UUID
+        references: Site
+        description: Operational context
+      cultivationPeriodId:
+        type: UUID
+        references: CultivationPeriod
+        description: Operational context
+      activityId:
+        type: UUID
+        references: Activity
+        description: Operational context
+      animalId:
+        type: UUID
+        references: Animal
+        description: Operational context
+      machineId:
+        type: UUID
+        references: Machine
+        description: Operational context
+      lotId:
+        type: UUID
+        references: Lot
+        description: Operational context
+      capturedAt:
+        type: DateTime
+        description: Time of capture
+      description:
+        type: String
+        thingDescription: true
+        description: Thing Description in JSON-LD format
+      source:
+        type: String
+        description: Origin of the data
+      iamResourceId:
+        type: String
+        property: accessResourceId
+        description: Resource identifier in the external IAM system for finer-grained access control
+        note: >-
+          Registers an individual dataset as a protected resource of its own,
+          below the level of the farm (clause 7.3).
+    constraints:
+      - exactlyOne: [regionId, fieldId, farmId, siteId, cultivationPeriodId,
+                     activityId, animalId, machineId, lotId]
+        rule: V03
+
+  DataType:
+    annex: A.33
+    path: data-types
+    definition: >-
+      The DataType entity shall provide an extensible categorization of
+      datasets.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Name of the data type
+      typeUri:
+        type: String
+        concept: true
+        description: Concept anchoring the category in a controlled vocabulary
+      description:
+        type: String
+        description: Description of the data type
+
+  File:
+    annex: A.34
+    path: files
+    definition: >-
+      The File entity shall represent a single digital file belonging to a
+      dataset.
+    attributes:
+      nameWithExtension:
+        type: String
+        required: true
+        description: File name including its extension
+      mimeType:
+        type: String
+        required: true
+        format: media-type
+        description: Media type of the file
+      dataId:
+        type: UUID
+        required: true
+        references: Data
+        description: Foreign key to the Data entity
+      size:
+        type: Integer
+        description: File size in bytes
+      checksum:
+        type: String
+        description: Integrity check value
+      storageUrl:
+        type: String
+        format: uri
+        description: Reference into object storage

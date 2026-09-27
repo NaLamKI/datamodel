@@ -1,0 +1,21 @@
+[
+  {
+    "id": "a67dcd3e-3a44-5196-b5b8-423fefd2f99f",
+    "name": "farm manager",
+    "permissions": [
+      "farm:read",
+      "field:read",
+      "field:update",
+      "task:create",
+      "task:update",
+      "activity:create",
+      "activity:read",
+      "regulatoryReport:read"
+    ],
+    "isSystemRole": true,
+    "createdAt": "2025-01-15T08:00:00Z",
+    "updatedAt": "2025-01-15T08:00:00Z",
+    "originType": "SYSTEM",
+    "clientId": "onboarding"
+  }
+]

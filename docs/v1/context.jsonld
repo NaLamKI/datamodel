@@ -1,0 +1,1538 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "https://w3id.org/agrifooddata/term/",
+    "agfoda": "https://w3id.org/agrifooddata/term/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "items": "@included",
+    "nextCursor": null,
+    "hasMore": null,
+    "Organization": {
+      "@id": "agfoda:Organization"
+    },
+    "User": {
+      "@id": "agfoda:User",
+      "@context": {
+        "status": {
+          "@id": "agfoda:userStatus",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://w3id.org/agrifooddata/term/UserStatus_",
+            "status": {
+              "@id": "agfoda:userStatus",
+              "@type": "@vocab"
+            }
+          }
+        }
+      }
+    },
+    "Worker": {
+      "@id": "agfoda:Worker"
+    },
+    "Address": {
+      "@id": "agfoda:Address"
+    },
+    "Role": {
+      "@id": "agfoda:Role"
+    },
+    "AccessAssignment": {
+      "@id": "agfoda:AccessAssignment"
+    },
+    "Farm": {
+      "@id": "agfoda:Farm"
+    },
+    "Site": {
+      "@id": "agfoda:Site"
+    },
+    "Field": {
+      "@id": "agfoda:Field"
+    },
+    "Region": {
+      "@id": "agfoda:Region"
+    },
+    "CroppingPlan": {
+      "@id": "agfoda:CroppingPlan",
+      "@context": {
+        "status": {
+          "@id": "agfoda:croppingPlanStatus",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://w3id.org/agrifooddata/term/CroppingPlanStatus_",
+            "status": {
+              "@id": "agfoda:croppingPlanStatus",
+              "@type": "@vocab"
+            }
+          }
+        }
+      }
+    },
+    "CroppingPlanEntry": {
+      "@id": "agfoda:CroppingPlanEntry"
+    },
+    "Stand": {
+      "@id": "agfoda:Stand"
+    },
+    "CultivationPeriod": {
+      "@id": "agfoda:CultivationPeriod",
+      "@context": {
+        "status": {
+          "@id": "agfoda:cultivationPeriodStatus",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://w3id.org/agrifooddata/term/CultivationPeriodStatus_",
+            "status": {
+              "@id": "agfoda:cultivationPeriodStatus",
+              "@type": "@vocab"
+            }
+          }
+        }
+      }
+    },
+    "Task": {
+      "@id": "agfoda:Task",
+      "@context": {
+        "status": {
+          "@id": "agfoda:taskStatus",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://w3id.org/agrifooddata/term/TaskStatus_",
+            "status": {
+              "@id": "agfoda:taskStatus",
+              "@type": "@vocab"
+            }
+          }
+        }
+      }
+    },
+    "Activity": {
+      "@id": "agfoda:Activity",
+      "@context": {
+        "status": {
+          "@id": "agfoda:activityStatus",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://w3id.org/agrifooddata/term/ActivityStatus_",
+            "status": {
+              "@id": "agfoda:activityStatus",
+              "@type": "@vocab"
+            }
+          }
+        }
+      }
+    },
+    "ActivityResource": {
+      "@id": "agfoda:ActivityResource"
+    },
+    "TimeRecord": {
+      "@id": "agfoda:TimeRecord"
+    },
+    "Product": {
+      "@id": "agfoda:Product"
+    },
+    "StorageLocation": {
+      "@id": "agfoda:StorageLocation"
+    },
+    "Lot": {
+      "@id": "agfoda:Lot"
+    },
+    "StockMovement": {
+      "@id": "agfoda:StockMovement"
+    },
+    "Machine": {
+      "@id": "agfoda:Machine",
+      "@context": {
+        "status": {
+          "@id": "agfoda:machineStatus",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://w3id.org/agrifooddata/term/MachineStatus_",
+            "status": {
+              "@id": "agfoda:machineStatus",
+              "@type": "@vocab"
+            }
+          }
+        }
+      }
+    },
+    "MaintenanceRecord": {
+      "@id": "agfoda:MaintenanceRecord"
+    },
+    "Animal": {
+      "@id": "agfoda:Animal",
+      "@context": {
+        "status": {
+          "@id": "agfoda:animalStatus",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://w3id.org/agrifooddata/term/AnimalStatus_",
+            "status": {
+              "@id": "agfoda:animalStatus",
+              "@type": "@vocab"
+            }
+          }
+        }
+      }
+    },
+    "AnimalGroup": {
+      "@id": "agfoda:AnimalGroup"
+    },
+    "AnimalEvent": {
+      "@id": "agfoda:AnimalEvent"
+    },
+    "FeedRation": {
+      "@id": "agfoda:FeedRation",
+      "@context": {
+        "validFrom": {
+          "@id": "agfoda:feedRationValidFrom",
+          "@type": "xsd:date"
+        }
+      }
+    },
+    "FeedRationComponent": {
+      "@id": "agfoda:FeedRationComponent"
+    },
+    "Device": {
+      "@id": "agfoda:Device",
+      "@context": {
+        "description": "agfoda:thingDescription",
+        "status": {
+          "@id": "agfoda:deviceStatus",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://w3id.org/agrifooddata/term/DeviceStatus_",
+            "status": {
+              "@id": "agfoda:deviceStatus",
+              "@type": "@vocab"
+            }
+          }
+        }
+      }
+    },
+    "Observation": {
+      "@id": "agfoda:Observation"
+    },
+    "Data": {
+      "@id": "agfoda:Data"
+    },
+    "DataType": {
+      "@id": "agfoda:DataType"
+    },
+    "File": {
+      "@id": "agfoda:File"
+    },
+    "InputOutput": {
+      "@id": "agfoda:InputOutput"
+    },
+    "Economics": {
+      "@id": "agfoda:Economics"
+    },
+    "Budget": {
+      "@id": "agfoda:Budget",
+      "@context": {
+        "scopeType": {
+          "@id": "agfoda:budgetScopeType",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://w3id.org/agrifooddata/term/BudgetScopeType_",
+            "scopeType": {
+              "@id": "agfoda:budgetScopeType",
+              "@type": "@vocab"
+            }
+          }
+        }
+      }
+    },
+    "RegulatoryReport": {
+      "@id": "agfoda:RegulatoryReport",
+      "@context": {
+        "status": {
+          "@id": "agfoda:regulatoryReportStatus",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://w3id.org/agrifooddata/term/RegulatoryReportStatus_",
+            "status": {
+              "@id": "agfoda:regulatoryReportStatus",
+              "@type": "@vocab"
+            }
+          }
+        }
+      }
+    },
+    "Certification": {
+      "@id": "agfoda:Certification",
+      "@context": {
+        "validFrom": {
+          "@id": "agfoda:certificationValidFrom",
+          "@type": "xsd:date"
+        }
+      }
+    },
+    "AuditLog": {
+      "@id": "agfoda:AuditLog"
+    },
+    "ServiceCatalogue": {
+      "@id": "agfoda:ServiceCatalogue"
+    },
+    "ProcessingService": {
+      "@id": "agfoda:ProcessingService"
+    },
+    "ProcessingJob": {
+      "@id": "agfoda:ProcessingJob",
+      "@context": {
+        "status": {
+          "@id": "agfoda:processingJobStatus",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://w3id.org/agrifooddata/term/ProcessingJobStatus_",
+            "status": {
+              "@id": "agfoda:processingJobStatus",
+              "@type": "@vocab"
+            }
+          }
+        }
+      }
+    },
+    "ProcessingJobInput": {
+      "@id": "agfoda:ProcessingJobInput"
+    },
+    "Result": {
+      "@id": "agfoda:Result",
+      "@context": {
+        "validFrom": {
+          "@id": "agfoda:resultValidFrom",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+    "SustainabilityIndicator": {
+      "@id": "agfoda:SustainabilityIndicator",
+      "@context": {
+        "scopeType": {
+          "@id": "agfoda:sustainabilityIndicatorScopeType",
+          "@type": "@vocab",
+          "@context": {
+            "@vocab": "https://w3id.org/agrifooddata/term/SustainabilityScopeType_",
+            "scopeType": {
+              "@id": "agfoda:sustainabilityIndicatorScopeType",
+              "@type": "@vocab"
+            }
+          }
+        }
+      }
+    },
+    "CodeMapping": {
+      "@id": "agfoda:CodeMapping",
+      "@context": {
+        "validFrom": {
+          "@id": "agfoda:codeMappingValidFrom",
+          "@type": "xsd:date"
+        }
+      }
+    },
+    "action": {
+      "@id": "agfoda:action",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://w3id.org/agrifooddata/term/AuditAction_",
+        "action": {
+          "@id": "agfoda:action",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "activityId": {
+      "@id": "agfoda:activityId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "activityId": {
+          "@id": "agfoda:activityId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "activityResourceId": {
+      "@id": "agfoda:activityResourceId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "activityResourceId": {
+          "@id": "agfoda:activityResourceId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "addressId": {
+      "@id": "agfoda:addressId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "addressId": {
+          "@id": "agfoda:addressId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "aiBased": "agfoda:aiBased",
+    "amount": "agfoda:amount",
+    "amountPerAnimalPerDay": "agfoda:amountPerAnimalPerDay",
+    "animalGroupId": {
+      "@id": "agfoda:animalGroupId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "animalGroupId": {
+          "@id": "agfoda:animalGroupId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "animalId": {
+      "@id": "agfoda:animalId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "animalId": {
+          "@id": "agfoda:animalId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "area": "agfoda:area",
+    "areaUnit": "agfoda:areaUnit",
+    "assignedMachineId": {
+      "@id": "agfoda:assignedMachineId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "assignedMachineId": {
+          "@id": "agfoda:assignedMachineId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "assignedWorkerId": {
+      "@id": "agfoda:assignedWorkerId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "assignedWorkerId": {
+          "@id": "agfoda:assignedWorkerId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "attributes": {
+      "@id": "agfoda:attributes",
+      "@type": "@json"
+    },
+    "authority": "agfoda:authority",
+    "bbchStage": "agfoda:bbchStage",
+    "birthDate": {
+      "@id": "agfoda:birthDate",
+      "@type": "xsd:date"
+    },
+    "breakMinutes": "agfoda:breakMinutes",
+    "breedUri": {
+      "@id": "agfoda:breedUri",
+      "@type": "@id"
+    },
+    "cadastralReference": "agfoda:cadastralReference",
+    "capacity": "agfoda:capacity",
+    "capacityUnit": "agfoda:capacityUnit",
+    "capturedAt": {
+      "@id": "agfoda:capturedAt",
+      "@type": "xsd:dateTime"
+    },
+    "catalogueId": {
+      "@id": "agfoda:catalogueId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "catalogueId": {
+          "@id": "agfoda:catalogueId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "category": {
+      "@id": "agfoda:category",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://w3id.org/agrifooddata/term/ProductCategory_",
+        "category": {
+          "@id": "agfoda:category",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "categoryUri": {
+      "@id": "agfoda:categoryUri",
+      "@type": "@id"
+    },
+    "certificateFileId": {
+      "@id": "agfoda:certificateFileId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "certificateFileId": {
+          "@id": "agfoda:certificateFileId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "certificateNumber": "agfoda:certificateNumber",
+    "certifications": {
+      "@id": "agfoda:certifications",
+      "@type": "@json"
+    },
+    "changeSet": {
+      "@id": "agfoda:changeSet",
+      "@type": "@json"
+    },
+    "changedAt": {
+      "@id": "agfoda:changedAt",
+      "@type": "xsd:dateTime"
+    },
+    "changedByJobId": {
+      "@id": "agfoda:changedByJobId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "changedByJobId": {
+          "@id": "agfoda:changedByJobId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "changedByUserId": {
+      "@id": "agfoda:changedByUserId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "changedByUserId": {
+          "@id": "agfoda:changedByUserId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "checksum": "agfoda:checksum",
+    "city": "agfoda:city",
+    "clearingDate": {
+      "@id": "agfoda:clearingDate",
+      "@type": "xsd:date"
+    },
+    "clientId": "agfoda:clientId",
+    "code": "agfoda:code",
+    "composition": {
+      "@id": "agfoda:composition",
+      "@type": "@json"
+    },
+    "conceptUri": {
+      "@id": "agfoda:conceptUri",
+      "@type": "@id"
+    },
+    "conditions": {
+      "@id": "agfoda:conditions",
+      "@type": "@json"
+    },
+    "cost": "agfoda:cost",
+    "costCategoryUri": {
+      "@id": "agfoda:costCategoryUri",
+      "@type": "@id"
+    },
+    "costRatePerHour": "agfoda:costRatePerHour",
+    "counterpartyOrganizationId": {
+      "@id": "agfoda:counterpartyOrganizationId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "counterpartyOrganizationId": {
+          "@id": "agfoda:counterpartyOrganizationId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "country": "agfoda:country",
+    "createdAt": {
+      "@id": "agfoda:createdAt",
+      "@type": "xsd:dateTime"
+    },
+    "createdByJobId": {
+      "@id": "agfoda:createdByJob",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "createdByJobId": {
+          "@id": "agfoda:createdByJob",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "createdByUserId": {
+      "@id": "agfoda:createdByUser",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "createdByUserId": {
+          "@id": "agfoda:createdByUser",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "cropUri": {
+      "@id": "agfoda:cropUri",
+      "@type": "@id"
+    },
+    "cultivationPeriodId": {
+      "@id": "agfoda:cultivationPeriodId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "cultivationPeriodId": {
+          "@id": "agfoda:cultivationPeriodId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "currency": "agfoda:currency",
+    "currentGroupId": {
+      "@id": "agfoda:currentGroupId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "currentGroupId": {
+          "@id": "agfoda:currentGroupId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "currentSiteId": {
+      "@id": "agfoda:currentSiteId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "currentSiteId": {
+          "@id": "agfoda:currentSiteId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "dataId": {
+      "@id": "agfoda:dataId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "dataId": {
+          "@id": "agfoda:dataId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "date": {
+      "@id": "agfoda:date",
+      "@type": "xsd:dateTime"
+    },
+    "defaultCurrency": "agfoda:defaultCurrency",
+    "defaultUnit": "agfoda:defaultUnit",
+    "description": "agfoda:description",
+    "deviceId": {
+      "@id": "agfoda:deviceId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "deviceId": {
+          "@id": "agfoda:deviceId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "deviceTypeUri": {
+      "@id": "agfoda:deviceTypeUri",
+      "@type": "@id"
+    },
+    "diagnosisUri": {
+      "@id": "agfoda:diagnosisUri",
+      "@type": "@id"
+    },
+    "documentFileId": {
+      "@id": "agfoda:documentFileId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "documentFileId": {
+          "@id": "agfoda:documentFileId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "documentRef": "agfoda:documentRef",
+    "dosage": "agfoda:dosage",
+    "dosageUnit": "agfoda:dosageUnit",
+    "dueAt": {
+      "@id": "agfoda:dueAt",
+      "@type": "xsd:dateTime"
+    },
+    "earliestStartAt": {
+      "@id": "agfoda:earliestStartAt",
+      "@type": "xsd:dateTime"
+    },
+    "email": "agfoda:email",
+    "employmentType": {
+      "@id": "agfoda:employmentType",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://w3id.org/agrifooddata/term/EmploymentType_",
+        "employmentType": {
+          "@id": "agfoda:employmentType",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "endpoint": "agfoda:endpoint",
+    "endsAt": {
+      "@id": "agfoda:endsAt",
+      "@type": "xsd:dateTime"
+    },
+    "enteredAt": {
+      "@id": "agfoda:enteredAt",
+      "@type": "xsd:date"
+    },
+    "entityId": "agfoda:entityId",
+    "entityType": "agfoda:entityType",
+    "errorMessage": "agfoda:errorMessage",
+    "eventTypeUri": {
+      "@id": "agfoda:eventTypeUri",
+      "@type": "@id"
+    },
+    "expectedYield": "agfoda:expectedYield",
+    "expectedYieldUnit": "agfoda:expectedYieldUnit",
+    "expiryDate": {
+      "@id": "agfoda:expiryDate",
+      "@type": "xsd:date"
+    },
+    "externalCode": "agfoda:externalCode",
+    "externalId": "agfoda:externalId",
+    "externalProvider": "agfoda:externalProvider",
+    "externalScheme": "agfoda:externalScheme",
+    "farmId": {
+      "@id": "agfoda:farmId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "farmId": {
+          "@id": "agfoda:farmId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "farmNumber": "agfoda:farmNumber",
+    "farmTypeUri": {
+      "@id": "agfoda:farmTypeUri",
+      "@type": "@id"
+    },
+    "fatherAnimalId": {
+      "@id": "agfoda:fatherAnimalId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "fatherAnimalId": {
+          "@id": "agfoda:fatherAnimalId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "fieldId": {
+      "@id": "agfoda:fieldId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "fieldId": {
+          "@id": "agfoda:fieldId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "finishedAt": {
+      "@id": "agfoda:finishedAt",
+      "@type": "xsd:dateTime"
+    },
+    "firstname": "agfoda:firstname",
+    "format": "agfoda:format",
+    "fromStorageLocationId": {
+      "@id": "agfoda:fromStorageLocationId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "fromStorageLocationId": {
+          "@id": "agfoda:fromStorageLocationId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "geo": {
+      "@id": "agfoda:geo",
+      "@type": "@json"
+    },
+    "geometry": {
+      "@id": "agfoda:geometry",
+      "@type": "@json"
+    },
+    "gtin": "agfoda:gtin",
+    "harvestYear": "agfoda:harvestYear",
+    "headCount": "agfoda:headCount",
+    "iamResourceId": "agfoda:accessResourceId",
+    "id": "agfoda:id",
+    "indicatorUri": {
+      "@id": "agfoda:indicatorUri",
+      "@type": "@id"
+    },
+    "inputOutputId": {
+      "@id": "agfoda:inputOutputId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "inputOutputId": {
+          "@id": "agfoda:inputOutputId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "instructions": "agfoda:instructions",
+    "ioType": {
+      "@id": "agfoda:ioType",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://w3id.org/agrifooddata/term/IOType_",
+        "ioType": {
+          "@id": "agfoda:ioType",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "isPreferred": "agfoda:isPreferred",
+    "isSystemRole": "agfoda:isSystemRole",
+    "isobusDeviceId": "agfoda:isobusDeviceId",
+    "isobusTaskRef": "agfoda:isobusTaskRef",
+    "issuingBody": "agfoda:issuingBody",
+    "jobId": {
+      "@id": "agfoda:jobId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "jobId": {
+          "@id": "agfoda:jobId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "label": "agfoda:label",
+    "landUseUri": {
+      "@id": "agfoda:landUseUri",
+      "@type": "@id"
+    },
+    "lastname": "agfoda:lastname",
+    "leftAt": {
+      "@id": "agfoda:leftAt",
+      "@type": "xsd:date"
+    },
+    "legalForm": "agfoda:legalForm",
+    "locale": "agfoda:locale",
+    "lotId": {
+      "@id": "agfoda:lotId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "lotId": {
+          "@id": "agfoda:lotId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "lotNumber": "agfoda:lotNumber",
+    "machineId": {
+      "@id": "agfoda:machineId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "machineId": {
+          "@id": "agfoda:machineId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "maintenanceType": "agfoda:maintenanceType",
+    "manufacturer": "agfoda:manufacturer",
+    "methodUri": {
+      "@id": "agfoda:methodUri",
+      "@type": "@id"
+    },
+    "mimeType": "agfoda:mimeType",
+    "model": "agfoda:model",
+    "motherAnimalId": {
+      "@id": "agfoda:motherAnimalId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "motherAnimalId": {
+          "@id": "agfoda:motherAnimalId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "movementType": {
+      "@id": "agfoda:movementType",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://w3id.org/agrifooddata/term/MovementType_",
+        "movementType": {
+          "@id": "agfoda:movementType",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "name": "agfoda:name",
+    "nameWithExtension": "agfoda:nameWithExtension",
+    "nextDueAt": {
+      "@id": "agfoda:nextDueAt",
+      "@type": "xsd:dateTime"
+    },
+    "nextDueOperatingHours": "agfoda:nextDueOperatingHours",
+    "notes": "agfoda:notes",
+    "observedPropertyUri": {
+      "@id": "agfoda:observedPropertyUri",
+      "@type": "@id"
+    },
+    "occurredAt": {
+      "@id": "agfoda:occurredAt",
+      "@type": "xsd:dateTime"
+    },
+    "officialId": "agfoda:officialId",
+    "operatingHours": "agfoda:operatingHours",
+    "organicApproved": "agfoda:organicApproved",
+    "organizationId": {
+      "@id": "agfoda:organizationId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "organizationId": {
+          "@id": "agfoda:organizationId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "originAnimalGroupId": {
+      "@id": "agfoda:originAnimalGroupId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "originAnimalGroupId": {
+          "@id": "agfoda:originAnimalGroupId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "originCultivationPeriodId": {
+      "@id": "agfoda:originCultivationPeriodId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "originCultivationPeriodId": {
+          "@id": "agfoda:originCultivationPeriodId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "originType": {
+      "@id": "agfoda:originType",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://w3id.org/agrifooddata/term/OriginType_",
+        "originType": {
+          "@id": "agfoda:originType",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "parameters": {
+      "@id": "agfoda:parameters",
+      "@type": "@json"
+    },
+    "parentRegionId": {
+      "@id": "agfoda:parentRegionId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "parentRegionId": {
+          "@id": "agfoda:parentRegionId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "parentSiteId": {
+      "@id": "agfoda:parentSiteId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "parentSiteId": {
+          "@id": "agfoda:parentSiteId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "payloadFileId": {
+      "@id": "agfoda:payloadFileId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "payloadFileId": {
+          "@id": "agfoda:payloadFileId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "performedAt": {
+      "@id": "agfoda:performedAt",
+      "@type": "xsd:dateTime"
+    },
+    "performedByWorkerId": {
+      "@id": "agfoda:performedByWorkerId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "performedByWorkerId": {
+          "@id": "agfoda:performedByWorkerId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "periodEnd": {
+      "@id": "agfoda:periodEnd",
+      "@type": "xsd:date"
+    },
+    "periodStart": {
+      "@id": "agfoda:periodStart",
+      "@type": "xsd:date"
+    },
+    "permissions": {
+      "@id": "agfoda:permissions",
+      "@type": "@json"
+    },
+    "phenomenonTime": {
+      "@id": "agfoda:phenomenonTime",
+      "@type": "xsd:dateTime"
+    },
+    "phone": "agfoda:phone",
+    "planEntryId": {
+      "@id": "agfoda:planEntryId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "planEntryId": {
+          "@id": "agfoda:planEntryId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "planId": {
+      "@id": "agfoda:planId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "planId": {
+          "@id": "agfoda:planId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "plannedCosts": "agfoda:plannedCosts",
+    "plannedRevenue": "agfoda:plannedRevenue",
+    "plantCount": "agfoda:plantCount",
+    "plantSpacing": "agfoda:plantSpacing",
+    "plantingDate": {
+      "@id": "agfoda:plantingDate",
+      "@type": "xsd:date"
+    },
+    "priority": {
+      "@id": "agfoda:priority",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://w3id.org/agrifooddata/term/TaskPriority_",
+        "priority": {
+          "@id": "agfoda:priority",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "productId": {
+      "@id": "agfoda:productId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "productId": {
+          "@id": "agfoda:productId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "productionDate": {
+      "@id": "agfoda:productionDate",
+      "@type": "xsd:date"
+    },
+    "providerOrganizationId": {
+      "@id": "agfoda:providerOrganizationId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "providerOrganizationId": {
+          "@id": "agfoda:providerOrganizationId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "purposeUri": {
+      "@id": "agfoda:purposeUri",
+      "@type": "@id"
+    },
+    "quantity": "agfoda:quantity",
+    "rationId": {
+      "@id": "agfoda:rationId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "rationId": {
+          "@id": "agfoda:rationId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "reason": "agfoda:reason",
+    "recordType": {
+      "@id": "agfoda:recordType",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://w3id.org/agrifooddata/term/TimeRecordType_",
+        "recordType": {
+          "@id": "agfoda:recordType",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "recordedByUserId": {
+      "@id": "agfoda:recordedByUserId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "recordedByUserId": {
+          "@id": "agfoda:recordedByUserId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "regionId": {
+      "@id": "agfoda:regionId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "regionId": {
+          "@id": "agfoda:regionId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "registrationNumber": "agfoda:registrationNumber",
+    "registrationNumbers": {
+      "@id": "agfoda:registrationNumbers",
+      "@type": "@json"
+    },
+    "relatedAnimalId": {
+      "@id": "agfoda:relatedAnimalId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "relatedAnimalId": {
+          "@id": "agfoda:relatedAnimalId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "reportTypeUri": {
+      "@id": "agfoda:reportTypeUri",
+      "@type": "@id"
+    },
+    "resourceType": {
+      "@id": "agfoda:resourceType",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://w3id.org/agrifooddata/term/ResourceType_",
+        "resourceType": {
+          "@id": "agfoda:resourceType",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "resultJson": {
+      "@id": "agfoda:resultJson",
+      "@type": "@json"
+    },
+    "resultTypeUri": {
+      "@id": "agfoda:resultTypeUri",
+      "@type": "@id"
+    },
+    "resultUnit": "agfoda:resultUnit",
+    "resultValue": "agfoda:resultValue",
+    "resultsData": {
+      "@id": "agfoda:resultsData",
+      "@type": "@json"
+    },
+    "resultsUrl": "agfoda:resultsUrl",
+    "role": "agfoda:role",
+    "roleId": {
+      "@id": "agfoda:roleId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "roleId": {
+          "@id": "agfoda:roleId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "roleUris": {
+      "@id": "agfoda:roleUris",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "rootstockUri": {
+      "@id": "agfoda:rootstockUri",
+      "@type": "@id"
+    },
+    "rowSpacing": "agfoda:rowSpacing",
+    "safetyInfo": {
+      "@id": "agfoda:safetyInfo",
+      "@type": "@json"
+    },
+    "scheme": "agfoda:scheme",
+    "scopeDescription": "agfoda:scopeDescription",
+    "scopeRefId": "agfoda:scopeRefId",
+    "sensorThingsUrl": "agfoda:sensorThingsUrl",
+    "sequence": "agfoda:sequence",
+    "serialNumber": "agfoda:serialNumber",
+    "serviceId": {
+      "@id": "agfoda:serviceId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "serviceId": {
+          "@id": "agfoda:serviceId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "serviceType": {
+      "@id": "agfoda:serviceType",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://w3id.org/agrifooddata/term/ServiceType_",
+        "serviceType": {
+          "@id": "agfoda:serviceType",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "sex": {
+      "@id": "agfoda:sex",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://w3id.org/agrifooddata/term/AnimalSex_",
+        "sex": {
+          "@id": "agfoda:sex",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "siteId": {
+      "@id": "agfoda:siteId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "siteId": {
+          "@id": "agfoda:siteId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "siteTypeUri": {
+      "@id": "agfoda:siteTypeUri",
+      "@type": "@id"
+    },
+    "size": "agfoda:size",
+    "source": "agfoda:source",
+    "sourceResultId": {
+      "@id": "agfoda:sourceResultId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "sourceResultId": {
+          "@id": "agfoda:sourceResultId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "speciesUri": {
+      "@id": "agfoda:speciesUri",
+      "@type": "@id"
+    },
+    "standId": {
+      "@id": "agfoda:standId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "standId": {
+          "@id": "agfoda:standId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "startedAt": {
+      "@id": "agfoda:startedAt",
+      "@type": "xsd:dateTime"
+    },
+    "startsAt": {
+      "@id": "agfoda:startsAt",
+      "@type": "xsd:dateTime"
+    },
+    "state": "agfoda:state",
+    "stockMovementId": {
+      "@id": "agfoda:stockMovementId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "stockMovementId": {
+          "@id": "agfoda:stockMovementId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "storageTypeUri": {
+      "@id": "agfoda:storageTypeUri",
+      "@type": "@id"
+    },
+    "storageUrl": "agfoda:storageUrl",
+    "street": "agfoda:street",
+    "submissionRef": "agfoda:submissionRef",
+    "submittedAt": {
+      "@id": "agfoda:submittedAt",
+      "@type": "xsd:dateTime"
+    },
+    "supersedesReportId": {
+      "@id": "agfoda:supersedesReportId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "supersedesReportId": {
+          "@id": "agfoda:supersedesReportId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "supplierOrganizationId": {
+      "@id": "agfoda:supplierOrganizationId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "supplierOrganizationId": {
+          "@id": "agfoda:supplierOrganizationId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "taskId": {
+      "@id": "agfoda:taskId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "taskId": {
+          "@id": "agfoda:taskId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "telemetryDeviceId": {
+      "@id": "agfoda:telemetryDeviceId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "telemetryDeviceId": {
+          "@id": "agfoda:telemetryDeviceId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "tenure": {
+      "@id": "agfoda:tenure",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://w3id.org/agrifooddata/term/Tenure_",
+        "tenure": {
+          "@id": "agfoda:tenure",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "timezone": "agfoda:timezone",
+    "toStorageLocationId": {
+      "@id": "agfoda:toStorageLocationId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "toStorageLocationId": {
+          "@id": "agfoda:toStorageLocationId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "trainingSystem": "agfoda:trainingSystem",
+    "triggeredByUserId": {
+      "@id": "agfoda:triggeredByUserId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "triggeredByUserId": {
+          "@id": "agfoda:triggeredByUserId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "typeId": {
+      "@id": "agfoda:typeId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "typeId": {
+          "@id": "agfoda:typeId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "typeLabel": "agfoda:typeLabel",
+    "typeUri": {
+      "@id": "agfoda:typeUri",
+      "@type": "@id"
+    },
+    "unit": "agfoda:unit",
+    "updatedAt": {
+      "@id": "agfoda:updatedAt",
+      "@type": "xsd:dateTime"
+    },
+    "usageAmount": "agfoda:usageAmount",
+    "usageUnit": "agfoda:usageUnit",
+    "userId": {
+      "@id": "agfoda:userId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "userId": {
+          "@id": "agfoda:userId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "validTo": {
+      "@id": "agfoda:validTo",
+      "@type": "xsd:date"
+    },
+    "validUntil": {
+      "@id": "agfoda:validUntil",
+      "@type": "xsd:dateTime"
+    },
+    "validity": {
+      "@id": "agfoda:validity",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://w3id.org/agrifooddata/term/ObservationValidity_",
+        "validity": {
+          "@id": "agfoda:validity",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "value": "agfoda:value",
+    "valueType": {
+      "@id": "agfoda:valueType",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://w3id.org/agrifooddata/term/ValueType_",
+        "valueType": {
+          "@id": "agfoda:valueType",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "valueUnit": "agfoda:valueUnit",
+    "varietyName": "agfoda:varietyName",
+    "varietyUri": {
+      "@id": "agfoda:varietyUri",
+      "@type": "@id"
+    },
+    "vatId": "agfoda:vatId",
+    "vatRate": "agfoda:vatRate",
+    "verifiedByOrganizationId": {
+      "@id": "agfoda:verifiedByOrganizationId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "verifiedByOrganizationId": {
+          "@id": "agfoda:verifiedByOrganizationId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "version": "agfoda:version",
+    "vetOrganizationId": {
+      "@id": "agfoda:vetOrganizationId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "vetOrganizationId": {
+          "@id": "agfoda:vetOrganizationId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "withdrawalPeriodDays": "agfoda:withdrawalPeriodDays",
+    "withdrawalUntilMeat": {
+      "@id": "agfoda:withdrawalUntilMeat",
+      "@type": "xsd:date"
+    },
+    "withdrawalUntilMilk": {
+      "@id": "agfoda:withdrawalUntilMilk",
+      "@type": "xsd:date"
+    },
+    "workerId": {
+      "@id": "agfoda:workerId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "workerId": {
+          "@id": "agfoda:workerId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "workingWidth": "agfoda:workingWidth",
+    "workshopOrganizationId": {
+      "@id": "agfoda:workshopOrganizationId",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "urn:uuid:",
+        "workshopOrganizationId": {
+          "@id": "agfoda:workshopOrganizationId",
+          "@type": "@vocab"
+        }
+      }
+    },
+    "year": "agfoda:year",
+    "zip": "agfoda:zip"
+  }
+}

@@ -1,0 +1,234 @@
+# P6 — Products and Inventory (clause 8.6)
+#
+# Attribute descriptions are the wording of Annex A. What clause 8 states
+# in prose — exclusive references, conditional requirements — is under
+# `constraints`; the attributes every entity carries (clause 5.1) are in
+# model/model.yaml and are not repeated here.
+
+package: P6
+title: Products and Inventory
+clause: "8.6"
+scope: Inputs and produce, lots, stock movements, traceability
+summary: >-
+  This package covers the master data of all inputs and produce and the
+  movements of stock. It is the anchor for regulatory information attached to
+  products and for traceability from the field to the customer.
+
+notes:
+  - >-
+    Stock levels are not stored. They are derived from the StockMovement
+    records for a combination of product, lot and storage location (clause
+    7.5; derived view stock-level).
+
+entities:
+
+  Product:
+    annex: A.19
+    path: products
+    definition: >-
+      The Product entity shall represent the master data of an input or of
+      produce.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Name of the product
+      category:
+        type: Enum
+        required: true
+        enum: ProductCategory
+        description: Category of the product
+      typeUri:
+        type: String
+        required: true
+        concept: true
+        description: Concept identifying the substance or product class
+      manufacturer:
+        type: String
+        description: Manufacturer of the product
+      registrationNumber:
+        type: String
+        description: Authorization number
+        note: >-
+          Unique within the authorization scheme concerned (Table 3).
+      composition:
+        type: JSON
+        json: object
+        description: Nutrient contents or active substances with their concentrations
+      defaultUnit:
+        type: String
+        format: ucum
+        description: Default unit, expressed as a [UCUM] code
+      gtin:
+        type: String
+        format: gtin
+        description: Global trade item number
+      safetyInfo:
+        type: JSON
+        json: object
+        description: Conditions of use, for example buffer distances or pollinator protection
+      withdrawalPeriodDays:
+        type: Integer
+        description: Withdrawal period in days
+      organicApproved:
+        type: Boolean
+        description: Approved for use in organic production
+      externalId:
+        type: String
+        description: Identifier in an external system
+      externalProvider:
+        type: String
+        description: Identifier of the external system
+    constraints:
+      - requiredWhen:
+          attribute: registrationNumber
+          when: {category: [PLANT_PROTECTION, VETERINARY_MEDICINE]}
+        source: clause 8.6
+
+  StorageLocation:
+    annex: A.20
+    path: storage-locations
+    definition: >-
+      The StorageLocation entity shall represent a place at which products are
+      held.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Designation of the storage location
+      farmId:
+        type: UUID
+        required: true
+        references: Farm
+        description: Foreign key to the Farm entity
+      siteId:
+        type: UUID
+        references: Site
+        description: Foreign key to the Site entity
+      storageTypeUri:
+        type: String
+        concept: true
+        description: Type of storage, for example silo, flat store, cold store or tank
+      capacity:
+        type: Decimal
+        positive: true
+        description: Capacity of the storage location
+      capacityUnit:
+        type: String
+        format: ucum
+        description: Unit of the capacity
+
+  Lot:
+    annex: A.21
+    path: lots
+    definition: >-
+      The Lot entity shall represent a quantity of a product treated as a
+      single traceable unit. It is the core entity of traceability.
+    attributes:
+      lotNumber:
+        type: String
+        required: true
+        description: Lot number
+        note: >-
+          Unique within productId, together with the origin reference for own
+          production (Table 3).
+      productId:
+        type: UUID
+        required: true
+        references: Product
+        description: Foreign key to the Product entity
+      originCultivationPeriodId:
+        type: UUID
+        references: CultivationPeriod
+        description: Origin in own crop production
+      originAnimalGroupId:
+        type: UUID
+        references: AnimalGroup
+        description: Origin in own animal production
+      supplierOrganizationId:
+        type: UUID
+        references: Organization
+        description: Supplier of a purchased lot
+      productionDate:
+        type: Date
+        description: Date of production
+      expiryDate:
+        type: Date
+        description: Date of expiry
+      attributes:
+        type: JSON
+        json: object
+        description: Quality characteristics of the lot
+    constraints:
+      - atMostOne: [originCultivationPeriodId, originAnimalGroupId]
+        rule: V13
+
+  StockMovement:
+    annex: A.22
+    path: stock-movements
+    definition: >-
+      The StockMovement entity shall record a movement of stock.
+    attributes:
+      movementType:
+        type: Enum
+        required: true
+        enum: MovementType
+        description: Kind of movement
+      productId:
+        type: UUID
+        required: true
+        references: Product
+        description: Foreign key to the Product entity
+      quantity:
+        type: Decimal
+        required: true
+        positive: true
+        description: Quantity moved
+      unit:
+        type: String
+        required: true
+        format: ucum
+        description: Unit of the quantity, expressed as a [UCUM] code
+      occurredAt:
+        type: DateTime
+        required: true
+        description: Time at which the movement occurred
+      lotId:
+        type: UUID
+        references: Lot
+        description: Foreign key to the Lot entity
+      fromStorageLocationId:
+        type: UUID
+        references: StorageLocation
+        description: Source storage location
+        note: >-
+          Set as appropriate to the movement type (clause 8.6).
+      toStorageLocationId:
+        type: UUID
+        references: StorageLocation
+        description: Destination storage location
+        note: >-
+          Set as appropriate to the movement type (clause 8.6).
+      activityId:
+        type: UUID
+        references: Activity
+        description: Operation that caused the movement
+      inputOutputId:
+        type: UUID
+        references: InputOutput
+        description: Link to the corresponding economic record
+      counterpartyOrganizationId:
+        type: UUID
+        references: Organization
+        description: Trading partner in a purchase or a sale
+      documentRef:
+        type: String
+        description: Reference to a delivery note or an invoice
+      documentFileId:
+        type: UUID
+        references: File
+        description: Foreign key to the File entity holding the scanned document
+      recordedByUserId:
+        type: UUID
+        references: User
+        description: User who recorded the movement

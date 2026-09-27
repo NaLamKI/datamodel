@@ -1,0 +1,197 @@
+# P10 — Economics (clause 8.10)
+#
+# Attribute descriptions are the wording of Annex A. What clause 8 states
+# in prose — exclusive references, conditional requirements — is under
+# `constraints`; the attributes every entity carries (clause 5.1) are in
+# model/model.yaml and are not repeated here.
+
+package: P10
+title: Economics
+clause: "8.10"
+scope: Quantities, monetary valuation, budgets, gross margin
+summary: >-
+  This package records the quantities consumed and produced and their monetary
+  valuation, across crop production and animal husbandry alike.
+
+notes:
+  - >-
+    The gross margin of a CultivationPeriod or an AnimalGroup is a derived
+    view, not an entity (derived view gross-margin).
+
+entities:
+
+  InputOutput:
+    annex: A.35
+    path: input-outputs
+    definition: >-
+      The InputOutput entity shall be a generic container quantifying any
+      resource that is consumed or produced.
+    attributes:
+      amount:
+        type: Decimal
+        required: true
+        positive: true
+        description: Quantity consumed or produced
+      unit:
+        type: String
+        required: true
+        format: ucum
+        description: Unit of the quantity, expressed as a [UCUM] code
+      ioType:
+        type: Enum
+        required: true
+        enum: IOType
+        description: Whether the resource is consumed or produced
+      valueType:
+        type: Enum
+        required: true
+        enum: ValueType
+        description: Whether the quantity is planned, actual, estimated or predicted
+      typeUri:
+        type: String
+        required: true
+        concept: true
+        description: Concept identifying the substance or the produce
+      activityId:
+        type: UUID
+        references: Activity
+        description: Assignment
+      cultivationPeriodId:
+        type: UUID
+        references: CultivationPeriod
+        description: Assignment
+      animalId:
+        type: UUID
+        references: Animal
+        description: Assignment
+      animalGroupId:
+        type: UUID
+        references: AnimalGroup
+        description: Assignment
+      productId:
+        type: UUID
+        references: Product
+        description: Foreign key to the Product entity
+        note: >-
+          Shall be set for products of category PLANT_PROTECTION and
+          VETERINARY_MEDICINE and should be set for all other real inputs
+          (clause 8.10, rule V10).
+      lotId:
+        type: UUID
+        references: Lot
+        description: Foreign key to the Lot entity
+      description:
+        type: String
+        description: Remarks
+    constraints:
+      - exactlyOne: [activityId, cultivationPeriodId, animalId, animalGroupId]
+        rule: V03
+
+  Economics:
+    annex: A.36
+    path: economics
+    definition: >-
+      The Economics entity shall attach a monetary value to a quantity, a
+      stock movement or the deployment of a resource.
+    attributes:
+      value:
+        type: Decimal
+        required: true
+        description: Monetary amount; may be negative to permit credits and corrections
+      unit:
+        type: String
+        required: true
+        format: currency
+        description: Currency code conforming to [ISO 4217]
+      valueType:
+        type: Enum
+        required: true
+        enum: ValueType
+        description: Whether the value is planned, actual, estimated or predicted
+      inputOutputId:
+        type: UUID
+        references: InputOutput
+        description: Object valued
+      stockMovementId:
+        type: UUID
+        references: StockMovement
+        description: Object valued
+      activityResourceId:
+        type: UUID
+        references: ActivityResource
+        description: Object valued
+      date:
+        type: DateTime
+        description: Date of entry or of valuation
+      vatRate:
+        type: Decimal
+        description: Value added tax rate
+      costCategoryUri:
+        type: String
+        concept: true
+        description: Concept identifying the cost category
+      counterpartyOrganizationId:
+        type: UUID
+        references: Organization
+        description: Trading partner
+    constraints:
+      - exactlyOne: [inputOutputId, stockMovementId, activityResourceId]
+        rule: V03
+
+  Budget:
+    annex: A.37
+    path: budgets
+    definition: >-
+      The Budget entity shall hold planned values for a defined scope and
+      period.
+    attributes:
+      name:
+        type: String
+        required: true
+        description: Name of the budget
+      farmId:
+        type: UUID
+        required: true
+        references: Farm
+        description: Foreign key to the Farm entity
+      scopeType:
+        type: Enum
+        required: true
+        enum: BudgetScopeType
+        property: budgetScopeType
+        description: Kind of object the budget applies to
+      periodStart:
+        type: Date
+        required: true
+        description: Start of the budget period
+      periodEnd:
+        type: Date
+        required: true
+        description: End of the budget period
+      currency:
+        type: String
+        required: true
+        format: currency
+        description: Currency code conforming to [ISO 4217]
+      scopeRefId:
+        type: UUID
+        referencesBy:
+          attribute: scopeType
+          targets:
+            FARM: Farm
+            CULTIVATION_PERIOD: CultivationPeriod
+            ANIMAL_GROUP: AnimalGroup
+            COST_CATEGORY: null
+        description: Reference to the object identified by scopeType
+        note: >-
+          A cost category is a concept, not a record; for COST_CATEGORY the
+          reference has no defined target (see divergence R6).
+      plannedRevenue:
+        type: Decimal
+        description: Planned revenue
+      plannedCosts:
+        type: Decimal
+        description: Planned costs
+      notes:
+        type: String
+        description: Remarks

@@ -1,0 +1,23 @@
+[
+  {
+    "id": "215a1f5c-287c-5c5b-824b-0f553137b527",
+    "jobId": "13be3cac-b988-5188-b9dc-54567a54a9c5",
+    "entityType": "CultivationPeriod",
+    "entityId": "5dda887f-7b91-5007-916a-e571436175a1",
+    "role": "scope",
+    "createdAt": "2026-05-10T04:00:00Z",
+    "updatedAt": "2026-05-10T04:00:00Z",
+    "originType": "SYSTEM",
+    "clientId": "scheduler"
+  },
+  {
+    "id": "d1d1a8c5-27d3-5dd8-b589-23744121d5a0",
+    "jobId": "13be3cac-b988-5188-b9dc-54567a54a9c5",
+    "dataId": "550b2da1-6148-5de4-bece-c14ca598ba38",
+    "role": "weather",
+    "createdAt": "2026-05-10T04:00:00Z",
+    "updatedAt": "2026-05-10T04:00:00Z",
+    "originType": "SYSTEM",
+    "clientId": "scheduler"
+  }
+]

@@ -1,0 +1,3 @@
+[submodule "ontology"]
+	path = ontology
+	url = https://github.com/NaLamKI/ontology.git

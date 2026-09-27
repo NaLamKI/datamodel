@@ -1,0 +1,104 @@
+# State models (clause 13, Table 4): the permitted transitions between the
+# values of the status attributes.
+#
+# Transitions that are not listed are rejected. A terminal state is not left;
+# a record in a terminal state is corrected through the AuditLog and, for a
+# submitted regulatory report, through a new report referencing the earlier
+# one. The table governs changes from one value to another — the value a
+# record is created with is not a transition.
+
+Task:
+  attribute: status
+  transitions:
+    - [PLANNED, ASSIGNED]
+    - [ASSIGNED, IN_PROGRESS]
+    - [IN_PROGRESS, COMPLETED]
+    - [ASSIGNED, PLANNED]        # the assignment is withdrawn
+    - [PLANNED, CANCELLED]
+    - [ASSIGNED, CANCELLED]
+    - [IN_PROGRESS, CANCELLED]
+  terminal: [COMPLETED, CANCELLED]
+
+CultivationPeriod:
+  attribute: status
+  transitions:
+    - [PLANNED, ACTIVE]
+    - [ACTIVE, COMPLETED]
+    - [PLANNED, ABORTED]
+    - [ACTIVE, ABORTED]
+  terminal: [COMPLETED, ABORTED]
+
+Activity:
+  attribute: status
+  transitions:
+    - [IN_PROGRESS, COMPLETED]
+    - [IN_PROGRESS, ABORTED]
+  terminal: [COMPLETED, ABORTED]
+
+ProcessingJob:
+  attribute: status
+  transitions:
+    - [PENDING, RUNNING]
+    - [RUNNING, SUCCEEDED]
+    - [RUNNING, FAILED]
+    - [PENDING, CANCELLED]
+    - [RUNNING, CANCELLED]
+  terminal: [SUCCEEDED, FAILED, CANCELLED]
+
+RegulatoryReport:
+  attribute: status
+  transitions:
+    - [DRAFT, GENERATED]
+    - [GENERATED, SUBMITTED]
+    - [SUBMITTED, ACCEPTED]
+    - [SUBMITTED, REJECTED]
+    - [REJECTED, GENERATED]      # the report is regenerated
+    - [GENERATED, DRAFT]         # the generated artefact is discarded
+  terminal: [ACCEPTED]
+  note: >-
+    A rejected report is either regenerated or corrected by a new report
+    referencing the earlier one through supersedesReportId. From SUBMITTED
+    onwards the report is otherwise immutable (rule V15).
+
+CroppingPlan:
+  attribute: status
+  transitions:
+    - [DRAFT, ACTIVE]
+    - [ACTIVE, ARCHIVED]
+    - [DRAFT, ARCHIVED]
+  terminal: [ARCHIVED]
+
+Animal:
+  attribute: status
+  transitions:
+    - [ACTIVE, SOLD]
+    - [ACTIVE, SLAUGHTERED]
+    - [ACTIVE, DEAD]
+    - [ACTIVE, TRANSFERRED]
+  terminal: [SOLD, SLAUGHTERED, DEAD, TRANSFERRED]
+
+User:
+  attribute: status
+  transitions:
+    - [INVITED, ACTIVE]
+    - [ACTIVE, DEACTIVATED]
+    - [DEACTIVATED, ACTIVE]      # the account is reactivated
+  terminal: []
+
+Machine:
+  attribute: status
+  transitions:
+    - [ACTIVE, INACTIVE]
+    - [INACTIVE, ACTIVE]
+    - [ACTIVE, SOLD]
+    - [INACTIVE, SOLD]
+  terminal: [SOLD]
+
+Device:
+  attribute: status
+  transitions:
+    - [ACTIVE, INACTIVE]
+    - [ACTIVE, FAULTY]
+    - [INACTIVE, ACTIVE]
+    - [FAULTY, ACTIVE]
+  terminal: []

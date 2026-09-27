@@ -1,0 +1,16 @@
+[
+  {
+    "id": "997142c3-14cf-5cb4-b260-048af4b57a76",
+    "name": "Lindenhof",
+    "organizationId": "7511ba84-72fb-5ebc-b4a2-a75a6dafe0d2",
+    "iamResourceId": "1c7e4d2a-9b3f-4c61-8e05-2f6a7b8c9d10",
+    "farmTypeUri": "http://aims.fao.org/aos/agrovoc/c_4873",
+    "addressId": "d8df0dab-2406-5403-adc6-0e0da2118450",
+    "timezone": "Europe/Berlin",
+    "defaultCurrency": "EUR",
+    "createdAt": "2025-01-15T08:00:00Z",
+    "updatedAt": "2025-01-15T08:00:00Z",
+    "originType": "SYSTEM",
+    "clientId": "onboarding"
+  }
+]

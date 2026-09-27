@@ -1,0 +1,119 @@
+# The enumerations of the model (Annex B, Table B.1).
+#
+# Values not listed are not used. Where a value denotes a case not otherwise
+# covered (OTHER, CUSTOM), it is used together with a typeUri identifying the
+# specific case in a controlled vocabulary.
+#
+# Each enumeration is a class of the ontology and each value one of its named
+# individuals, `agfoda:<Enumeration>_<VALUE>`; the checks hold the two lists
+# against each other.
+
+OriginType:
+  description: How a record came into being (clause 5.1 l))
+  values: [USER, SERVICE, DEVICE, IMPORT, SYSTEM]
+
+UserStatus:
+  description: Status of a user account
+  values: [ACTIVE, INVITED, DEACTIVATED]
+
+EmploymentType:
+  description: Type of employment of a worker
+  values: [PERMANENT, SEASONAL, CONTRACTOR]
+
+Tenure:
+  description: Tenure under which a field is managed
+  values: [OWNED, LEASED, MANAGED]
+
+CroppingPlanStatus:
+  description: Status of a cropping plan
+  values: [DRAFT, ACTIVE, ARCHIVED]
+
+CultivationPeriodStatus:
+  description: Status of a cultivation period
+  values: [PLANNED, ACTIVE, COMPLETED, ABORTED]
+
+TaskStatus:
+  description: Status of a task
+  values: [PLANNED, ASSIGNED, IN_PROGRESS, COMPLETED, CANCELLED]
+
+TaskPriority:
+  description: Priority of a task
+  values: [LOW, NORMAL, HIGH, URGENT]
+
+ActivityStatus:
+  description: Status of an operation carried out
+  values: [IN_PROGRESS, COMPLETED, ABORTED]
+
+ResourceType:
+  description: Kind of resource deployed in an operation
+  values: [MACHINE, WORKER]
+
+TimeRecordType:
+  description: Kind of time recorded
+  values: [WORK, ABSENCE, SICK, VACATION]
+
+ProductCategory:
+  description: Category of a product
+  values: [SEED, PLANT_MATERIAL, FERTILIZER, PLANT_PROTECTION, FEED,
+           VETERINARY_MEDICINE, FUEL, HARVEST_PRODUCT, ANIMAL_PRODUCT, OTHER]
+
+MovementType:
+  description: Kind of stock movement
+  values: [PURCHASE, HARVEST_INTAKE, CONSUMPTION, SALE, TRANSFER, ADJUSTMENT, LOSS]
+
+MachineStatus:
+  description: Status of a machine
+  values: [ACTIVE, INACTIVE, SOLD]
+
+AnimalSex:
+  description: Sex of an animal
+  values: [FEMALE, MALE, CASTRATED]
+
+AnimalStatus:
+  description: Status of an animal
+  values: [ACTIVE, SOLD, SLAUGHTERED, DEAD, TRANSFERRED]
+
+DeviceStatus:
+  description: Status of a device
+  values: [ACTIVE, INACTIVE, FAULTY]
+
+ObservationValidity:
+  description: Outcome of the quality assurance of an observation
+  values: [VALID, SUSPECT, INVALID]
+
+IOType:
+  description: Whether a quantity is consumed or produced
+  values: [INPUT, OUTPUT]
+
+ValueType:
+  description: >-
+    Whether a value is planned, actual, estimated or predicted — the
+    separation of planning and execution at the level of an individual value
+    (clause 7.4)
+  values: [PLANNED, ACTUAL, ESTIMATION, PREDICTION]
+
+BudgetScopeType:
+  description: Kind of object a budget applies to
+  values: [FARM, CULTIVATION_PERIOD, ANIMAL_GROUP, COST_CATEGORY]
+
+SustainabilityScopeType:
+  description: Kind of object a sustainability indicator applies to
+  values: [FARM, FIELD, REGION, CULTIVATION_PERIOD, ANIMAL_GROUP, PRODUCT_LOT]
+
+RegulatoryReportStatus:
+  description: Status of a regulatory report
+  values: [DRAFT, GENERATED, SUBMITTED, ACCEPTED, REJECTED]
+
+AuditAction:
+  description: Kind of change recorded in the audit log
+  values: [CREATE, UPDATE, DELETE]
+
+ServiceType:
+  description: Kind of processing a service performs
+  values: [CLASSIFICATION, DETECTION, SEGMENTATION, PREDICTION, ANALYSIS,
+           TRANSFORMATION, AGGREGATION, VALIDATION, INGESTION,
+           REPORT_GENERATION, CUSTOM]
+
+ProcessingJobStatus:
+  description: Status of a processing run
+  values: [PENDING, RUNNING, SUCCEEDED, FAILED, CANCELLED]
